@@ -1,0 +1,41 @@
+
+/* Color variables */
+:root {
+  --background-color: #fff;
+  --navbar-text-color: #707070;
+  --title-color: #707070;
+}
+
+/* Applies to all */
+* {
+  background-color: var(--background-color);
+  font-family: 'Nunito Sans', serif;
+}
+
+/* Navbar */
+#wrapper {
+  align-items: center;
+  display: flex;
+  height: 105px;
+  justify-content: center;
+}
+
+.custom-container {
+  width: 1090px;
+}
+
+.navbar-brand {
+  color: var(--navbar-text-color);
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.nav-link {
+  color: var(--navbar-text-color);
+  font-size: 20px;
+}
+
+.rounded-circle.z-depth-0 {
+  height: 45px;
+  width: 45px;
+}
