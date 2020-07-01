@@ -4,16 +4,21 @@
   --input-text-color: #707070;
   --landing-subtitle-text-color: #707070;
   --navbar-text-color: #707070;
+  --navbar-hover-text-color: #87C4AD;
   --seagreen-bg-color: #C7EADD;
   --title-text-color: #707070;
   --white-bg-color: #ffffff;
 
   /* Element sizes */
   --container-width: 1090px;
+  --landing-subwrapper-height: 870px;
   --landing-title-line-height: 90px;
   --landing-search-box-height: 62px;
   --landing-search-box-width: 922px;
   --landing-search-box-padding-left: 20px;
+  --login-chip-border-radius: 30px;
+  --login-chip-height: 45px;
+  --login-chip-width: 110px;
   --navbar-avatar-height: 45px;
   --navbar-avatar-width: 45px;
   --navbar-height: 105px;
@@ -23,7 +28,7 @@
   --navbar-brand-font-size: 30px;
   --navbar-brand-font-weight: 800;
   --navbar-link-font-size: 20px;
-  --navbar-link-font-weight: 600;
+  --navbar-link-font-weight: 700;
   --landing-title-font-size: 70px;
   --landing-title-font-weight: 800;
   --landing-search-box-font-size: 22px;
@@ -63,10 +68,27 @@
   font-weight: var(--navbar-brand-font-weight);
 }
 
+.navbar-brand:hover {
+  color: var(--navbar-hover-text-color);
+}
+
 .nav-link {
   color: var(--navbar-text-color);
   font-size: var(--navbar-link-font-size);
   font-weight: var(--navbar-link-font-weight);
+}
+
+.login-chip {
+  border: 1px solid var(--navbar-text-color);
+  border-radius: var(--login-chip-border-radius);
+  text-align: center;
+  width: var(--login-chip-width);
+  height: var(--login-chip-height);
+}
+
+.login-chip:hover {
+  color: var(--navbar-hover-text-color);
+  border: 1px solid var(--navbar-hover-text-color);
 }
 
 .rounded-circle.z-depth-0 {
@@ -81,8 +103,8 @@
   height: var(--screen-height);
 }
 
-.vertical-align-parent {
-  height: 870px;
+.landing-subwrapper {
+  height: var(--landing-subwrapper-height);
   display: flex;
   flex-direction: column;
   justify-content: center;
