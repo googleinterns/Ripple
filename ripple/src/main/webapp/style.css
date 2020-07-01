@@ -1,24 +1,35 @@
 
 :root {
   /* Color variables */
+  --input-text-color: #707070;
+  --landing-subtitle-text-color: #707070;
   --navbar-text-color: #707070;
   --seagreen-bg-color: #C7EADD;
-  --title-color: #707070;
+  --title-text-color: #707070;
   --white-bg-color: #ffffff;
 
   /* Element sizes */
   --container-width: 1090px;
-  --navbar-height: 105px;
-  --screen-height: 1080px;
+  --landing-title-line-height: 90px;
+  --landing-search-box-height: 62px;
+  --landing-search-box-width: 922px;
+  --landing-search-box-padding-left: 20px;
   --navbar-avatar-height: 45px;
   --navbar-avatar-width: 45px;
+  --navbar-height: 105px;
+  --screen-height: 1080px;
 
   /* Font properties */
   --navbar-brand-font-size: 30px;
+  --navbar-brand-font-weight: 800;
   --navbar-link-font-size: 20px;
-  --landing-title-line-height: 98px;
-  --landing-title-font-size: 72px;
+  --navbar-link-font-weight: 600;
+  --landing-title-font-size: 70px;
   --landing-title-font-weight: 800;
+  --landing-search-box-font-size: 22px;
+  --landing-search-box-font-weight: 300px;
+  --landing-subtitle-font-size: 27px;
+  --landing-subtitle-font-weight: 700;
 }
 
 /* Applies to all */
@@ -49,12 +60,13 @@
 .navbar-brand {
   color: var(--navbar-text-color);
   font-size: var(--navbar-brand-font-size);
-  font-weight: 700;
+  font-weight: var(--navbar-brand-font-weight);
 }
 
 .nav-link {
   color: var(--navbar-text-color);
   font-size: var(--navbar-link-font-size);
+  font-weight: var(--navbar-link-font-weight);
 }
 
 .rounded-circle.z-depth-0 {
@@ -69,9 +81,40 @@
   height: var(--screen-height);
 }
 
+.vertical-align-parent {
+  height: 870px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .landing-title-text {
-  color: var(--title-color);
+  color: var(--title-text-color);
   font-size: var(--landing-title-font-size);
   font-weight: var(--landing-title-font-weight);
   line-height: var(--landing-title-line-height);
+}
+
+.landing-subtitle-text {
+  color: var(--landing-subtitle-text-color);
+  font-size: var(--landing-subtitle-font-size);
+  font-weight: var(--landing-subtitle-font-weight);
+}
+
+.address-input {
+  border: none;
+  height: var(--landing-search-box-height);
+  width: var(--landing-search-box-width);
+}
+
+.address-input[type=text] {
+  padding: 0px 20px;
+  margin: 10px 0;
+  font-size: var(--landing-search-box-font-size);
+  font-weight: var(--landing-search-box-font-weight);
+  color: var(--input-text-color);
+}
+
+.address-input:focus {
+  outline: none; 
 }
