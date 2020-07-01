@@ -1,6 +1,8 @@
 
 :root {
   /* Color variables */
+  --default-hover-seagreen-color: #87C4AD;
+  --default-text-color: #707070;
   --input-text-color: #707070;
   --landing-subtitle-text-color: #707070;
   --navbar-text-color: #707070;
@@ -8,8 +10,13 @@
   --seagreen-bg-color: #C7EADD;
   --title-text-color: #707070;
   --white-bg-color: #ffffff;
+  --white-text-color: #ffffff;
 
   /* Element sizes */
+  --authentication-subwrapper-height: 435px;
+  --authentication-button-border-radius: 50px;
+  --authentication-button-height: 89px;
+  --authentication-button-width: 525px;
   --container-width: 1090px;
   --landing-subwrapper-height: 870px;
   --landing-title-line-height: 90px;
@@ -25,6 +32,12 @@
   --screen-height: 1080px;
 
   /* Font properties */
+  --authentication-subtitle-font-size: 29px;
+  --authentication-subtitle-font-weight: 300;
+  --authentication-subtitle-link-font-weight: 800;
+  --authentication-title-font-size: 60px;
+  --authentication-title-font-weight: 800;
+  --authentication-button-text-font-size: 30px;
   --navbar-brand-font-size: 30px;
   --navbar-brand-font-weight: 800;
   --navbar-link-font-size: 20px;
@@ -35,6 +48,7 @@
   --landing-search-box-font-weight: 300px;
   --landing-subtitle-font-size: 27px;
   --landing-subtitle-font-weight: 700;
+
 }
 
 /* Applies to all */
@@ -81,14 +95,14 @@
 .login-chip {
   border: 1px solid var(--navbar-text-color);
   border-radius: var(--login-chip-border-radius);
+  height: var(--login-chip-height);
   text-align: center;
   width: var(--login-chip-width);
-  height: var(--login-chip-height);
 }
 
 .login-chip:hover {
-  color: var(--navbar-hover-text-color);
   border: 1px solid var(--navbar-hover-text-color);
+  color: var(--navbar-hover-text-color);
 }
 
 .rounded-circle.z-depth-0 {
@@ -98,15 +112,15 @@
 
 /* Landing page */
 
-.landing-background-initial {
+.seagreen-background-initial {
   background-color: var(--seagreen-bg-color);
   height: var(--screen-height);
 }
 
 .landing-subwrapper {
-  height: var(--landing-subwrapper-height);
   display: flex;
   flex-direction: column;
+  height: var(--landing-subwrapper-height);
   justify-content: center;
 }
 
@@ -139,4 +153,72 @@
 
 .address-input:focus {
   outline: none; 
+}
+
+/* Applies to all authentication pages */
+.white-background-initial {
+  height: var(--screen-height);
+}
+
+.authentication-subwrapper-one {
+  display: flex;
+  flex-direction: column;
+  height: var(--authentication-subwrapper-height);
+  justify-content: center;
+  align-items: center;
+}
+
+.authentication-title-text {
+  color: var(--title-text-color);
+  font-size: var(--authentication-title-font-size);
+  font-weight: var(--authentication-title-font-weight);
+}
+
+.authentication-subtitle-text {
+  color: var(--title-text-color);
+  font-size: var(--authentication-subtitle-font-size);
+  font-weight: var(--authentication-subtitle-font-weight);
+}
+
+.authentication-subwrapper-two {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-type-button {
+  background: var(--seagreen-bg-color);
+  border: none;
+  border-radius: var(--authentication-button-border-radius);
+  color: var(--default-text-color);
+  font-size: var(--authentication-button-text-font-size);
+  height: var(--authentication-button-height);
+  margin: 0px 0px 40px 0px;
+  width: var(--authentication-button-width);
+}
+
+.user-type-button:hover, .user-type-button:active {
+  background-color: var(--default-hover-seagreen-color);
+  border: none;
+  color: var(--white-text-color);
+}
+
+.user-type-button:active {
+  transform: translateY(2px);
+}
+
+.user-type-button:focus {
+  outline: none;
+}
+
+.authentication-posttext h2 {
+  color: var(--default-text-color);
+  font-size: var(--authentication-subtitle-font-size);
+  font-weight: var(--authentication-subtitle-font-weight);
+}
+
+.authentication-posttext a {
+  color: var(--default-hover-seagreen-color);
+  font-weight: var(--authentication-subtitle-link-font-weight);
+  text-decoration: none;
 }
