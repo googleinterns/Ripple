@@ -1,62 +1,77 @@
 
-/* Color variables */
 :root {
+  /* Color variables */
   --navbar-text-color: #707070;
+  --seagreen-bg-color: #C7EADD;
   --title-color: #707070;
   --white-bg-color: #ffffff;
-  --seagreen-bg-color: #C7EADD;
+
+  /* Element sizes */
+  --container-width: 1090px;
+  --navbar-height: 105px;
+  --screen-height: 1080px;
+  --navbar-avatar-height: 45px;
+  --navbar-avatar-width: 45px;
+
+  /* Font properties */
+  --navbar-brand-font-size: 30px;
+  --navbar-link-font-size: 20px;
+  --landing-title-line-height: 98px;
+  --landing-title-font-size: 72px;
+  --landing-title-font-weight: 800;
 }
 
 /* Applies to all */
 * {
-  background-color: var(--background-color);
   font-family: 'Nunito Sans', serif;
 }
 
 .container {
-  width: 1090px;
+  width: var(--container-width);
 }
 
-.landing-background-initial {
-  background-color: var(--seagreen-bg-color);
-  height: 1080px;
+.italic-text {
+  font-style: italic;
 }
 
 /* Navbar */
 #wrapper {
   align-items: center;
   display: flex;
-  height: 105px;
+  height: var(--navbar-height);
   justify-content: center;
 }
 
 .custom-container {
-  width: 1090px;
+  width: var(--container-width);
 }
 
 .navbar-brand {
   color: var(--navbar-text-color);
-  font-size: 30px;
+  font-size: var(--navbar-brand-font-size);
   font-weight: 700;
 }
 
 .nav-link {
   color: var(--navbar-text-color);
-  font-size: 20px;
+  font-size: var(--navbar-link-font-size);
 }
 
 .rounded-circle.z-depth-0 {
-  height: 45px;
-  width: 45px;
+  height: var(--navbar-avatar-height);
+  width: var(--navbar-avatar-weight);
 }
 
 /* Landing page */
 
-.landing-title-text {
-  font-size: 72px;
-  font-weight: 800;
+.landing-background-initial {
+  background-color: var(--seagreen-bg-color);
+  height: var(--screen-height);
 }
 
-.italic-text {
-  font-style: italic;
+.landing-title-text {
+  color: var(--title-color);
+  font-size: var(--landing-title-font-size);
+  font-weight: var(--landing-title-font-weight);
+  line-height: var(--landing-title-line-height);
 }
