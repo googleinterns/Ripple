@@ -1,15 +1,25 @@
 
 /* Color variables */
 :root {
-  --background-color: #fff;
   --navbar-text-color: #707070;
   --title-color: #707070;
+  --white-bg-color: #ffffff;
+  --seagreen-bg-color: #C7EADD;
 }
 
 /* Applies to all */
 * {
   background-color: var(--background-color);
   font-family: 'Nunito Sans', serif;
+}
+
+.container {
+  width: 1090px;
+}
+
+.landing-background-initial {
+  background-color: var(--seagreen-bg-color);
+  height: 1080px;
 }
 
 /* Navbar */
@@ -38,4 +48,15 @@
 .rounded-circle.z-depth-0 {
   height: 45px;
   width: 45px;
+}
+
+/* Landing page */
+
+.landing-title-text {
+  font-size: 72px;
+  font-weight: 800;
+}
+
+.italic-text {
+  font-style: italic;
 }
