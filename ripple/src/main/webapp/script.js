@@ -1,5 +1,5 @@
 
-/**Carousel function that allows cards to move to the left or right by one.*/
+/* Carousel function that allows cards to move to the left or right by one. */
 $("#cardCarousel").on("slide.bs.carousel", function(e) {
   var $e = $(e.relatedTarget);
   var idx = $e.index();
@@ -23,7 +23,7 @@ $("#cardCarousel").on("slide.bs.carousel", function(e) {
   }
 });
 
-// Display an alert containing the inputted address if user presses enter
+/* Display an alert containing the inputted address if user presses enter. */
 function searchAddress(e){
   addressInput = document.getElementById("address-input").value;
   if (e.keyCode === 13) {

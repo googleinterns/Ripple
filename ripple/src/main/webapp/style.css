@@ -280,7 +280,7 @@
   margin-top: -57px;
 }
 
-.viewall {
+.view-all {
   border: none;
   background-color: inherit;
   padding: 14px 28px;
@@ -291,7 +291,7 @@
 }
 
 /* On mouse-over */
-.viewall:hover {
+.view-all:hover {
   color: var(--neutral-color);
 }
 
@@ -308,13 +308,13 @@
   height: 20px;
 }
 
-#cardCarousel {
+#card-carousel {
   width: var(--container-width);
 }
 
 /* Make carousel responsive to screen size */
 @media (min-width: 768px) {
-  /* show 3 items */
+  /* Show 3 items */
   .carousel-inner .active,
   .carousel-inner .active + .carousel-item,
   .carousel-inner .active + .carousel-item + .carousel-item {
@@ -353,7 +353,7 @@
     visibility: visible;
   }
 
-  /* left or forward direction */
+  /* Left or forward direction */
   .active.carousel-item-left + .carousel-item-next.carousel-item-left,
   .carousel-item-next.carousel-item-left + .carousel-item,
   .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item,
@@ -367,7 +367,7 @@
     visibility: visible;
   }
 
-  /* farthest right hidden item must be abso position for animations */
+  /* Farthest right hidden item must be abso position for animations */
   .carousel-inner .carousel-item-prev.carousel-item-right {
     position: absolute;
     top: 0;
@@ -377,7 +377,7 @@
     visibility: visible;
   }
 
-  /* right or prev direction */
+  /* Right or prev direction */
   .active.carousel-item-right + .carousel-item-prev.carousel-item-right,
   .carousel-item-prev.carousel-item-right + .carousel-item,
   .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item,
