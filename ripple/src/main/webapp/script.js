@@ -29,5 +29,7 @@ function searchAddress(e){
   if (e.keyCode === 13) {
     alert("You are searching: " + addressInput);
   }
+  window.location.assign("main.html");
   return false;
 }
+

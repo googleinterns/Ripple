@@ -11,6 +11,13 @@
   --white-bg-color: #ffffff;
   --white-text-color: #ffffff;
 
+  --neutral-color: #707070;
+  --neutral-light-color: #BABABA;
+  --neutral-lighter-color: #F4F4F4;
+  --neutral-lightest-color: #FFFFFF;
+  --primary-color: #C7EADD;
+  --primary-dark-color: #87C4AD;
+
   /* Element sizes */
   --authentication-subwrapper-height: 435px;
   --authentication-button-border-radius: 50px;
@@ -29,6 +36,11 @@
   --navbar-avatar-width: 45px;
   --navbar-height: 105px;
   --screen-height: 1080px;
+  --header-height: 585px;
+  --header-title-line-height: 90px;
+
+  /* Padding sizes */
+  --cluster-padding: 135px;
 
   /* Font properties */
   --authentication-subtitle-font-size: 29px;
@@ -47,7 +59,10 @@
   --landing-search-box-font-weight: 300px;
   --landing-subtitle-font-size: 27px;
   --landing-subtitle-font-weight: 700;
-
+  --header-title-font-size:  50px;
+  --header-title-font-weight: 800;
+  --cluster-title-font-size: 25px;
+  --cluster-small-font-size: 18px;
 }
 
 /* Applies to all */
@@ -223,19 +238,78 @@
 }
 
 /* Main page */
-.card-img-top {
-    width: 100%;
-    height: 7vw;
-    object-fit: cover;
+.main-page-header {
+   background-color: var(--primary-color);
+   height: var(--header-height);
+}
+.header-subwrapper {
+  display: flex;
+  flex-direction: column;
+  height: var(--header-height);
+  justify-content: center;
 }
 
-.card {
-    width: 300px;
-    height: 200px
+.header-title-text {
+  color: var(--neutral-color);
+  font-size: var(--header-title-font-size);
+  font-weight: var(--header-title-font-weight);
+  line-height: var(--header-title-line-height);
+}
+
+.clusters-container{
+  padding-bottom: var(--cluster-padding);
+}
+
+.cluster-title-container {
+  padding-top: var(--cluster-padding);
+  padding-bottom: 20px;
+  width: var(--container-width);
+  align-self: center;
+  padding-left: 15px;
+  font-size: var(--cluster-title-font-size);
+  color: var(--neutral-color);
+}
+
+.cluster-title {
+  font-weight: var(--navbar-brand-font-weight);
+  padding-bottom: -10px;
+}
+
+.cluster-title-button {
+  margin-left: 87%;
+  margin-top: -57px;
+}
+
+.viewall {
+  border: none;
+  background-color: inherit;
+  padding: 14px 28px;
+  font-size: var(--cluster-small-font-size);
+  cursor: pointer;
+  display: inline-block;
+  color: var(--neutral-light-color);
+}
+
+/* On mouse-over */
+.viewall:hover {
+  color: var(--neutral-color);
+}
+
+.card-img-top {
+  width: 100%;
+  height: 11vw;
+  object-fit: cover;
+}
+
+.card-text {
+  font-size: var(--cluster-small-font-size);
+  font-weight: var(--navbar-brand-font-weight);
+  color: var(--title-text-color);
+  height: 20px;
 }
 
 #cardCarousel {
-    width: 1090px;
+  width: var(--container-width);
 }
 
 /* Make carousel responsive to screen size */
@@ -316,5 +390,4 @@
             transform: translate3d(100%, 0, 0);
     visibility: visible;
     display: block;
-    visibility: visible;
-  }
+  }}
