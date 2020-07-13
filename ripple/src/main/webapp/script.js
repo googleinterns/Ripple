@@ -18,5 +18,16 @@ function fetchBlobstoreUploadUrl() {
         const userProfileForm = document.getElementById("user-profile-form");
         userProfileForm.action = blobstoreUploadUrl;
         console.log("fetched blobstoreUploadUrl: " + blobstoreUploadUrl);
+        userProfileForm.submit();
       });
+}
+
+// Loads camera icon on Account Settings page
+function loadAcctSettingsIcons() {
+  serveBlob("faPTsRMvclAqSSbJsMXYwQ", "camera-icon-id");
+}
+
+// Clicks button to insert file on Account Settings page
+function selectFile() {
+  document.getElementById("file").click();
 }
