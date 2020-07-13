@@ -1,0 +1,318 @@
+:root {
+  /* Color variables */
+  --neutral-color: #707070;
+  --neutral-light-color: #BABABA;
+  --neutral-lighter-color: #F4F4F4;
+  --neutral-lightest-color: #FFFFFF;
+  --primary-color: #C7EADD;
+  --primary-dark-color: #87C4AD;
+
+  /* Element sizes */
+  --authentication-button-height: 89px;
+  --authentication-button-width: 525px;
+  --chip-border-radius: 30px;
+  --container-width: 1090px;
+  --screen-height: 1080px;
+
+  /* Font properties */
+  --lightest-font-weight: 100;
+  --lighter-font-weight: 200;
+  --light-font-weight: 300;
+  --normal-font-weight: 400;
+  --medium-font-weight: 500;
+  --semi-bold-font-weight:600;
+  --bold-font-weight: 700;
+  --extra-bold-font-weight: 800;
+  --boldest-font-weight: 900;
+  
+  --authentication-subtitle-font-size: 29px;
+  --authentication-title-font-size: 60px;
+  --authentication-button-text-font-size: 30px;
+}
+
+/* Applies to all */
+* {
+  font-family: 'Nunito Sans', serif;
+}
+
+.container {
+  width: var(--container-width);
+}
+
+.italic-text {
+  font-style: italic;
+}
+
+/* Applies to main page, acct settings, more */
+
+.half-bg-no-color {
+  height: 360px;
+  border-bottom: solid var(--neutral-light-color) 1px;
+  
+}
+
+.left-align-header {
+  color: var(--neutral-color);
+  font-size: 50px;
+  font-weight: var(--extra-bold-font-weight);
+  padding-top: 140px;
+}
+
+/* Navbar */
+#wrapper {
+  align-items: center;
+  display: flex;
+  height: 105px;
+  justify-content: center;
+}
+
+.custom-container {
+  width: var(--container-width);
+}
+
+.navbar-brand {
+  color: var(--neutral-color);
+  font-size: 30px;
+  font-weight: var(--extra-bold-font-weight);
+}
+
+.hover-neutral-to-primary-color:hover {
+  color: var(--primary-dark-color);
+}
+
+.nav-link {
+  color: var(--neutral-color);
+  font-size: 20px;
+  font-weight: var(--bold-font-weight);
+}
+
+.login-chip {
+  border: 1px solid var(--neutral-color);
+  border-radius: var(--chip-border-radius);
+  height: 45px;
+  text-align: center;
+  width: 110px;
+}
+
+.login-chip:hover {
+  border: 1px solid var(--primary-dark-color);
+  color: var(--primary-dark-color);
+}
+
+.rounded-circle.z-depth-0 {
+  border: 1px solid var(--neutral-color);
+  height: 45px;
+  object-fit: cover;
+  width: 45px;
+}
+
+.dropdown-item {
+  color: var(--neutral-color);
+  font-size: 20px;
+}
+
+
+/* Landing page */
+
+.full-bg-primary-color {
+  background-color: var(--primary-color);
+  height: var(--screen-height);
+}
+
+.landing-subwrapper {
+  display: flex;
+  flex-direction: column;
+  height: 870px;
+  justify-content: center;
+}
+
+.landing-title-text {
+  color: var(--neutral-color);
+  font-size: 70px;
+  font-weight: var(--extra-bold-font-weight);
+  line-height: 90px;
+}
+
+.landing-subtitle-text {
+  color: var(--neutral-color);
+  font-size: 27px;
+  font-weight: var(--bold-font-weight);
+}
+
+.address-input {
+  border: none;
+  height: 62px;
+  width: 922px;
+}
+
+.address-input[type=text] {
+  padding: 0px 20px;
+  margin: 10px 0;
+  font-size: 22px;
+  font-weight: var(--light-font-weight);
+  color: var(--neutral-color);
+}
+
+.address-input:focus {
+  outline: none; 
+}
+
+/* Applies to all authentication pages */
+.full-bg-no-color {
+  height: var(--screen-height);
+}
+
+.authentication-subwrapper-one {
+  display: flex;
+  flex-direction: column;
+  height: 435px;
+  justify-content: center;
+  align-items: center;
+}
+
+.authentication-title-text {
+  color: var(--neutral-color);
+  font-size: var(--authentication-title-font-size);
+  font-weight: var(--extra-bold-font-weight);
+}
+
+.authentication-subtitle-text {
+  color: var(--neutral-color);
+  font-size: var(--authentication-subtitle-font-size);
+  font-weight: var(--light-font-weight);
+}
+
+.authentication-subwrapper-two {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.left-align-text {
+  text-align: left;
+  padding-left: 80px;
+}
+
+.user-type-button {
+  background: var(--primary-color);
+  border: none;
+  border-radius: 50px;
+  color: var(--neutral-color);
+  font-size: var(--authentication-button-text-font-size);
+  height: var(--authentication-button-height);
+  margin: 0px 0px 40px 0px;
+  width: var(--authentication-button-width);
+}
+
+.user-type-button:hover, .user-type-button:active {
+  background-color: var(--primary-dark-color);
+  border: none;
+  color: var(--neutral-color);
+}
+
+.user-type-button:focus {
+  outline: none;
+}
+
+.authentication-posttext h2 {
+  color: var(--neutral-color);
+  font-size: var(--authentication-subtitle-font-size);
+  font-weight: var(--light-font-weight);
+}
+
+.authentication-posttext a {
+  color: var(--primary-dark-color);
+  font-weight: var(--extra-bold-font-weight);
+  text-decoration: none;
+}
+
+.auth-button {
+  background: none;
+  border: 1px solid var(--neutral-color);
+  border-radius: 20px;
+  color: var(--neutral-color);
+  font-size: var(--authentication-button-text-font-size);
+  height: var(--authentication-button-height);
+  margin: 0px 0px 40px 0px;
+  width: var(--authentication-button-width);
+}
+
+.auth-button:focus {
+  outline: none;
+}
+
+.auth-icon {
+  height: 45px;
+  margin-right: 30px;
+  object-fit: cover;
+  width: 45px;
+}
+
+/* Account Settings page*/
+.upload-photo-button {
+  background: none;
+  border: 1px solid var(--neutral-color);
+  border-radius: var(--chip-border-radius);
+  color: var(--neutral-color);
+  font-size: 23px;
+  height: 60px;
+  width: 255px;;
+}
+
+.upload-photo-button:focus {
+  outline: none;
+}
+
+.profile-photo-cropped {
+  border: 1px solid var(--neutral-color);
+  border-radius: 50%;
+  height: 110px;
+  object-fit: cover;
+  width: 110px;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.avatar-padding-top {
+  padding-top: 150px;
+}
+
+.acct-info-subtitle {
+  color: var(--neutral-color);
+  font-weight: var(--bold-font-weight);
+  margin-bottom: 25px;
+}
+
+.acct-padding-top {
+  padding-top: 100px;
+}
+
+.acct-padding-top-2 {
+  padding-top: 80px;
+}
+
+.line-break {
+  border-top: 1px solid var(--neutral-light-color);
+}
+
+.col-8 h3 {
+  color: var(--neutral-color);
+  font-size: 30px;
+}
+
+.col-8 p {
+  color: var(--neutral-color);
+  font-size: 23px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.col-8.acct-edit p {
+  font-weight: var(--bold-font-weight);
+}
+
+#camera-icon-id {
+  margin-right: 8px;
+}
