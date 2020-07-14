@@ -1,7 +1,7 @@
-// Sign up user and add data to Firestore. Does not create new document if 
-// existing user signs up. 
-// TODO: Add alert if existing user signs up. 
-// TODO: Get isBusinessOwner data from signup.html page
+/* Sign up user and add data to Firestore. Does not create new document if 
+existing user signs up. 
+TODO: Add alert if existing user signs up. 
+TODO: Get isBusinessOwner data from signup.html page */
 function signUpWithGoogle() {
   var provider = new firebase.auth.GoogleAuthProvider();
   provider.addScope('profile');
@@ -25,11 +25,10 @@ function signUpWithGoogle() {
     var errorMessage = error.message;
     var email = error.email;
     var credential = error.credential;
-    // ...
   });
 }
 
-// Writes user data to firestore
+/* Writes user data to firestore */
 function addNewUser(uid, name, isBusinessOwner, email) {
   console.log("addNewUser("+ uid + ", " + name + ", " + isBusinessOwner + "," + email + ")");
   db.collection("users").doc(uid).set({
@@ -39,7 +38,7 @@ function addNewUser(uid, name, isBusinessOwner, email) {
     email: email,
     address: "555 Fake Ln, Apt 102",
     // blobKey for default avatar photo
-    blobKey: "XEkBWMfbItUDt70PromXrQ",
+    blobKey: blob.DEFAULT_AVATAR,
   })
   .then(function(docRef) {
     console.log("Document successfully written!");
@@ -49,7 +48,7 @@ function addNewUser(uid, name, isBusinessOwner, email) {
   });
 }
 
-// Signs existing user into a session
+/* Signs existing user into a session */
 function signInWithGoogle() {
   // Signed in state will persist until user logs out 
   firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
@@ -79,7 +78,7 @@ function signInWithGoogle() {
     });
 }
 
-// Returns uid, name, isBusinessOwner fields of users via console.log
+/* Returns uid, name, isBusinessOwner fields of users via console.log */
 function getUsersDocument() {
   db.collection("users").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
@@ -90,7 +89,7 @@ function getUsersDocument() {
   });
 }
 
-// Send user a verification email
+/* Send user a verification email */
 function sendEmailVerification() {
   var user = auth.currentUser;
   user.sendEmailVerification().then(function() {
@@ -102,7 +101,7 @@ function sendEmailVerification() {
   });
 }
 
-// Sign a user out of session
+/* Sign a user out of session */
 function signOutUser() {
   var user = auth.currentUser;
   var name = user.displayName;
@@ -124,7 +123,7 @@ function signOutUser() {
   });
 }
 
-// Calls getBlobKey() if user exists
+/* Calls getBlobKey() if user exists */
 function checkUserStatus() {
   auth.onAuthStateChanged(user => {
     if (user) {

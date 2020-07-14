@@ -1,17 +1,17 @@
-// Given blob key and image id, inserts image from Blobstore
+/* Given blob key and image id, inserts image from Blobstore */
 function serveBlob(blobKey, imageId) {
   const image = document.getElementById(imageId);
   image.src = '/serve?blob-key=' + blobKey;
 }
 
-// Given text and an id, function adds text to DOM
+/* Given text and an id, function adds text to DOM */
 function addTextToDom(text, id) {
   var element = document.getElementById(id);
   element.innerText = text;
 }
 
-// Reads account name, email, type, and address and adds to DOM.
-// Passes blobKey to getBlobKey()
+/* Reads account name, email, type, and address and adds to DOM.
+Passes blobKey to getBlobKey() */
 function getAcctInfo(uid) {
   console.log("Success: getAcctInfo() recognizes uid: " + uid);
   var name, email, isBusinessOwner, address, blobKey;
@@ -40,7 +40,7 @@ function getAcctInfo(uid) {
       });
 }
 
-// Serves blob by parsing blobKey from parameter. If no parameter, serves stored blob.
+/* Serves blob by parsing blobKey from parameter. If no parameter, serves stored blob. */
 function getBlobKey(uid, blobKey) {
   var newBlobKey = getParameterByName('blob-key');
   console.log("Parameter blobKey: " + newBlobKey);
@@ -66,7 +66,7 @@ function getBlobKey(uid, blobKey) {
   }
 }
 
-// Read parameter in URL of window
+/* Read parameter in URL of window */
 function getParameterByName(name) {
   console.log('called getParameterByName()');
   url = window.location.href;

@@ -25,7 +25,6 @@ function signUpWithGoogle() {
     var errorMessage = error.message;
     var email = error.email;
     var credential = error.credential;
-    // ...
   });
 }
 
@@ -39,7 +38,7 @@ function addNewUser(uid, name, isBusinessOwner, email) {
     email: email,
     address: "555 Fake Ln, Apt 102",
     // blobKey for default avatar photo
-    blobKey: "XEkBWMfbItUDt70PromXrQ",
+    blobKey: blob.DEFAULT_AVATAR,
   })
   .then(function(docRef) {
     console.log("Document successfully written!");

@@ -49,7 +49,8 @@ function fetchBlobstoreUploadUrl() {
 
 /* Loads camera icon on Account Settings page */
 function loadAcctSettingsIcons() {
-  serveBlob("faPTsRMvclAqSSbJsMXYwQ", "camera-icon-id");
+  var cameraIconBlob = blob.CAMERA_ICON;
+  serveBlob(cameraIconBlob, "camera-icon-id");
 }
 
 /* Clicks button to insert file on Account Settings page */
