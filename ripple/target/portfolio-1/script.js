@@ -1,5 +1,4 @@
-
-/**Carousel function that allows cards to move to the left or right by one.*/
+/* Carousel function that allows cards to move to the left or right by one. */
 $("#cardCarousel").on("slide.bs.carousel", function(e) {
   var $e = $(e.relatedTarget);
   var idx = $e.index();
@@ -22,3 +21,39 @@ $("#cardCarousel").on("slide.bs.carousel", function(e) {
     }
   }
 });
+
+/* Display an alert containing the inputted address if user presses enter */
+function searchAddress(e) {
+  addressInput = document.getElementById("address-input").value;
+  if (e.keyCode === 13) {
+    alert("You are searching: " + addressInput);
+  }
+  window.location.assign("main.html");
+  return false;
+}
+
+/* creates blobstoreUrl for user profile image to firestore */
+function fetchBlobstoreUploadUrl() {
+  console.log("called fetchBlobstoreUpload()");
+  fetch('/blobstore-upload-url')
+      .then((response) => {
+        return response.text();
+      })
+      .then((blobstoreUploadUrl) => {
+        const userProfileForm = document.getElementById("user-profile-form");
+        userProfileForm.action = blobstoreUploadUrl;
+        console.log("fetched blobstoreUploadUrl: " + blobstoreUploadUrl);
+        userProfileForm.submit();
+      });
+}
+
+/* Loads camera icon on Account Settings page */
+function loadAcctSettingsIcons() {
+  var cameraIconBlob = blob.CAMERA_ICON;
+  serveBlob(cameraIconBlob, "camera-icon-id");
+}
+
+/* Clicks button to insert file on Account Settings page */
+function selectFile() {
+  document.getElementById("file").click();
+}
