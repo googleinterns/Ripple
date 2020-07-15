@@ -8,34 +8,118 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.5.1/firebase-ui-auth.js"></script>
+    <script type='text/javascript' src='config.js'></script>   
+    <!-- Firebase configuration and initialization -->
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-firestore.js"></script>
+    <script>
+      var apiKey = config.API_KEY;
+      var authDomain = config.AUTH_DOMAIN;
+      var databaseURL = config.DATABASE_URL;
+      var projectId = config.PROJECT_ID;
+      var storageBucket = config.STORAGE_BUCKET;
+      var messagingSenderId = config.MESSAGING_SENDER_ID;
+      var appId = config.APP_ID;
+      var measurementId = config.MEASUREMENT_ID;
+
+      var firebaseConfig = {
+        apiKey: apiKey,
+        authDomain: authDomain,
+        databaseURL: databaseURL,
+        projectId: projectId,
+        storageBucket: storageBucket,
+        messagingSenderId: messagingSenderId,
+        appId: appId,
+        measurementId: measurementId,
+      };
+      firebase.initializeApp(firebaseConfig);
+      // Create auth and firestore references 
+      var auth = firebase.auth();
+      var db = firebase.firestore();
+    </script>
+    <!-- This needs to be after firebase initialization -->
+    <script src="auth.js"></script>
+    <script src="firestore.js"></script>
+    <!-- ./Firebase configuration and initialization -->
     <script src="script.js"></script>
     <title>Ripple</title>
   </head>
-  <body>
-    <!--Navbar -->
-    <div class="wrapper" id="wrapper">
-      <div class="custom-container" id="container">
-        <nav class="mb-1 navbar navbar-expand-lg">
-          <a class="navbar-brand" href="main.html">Ripple</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
-              aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="stories.html">Today</a>
-              </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="#">Log in</a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+  <body onload="checkUserStatus();">
+    <!-- Banner -->
+    <div class="half-bg-no-color">
+      <!--Navbar -->
+      <div class="wrapper" id="wrapper">
+        <div class="custom-container" id="container">
+          <nav class="mb-1 navbar navbar-expand-lg">
+            <a class="navbar-brand hover-neutral-to-primary-color" href="#">Ripple</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
+                aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                  <a class="nav-link hover-neutral-to-primary-color" href="stories.html">Today</a>
+                </li>
+              </ul>
+              <ul class="navbar-nav nav-flex-icons">
+                <li class="nav-item avatar dropdown">
+                  <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">
+                    <img id="nav-bar-avatar" class="rounded-circle z-depth-0"
+                        alt="avatar image">
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
+                      aria-labelledby="navbarDropdownMenuLink-55">
+                    <a class="dropdown-item" href="#">Your favorites</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Account Settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" onclick="signOutUser()">Log out</a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
       </div>
+      <!-- /.Navbar -->
+      <!-- Account settings header -->
+      <div class="container"> 
+        <h1 class="left-align-header">Account settings</h1>
+      </div>
+      <!-- /.Account settings header -->
     </div>
-  <!-- /.Navbar -->
+    <!-- /.Banner -->
+    <!-- Account settings content: Blobstore image upload -->
+    <div class = "container">
+      <div class="row">
+        <div class="col-4 align-center avatar-padding-top">
+          <img id="profile-image" alt="Blobstore image" class="profile-photo-cropped">
+          <form id="user-profile-form" onchange="fetchBlobstoreUploadUrl()" method="post" enctype="multipart/form-data">
+            <input id="file" type="file" name="file" style="display: none;">
+          </form><br/>
+          <button class="upload-photo-button" type="button" onclick="selectFile()"><img src="serve?blob-key=blob.CAMERA_ICON" id="camera-icon-id"> Change photo</button>
+        </div>
+        <div class="col-8">
+          <h3 class="acct-info-subtitle acct-padding-top">Account details</h3>
+          <hr class="line-break">
+          <p id="acct-name" class="acct-edit"></p>
+          <hr class="line-break">
+          <p id="acct-email"></p>
+          <hr class="line-break">
+          <p id="acct-type"></p>
+          <hr class="line-break">
+
+          <h3 class="acct-info-subtitle acct-padding-top-2">Address</h3>
+          <hr class="line-break">
+          <p id="acct-address" class="acct-edit"></p>
+          <hr class="line-break">
+        </div>
+      </div>    
+    </div>
+    <!-- ./Account settings content: Blobstore image upload-->
   </body>
 </html>
-
-

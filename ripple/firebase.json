@@ -21,6 +21,10 @@
     ]
   },
   "storage": {
-    "rules": "storage.rules"
+    "rules": "storage.rules",
+    "rewrites": [ {
+        "source": "/item/**",
+        "destination": "/item.html"
+    } ]
   }
 }

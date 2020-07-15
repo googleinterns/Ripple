@@ -1,4 +1,8 @@
-// function to sign up with Google
+/* Sign up user and add data to Firestore. Does not create new document if 
+existing user signs up. 
+TODO: Add alert if existing user signs up. 
+TODO: Get isBusinessOwner data from signup.html page */
+
 function signUpWithGoogle() {
   var provider = new firebase.auth.GoogleAuthProvider();
   provider.addScope('profile');
@@ -6,76 +10,87 @@ function signUpWithGoogle() {
     window.location = 'landingbusiness.html';
     console.log("Success: Google account linked");
     var token = result.credential.accessToken;
-    // The signed-in user info.
     var user = result.user;
     var name = user.displayName;
+    var email = user.email;
     var uid = user.uid;
-    var businessOwner = false;
+    var isBusinessOwner = false;
     console.log("name: " + name);
     console.log("uid: " + uid);
-    sendEmailVerification();
-    addNewUser(uid, name, businessOwner);
+    sendEmailVerification(uid);
+    addNewUser(uid, name, isBusinessOwner, email);
   }).catch(function(error) {
     console.log(error);
     // Handle Errors here.
     var errorCode = error.code;
     var errorMessage = error.message;
-    // The email of the user's account used.
     var email = error.email;
-    // The firebase.auth.AuthCredential type that was used.
     var credential = error.credential;
-    // ...
   });
 }
 
-function addNewUser(uid, name, businessOwner) {
-  console.log("addNewUser("+ uid + ", " + name + ", " + businessOwner);
-  db.collection("users").add({
+/* Writes user data to firestore */
+function addNewUser(uid, name, isBusinessOwner, email) {
+  console.log("addNewUser("+ uid + ", " + name + ", " + isBusinessOwner + "," + email + ")");
+  db.collection("users").doc(uid).set({
     uid: uid,
     name: name,
-    businessOwner: businessOwner
+    isBusinessOwner: isBusinessOwner,
+    email: email,
+    address: "555 Fake Ln, Apt 102",
+    // blobKey for default avatar photo
+    blobKey: blob.DEFAULT_AVATAR,
   })
   .then(function(docRef) {
-    console.log("Document written with ID: ", docRef.id);
+    console.log("Document successfully written!");
   })
   .catch(function(error) {
     console.error("Error adding document: ", error);
   });
 }
 
-// function to sign in with Google
+/* Signs existing user into a session */
 function signInWithGoogle() {
-  var provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider).then(function(result) {
-    // window.location = 'landingbusiness.html';
-    console.log("Success: Google account linked");
-    var token = result.credential.accessToken;
-    var user = result.user;
-    var uid = user.uid;
-    // TODO: Use uid to grab specific user's document
-    getUsersDocument();
-  }).catch(function(error) {
-    console.log(error);
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    var email = error.email;
-    var credential = error.credential;
-    // ...
-  });
+  // Signed in state will persist until user logs out 
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+    .then(function() {
+      var provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider).then(function(result) {
+        window.location = 'landingbusiness.html';
+        console.log("Success: Google account linked");
+        var token = result.credential.accessToken;
+        var user = result.user;
+        var uid = user.uid;
+        getUsersDocument();
+      }).catch(function(error) {
+        console.log(error);
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        var email = error.email;
+        var credential = error.credential;
+        // ...
+      });
+    })
+    .catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+    });
 }
 
+/* Returns uid, name, isBusinessOwner fields of users via console.log */
 function getUsersDocument() {
   db.collection("users").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       console.log(doc.data().uid);
       console.log(doc.data().name);
-      console.log(doc.data().businessOwner);
+      console.log(doc.data().isBusinessOwner);
     });
   });
 }
 
-// Send user a verification email
+/* Send user a verification email */
 function sendEmailVerification() {
   var user = auth.currentUser;
   user.sendEmailVerification().then(function() {
@@ -87,11 +102,13 @@ function sendEmailVerification() {
   });
 }
 
-// Sign out a user
+/* Sign a user out of session */
 function signOutUser() {
   var user = auth.currentUser;
   var name = user.displayName;
+  var uid = user.uid;
   console.log("name before logout: " + name);
+  console.log("uid before logout: " + uid);
   firebase.auth().signOut().then(function() {
     window.location= 'index.html';
     console.log("Auth state change success: user logged out");
@@ -107,7 +124,15 @@ function signOutUser() {
   });
 }
 
-// listen for auth status changes
-auth.onAuthStateChanged(user => {
-  console.log("onAuthStateChanged: " + user);
-})
+/* Calls getBlobKey() if user exists */
+function checkUserStatus() {
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      uid = user.uid;
+      console.log("Success: checkUserStatus() found user with uid: " + uid);
+      getAcctInfo(uid);
+    } else {
+      console.log("Failure: checkUserStatus() found no user");
+    }
+  })
+}
