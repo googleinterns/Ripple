@@ -27,9 +27,17 @@ function searchAddress(e) {
   addressInput = document.getElementById("address-input").value;
   if (e.keyCode === 13) {
     alert("You are searching: " + addressInput);
+    window.location.assign("main.html");
   }
-  window.location.assign("main.html");
   return false;
+}
+
+/* Display an alert if user presses enter to comment on a post */
+function addComment(e) {
+  comment = document.getElementById("add-comment").value;
+  if (e.keyCode === 13) {
+    alert("You are commenting: " + comment);
+  }
 }
 
 /* creates blobstoreUrl for user profile image to firestore */
@@ -56,4 +64,8 @@ function loadAcctSettingsIcons() {
 /* Clicks button to insert file on Account Settings page */
 function selectFile() {
   document.getElementById("file").click();
+}
+
+function viewAllPostComments() {
+  alert("Fetch all comments for this post!");
 }
