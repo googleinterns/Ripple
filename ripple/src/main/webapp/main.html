@@ -8,6 +8,8 @@
     <!-- Bootstrap CSS and JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="config.js"></script>
+    <script src="hardcodebusinesses.js"></script> 
     <script src="script.js"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -15,8 +17,21 @@
     <link rel="stylesheet" href="style.css">
     <title>Ripple</title>
 
+    <!-- Firebase configuration and initialization -->
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-firestore.js"></script>
+    <script>
+      firebase.initializeApp(config);
+      // Create auth and firestore references 
+      var auth = firebase.auth();
+      var db = firebase.firestore();
+    </script>
+    <!-- This needs to be after firebase initialization -->
+    <script src="auth.js"></script>
+    <!-- ./Firebase configuration and initialization -->
   </head>
-  <body>
+  <body onload="loadCarousels()">
     <div class="main-page-header">
       <!--Navbar -->
       <div class="wrapper" id="wrapper">
@@ -56,50 +71,13 @@
               <button class="view-all">View all ></button>
             </div>
           </div>
-          <div id="card-carousel" class="carousel slide" data-interval="false">
-            <div class="carousel-inner row w-100 mx-auto">
-              <div class="carousel-item col-md-4 active">
-                <div class="card">
-                  <img class="card-img-top img-fluid" src="images/chinese_food.jpg" alt="Card image cap">
-                  <div class="card-body">
-                    <p class="card-text">Main Garden</p>
-                    <p class="card-text"><small class="text-muted">5-10 min walking</small></p>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item col-md-4">
-                <div class="card">
-                  <img class="card-img-top img-fluid" src="images/cupcakes.png" alt="Card image cap">
-                  <div class="card-body">
-                    <p class="card-text">Cupcakin' Bake Shop</p>
-                    <p class="card-text"><small class="text-muted">15-20 min walking</small></p>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item col-md-4">
-                <div class="card">
-                  <img class="card-img-top img-fluid" src="images/indian_food.jpg" alt="Card image cap">
-                  <div class="card-body">
-                    <p class="card-text">Vik's Chaat</p>
-                    <p class="card-text"><small class="text-muted">10-15 min walking</small></p>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item col-md-4">
-                <div class="card">
-                  <img class="card-img-top img-fluid" src="images/louisiana_kitchen.jpg" alt="Card image cap">
-                  <div class="card-body">
-                    <p class="card-title">Angeline's Louisiana Kitchen</p>
-                    <p class="card-text"><small class="text-muted">5-10 min walking</small></p>
-                  </div>
-                </div>
-              </div> 
-            </div>
-            <a class="carousel-control-prev" href="#card-carousel" role="button" data-slide="prev">
+          <div id="black-owned-businesses" class="carousel slide" data-interval="false">
+            <div class="carousel-inner row w-100 mx-auto"></div>
+            <a class="carousel-control-prev" href="#black-owned-businesses" role="button" data-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="sr-only">Previous</span>
             </a>
-            <a class="carousel-control-next" href="#card-carousel" role="button" data-slide="next">
+            <a class="carousel-control-next" href="#black-owned-businesses" role="button" data-slide="next">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="sr-only">Next</span>
             </a>
@@ -111,50 +89,13 @@
               <button class="view-all">View all ></button>
             </div>
           </div>
-          <div id="card-carousel" class="carousel slide" data-interval="false">
-            <div class="carousel-inner row w-100 mx-auto">
-              <div class="carousel-item col-md-4 active">
-                <div class="card">
-                  <img class="card-img-top img-fluid" src="images/chinese_food.jpg" alt="Card image cap">
-                  <div class="card-body">
-                    <p class="card-text">Main Garden</p>
-                    <p class="card-text"><small class="text-muted">5-10 min walking</small></p>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item col-md-4">
-                <div class="card">
-                  <img class="card-img-top img-fluid" src="images/cupcakes.png" alt="Card image cap">
-                  <div class="card-body">
-                    <p class="card-text">Cupcakin' Bake Shop</p>
-                    <p class="card-text"><small class="text-muted">15-20 min walking</small></p>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item col-md-4">
-                <div class="card">
-                  <img class="card-img-top img-fluid" src="images/indian_food.jpg" alt="Card image cap">
-                  <div class="card-body">
-                    <p class="card-text">Vik's Chaat</p>
-                    <p class="card-text"><small class="text-muted">10-15 min walking</small></p>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item col-md-4">
-                <div class="card">
-                  <img class="card-img-top img-fluid" src="images/louisiana_kitchen.jpg" alt="Card image cap">
-                  <div class="card-body">
-                    <p class="card-title">Angeline's Louisiana Kitchen</p>
-                    <p class="card-text"><small class="text-muted">5-10 min walking</small></p>
-                  </div>
-                </div>
-              </div> 
-            </div>
-            <a class="carousel-control-prev" href="#card-carousel" role="button" data-slide="prev">
+          <div id="under-10-mins-away" class="carousel slide" data-interval="false">
+            <div class="carousel-inner row w-100 mx-auto"></div>
+            <a class="carousel-control-prev" href="#under-10-mins-away" role="button" data-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="sr-only">Previous</span>
             </a>
-            <a class="carousel-control-next" href="#card-carousel" role="button" data-slide="next">
+            <a class="carousel-control-next" href="#under-10-mins-away" role="button" data-slide="next">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="sr-only">Next</span>
             </a>
@@ -166,50 +107,13 @@
               <button class="view-all">View all ></button>
             </div>
           </div>
-          <div id="card-carousel" class="carousel slide" data-interval="false">
-            <div class="carousel-inner row w-100 mx-auto">
-              <div class="carousel-item col-md-4 active">
-                <div class="card">
-                  <img class="card-img-top img-fluid" src="images/chinese_food.jpg" alt="Card image cap">
-                  <div class="card-body">
-                    <p class="card-text">Main Garden</p>
-                    <p class="card-text"><small class="text-muted">5-10 min walking</small></p>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item col-md-4">
-                <div class="card">
-                  <img class="card-img-top img-fluid" src="images/cupcakes.png" alt="Card image cap">
-                  <div class="card-body">
-                    <p class="card-text">Cupcakin' Bake Shop</p>
-                    <p class="card-text"><small class="text-muted">15-20 min walking</small></p>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item col-md-4">
-                <div class="card">
-                  <img class="card-img-top img-fluid" src="images/indian_food.jpg" alt="Card image cap">
-                  <div class="card-body">
-                    <p class="card-text">Vik's Chaat</p>
-                    <p class="card-text"><small class="text-muted">10-15 min walking</small></p>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item col-md-4">
-                <div class="card">
-                  <img class="card-img-top img-fluid" src="images/louisiana_kitchen.jpg" alt="Card image cap">
-                  <div class="card-body">
-                    <p class="card-title">Angeline's Louisiana Kitchen</p>
-                    <p class="card-text"><small class="text-muted">5-10 min walking</small></p>
-                  </div>
-                </div>
-              </div> 
-            </div>
-            <a class="carousel-control-prev" href="#card-carousel" role="button" data-slide="prev">
+          <div id="trending-near-you" class="carousel slide" data-interval="false">
+            <div class="carousel-inner row w-100 mx-auto"></div>
+            <a class="carousel-control-prev" href="#trending-near-you" role="button" data-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="sr-only">Previous</span>
             </a>
-            <a class="carousel-control-next" href="#card-carousel" role="button" data-slide="next">
+            <a class="carousel-control-next" href="#trending-near-you" role="button" data-slide="next">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="sr-only">Next</span>
             </a>
@@ -221,50 +125,13 @@
               <button class="view-all">View all ></button>
             </div>
           </div>
-          <div id="card-carousel" class="carousel slide" data-interval="false">
-            <div class="carousel-inner row w-100 mx-auto">
-              <div class="carousel-item col-md-4 active">
-                <div class="card">
-                  <img class="card-img-top img-fluid" src="images/chinese_food.jpg" alt="Card image cap">
-                  <div class="card-body">
-                    <p class="card-text">Main Garden</p>
-                    <p class="card-text"><small class="text-muted">5-10 min walking</small></p>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item col-md-4">
-                <div class="card">
-                  <img class="card-img-top img-fluid" src="images/cupcakes.png" alt="Card image cap">
-                  <div class="card-body">
-                    <p class="card-text">Cupcakin' Bake Shop</p>
-                    <p class="card-text"><small class="text-muted">15-20 min walking</small></p>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item col-md-4">
-                <div class="card">
-                  <img class="card-img-top img-fluid" src="images/indian_food.jpg" alt="Card image cap">
-                  <div class="card-body">
-                    <p class="card-text">Vik's Chaat</p>
-                    <p class="card-text"><small class="text-muted">10-15 min walking</small></p>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item col-md-4">
-                <div class="card">
-                  <img class="card-img-top img-fluid" src="images/louisiana_kitchen.jpg" alt="Card image cap">
-                  <div class="card-body">
-                    <p class="card-title">Angeline's Louisiana Kitchen</p>
-                    <p class="card-text"><small class="text-muted">5-10 min walking</small></p>
-                  </div>
-                </div>
-              </div> 
-            </div>
-            <a class="carousel-control-prev" href="#card-carousel" role="button" data-slide="prev">
+          <div id="up-and-coming" class="carousel slide" data-interval="false">
+            <div class="carousel-inner row w-100 mx-auto"></div>
+            <a class="carousel-control-prev" href="#up-and-coming" role="button" data-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="sr-only">Previous</span>
             </a>
-            <a class="carousel-control-next" href="#card-carousel" role="button" data-slide="next">
+            <a class="carousel-control-next" href="#up-and-coming" role="button" data-slide="next">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="sr-only">Next</span>
             </a>
@@ -272,5 +139,6 @@
           <!-- /.Card Carousels -->
       </div>
     </div>
+    <div id="card-container"></div>
   </body>
 </html>

@@ -1,21 +1,324 @@
+:root {
+  /* Color variables */
+  --default-hover-seagreen-color: #87C4AD;
+  --default-text-color: #707070;
+  --input-text-color: #707070;
+  --landing-subtitle-text-color: #707070;
+  --navbar-text-color: #707070;
+  --navbar-hover-text-color: #87C4AD;
+  --seagreen-bg-color: #C7EADD;
+  --title-text-color: #707070;
+  --white-bg-color: #ffffff;
+  --white-text-color: #ffffff;
+
+  --neutral-color: #707070;
+  --neutral-light-color: #BABABA;
+  --neutral-lighter-color: #F4F4F4;
+  --neutral-lightest-color: #FFFFFF;
+  --primary-color: #C7EADD;
+  --primary-dark-color: #87C4AD;
+
+  /* Element sizes */
+  --authentication-subwrapper-height: 435px;
+  --authentication-button-border-radius: 50px;
+  --authentication-button-height: 89px;
+  --authentication-button-width: 525px;
+  --container-width: 1090px;
+  --landing-subwrapper-height: 870px;
+  --landing-title-line-height: 90px;
+  --landing-search-box-height: 62px;
+  --landing-search-box-width: 922px;
+  --landing-search-box-padding-left: 20px;
+  --login-chip-border-radius: 30px;
+  --login-chip-height: 45px;
+  --login-chip-width: 110px;
+  --navbar-avatar-height: 45px;
+  --navbar-avatar-width: 45px;
+  --navbar-height: 105px;
+  --screen-height: 1080px;
+  --header-height: 585px;
+  --header-title-line-height: 90px;
+
+  /* Padding sizes */
+  --cluster-padding: 135px;
+
+  /* Font properties */
+  --authentication-subtitle-font-size: 29px;
+  --authentication-subtitle-font-weight: 300;
+  --authentication-subtitle-link-font-weight: 800;
+  --authentication-title-font-size: 60px;
+  --authentication-title-font-weight: 800;
+  --authentication-button-text-font-size: 30px;
+  --navbar-brand-font-size: 30px;
+  --navbar-brand-font-weight: 800;
+  --navbar-link-font-size: 20px;
+  --navbar-link-font-weight: 700;
+  --landing-title-font-size: 70px;
+  --landing-title-font-weight: 800;
+  --landing-search-box-font-size: 22px;
+  --landing-search-box-font-weight: 300px;
+  --landing-subtitle-font-size: 27px;
+  --landing-subtitle-font-weight: 700;
+  --header-title-font-size:  50px;
+  --header-title-font-weight: 800;
+  --cluster-title-font-size: 25px;
+  --cluster-small-font-size: 18px;
+}
+
+/* Applies to all */
+* {
+  font-family: 'Nunito Sans', serif;
+}
+
+.container {
+  width: var(--container-width);
+}
+
+.italic-text {
+  font-style: italic;
+}
+
+/* Navbar */
+#wrapper {
+  align-items: center;
+  display: flex;
+  height: var(--navbar-height);
+  justify-content: center;
+}
+
+.custom-container {
+  width: var(--container-width);
+}
+
+.navbar-brand {
+  color: var(--navbar-text-color);
+  font-size: var(--navbar-brand-font-size);
+  font-weight: var(--navbar-brand-font-weight);
+}
+
+.navbar-brand:hover {
+  color: var(--navbar-hover-text-color);
+}
+
+.nav-link {
+  color: var(--navbar-text-color);
+  font-size: var(--navbar-link-font-size);
+  font-weight: var(--navbar-link-font-weight);
+}
+
+.login-chip {
+  border: 1px solid var(--navbar-text-color);
+  border-radius: var(--login-chip-border-radius);
+  height: var(--login-chip-height);
+  text-align: center;
+  width: var(--login-chip-width);
+}
+
+.login-chip:hover {
+  border: 1px solid var(--navbar-hover-text-color);
+  color: var(--navbar-hover-text-color);
+}
+
+.rounded-circle.z-depth-0 {
+  height: var(--navbar-avatar-height);
+  width: var(--navbar-avatar-weight);
+}
+
+/* Landing page */
+
+.seagreen-background-initial {
+  background-color: var(--seagreen-bg-color);
+  height: var(--screen-height);
+}
+
+.landing-subwrapper {
+  display: flex;
+  flex-direction: column;
+  height: var(--landing-subwrapper-height);
+  justify-content: center;
+}
+
+.landing-title-text {
+  color: var(--title-text-color);
+  font-size: var(--landing-title-font-size);
+  font-weight: var(--landing-title-font-weight);
+  line-height: var(--landing-title-line-height);
+}
+
+.landing-subtitle-text {
+  color: var(--landing-subtitle-text-color);
+  font-size: var(--landing-subtitle-font-size);
+  font-weight: var(--landing-subtitle-font-weight);
+}
+
+.address-input {
+  border: none;
+  height: var(--landing-search-box-height);
+  width: var(--landing-search-box-width);
+}
+
+.address-input[type=text] {
+  padding: 0px 20px;
+  margin: 10px 0;
+  font-size: var(--landing-search-box-font-size);
+  font-weight: var(--landing-search-box-font-weight);
+  color: var(--input-text-color);
+}
+
+.address-input:focus {
+  outline: none; 
+}
+
+/* Applies to all authentication pages */
+.white-background-initial {
+  height: var(--screen-height);
+}
+
+.authentication-subwrapper-one {
+  display: flex;
+  flex-direction: column;
+  height: var(--authentication-subwrapper-height);
+  justify-content: center;
+  align-items: center;
+}
+
+.authentication-title-text {
+  color: var(--title-text-color);
+  font-size: var(--authentication-title-font-size);
+  font-weight: var(--authentication-title-font-weight);
+}
+
+.authentication-subtitle-text {
+  color: var(--title-text-color);
+  font-size: var(--authentication-subtitle-font-size);
+  font-weight: var(--authentication-subtitle-font-weight);
+}
+
+.authentication-subwrapper-two {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-type-button {
+  background: var(--seagreen-bg-color);
+  border: none;
+  border-radius: var(--authentication-button-border-radius);
+  color: var(--default-text-color);
+  font-size: var(--authentication-button-text-font-size);
+  height: var(--authentication-button-height);
+  margin: 0px 0px 40px 0px;
+  width: var(--authentication-button-width);
+}
+
+.user-type-button:hover, .user-type-button:active {
+  background-color: var(--default-hover-seagreen-color);
+  border: none;
+  color: var(--white-text-color);
+}
+
+.user-type-button:active {
+  transform: translateY(2px);
+}
+
+.user-type-button:focus {
+  outline: none;
+}
+
+.authentication-posttext h2 {
+  color: var(--default-text-color);
+  font-size: var(--authentication-subtitle-font-size);
+  font-weight: var(--authentication-subtitle-font-weight);
+}
+
+.authentication-posttext a {
+  color: var(--default-hover-seagreen-color);
+  font-weight: var(--authentication-subtitle-link-font-weight);
+  text-decoration: none;
+}
+
+/* Main page */
+.main-page-header {
+   background-color: var(--primary-color);
+   height: var(--header-height);
+}
+.header-subwrapper {
+  display: flex;
+  flex-direction: column;
+  height: var(--header-height);
+  justify-content: center;
+}
+
+.header-title-text {
+  color: var(--neutral-color);
+  font-size: var(--header-title-font-size);
+  font-weight: var(--header-title-font-weight);
+  line-height: var(--header-title-line-height);
+}
+
+.clusters-container{
+  padding-bottom: var(--cluster-padding);
+}
+
+.cluster-title-container {
+  padding-top: var(--cluster-padding);
+  padding-bottom: 20px;
+  width: var(--container-width);
+  align-self: center;
+  padding-left: 15px;
+  font-size: var(--cluster-title-font-size);
+  color: var(--neutral-color);
+}
+
+.cluster-title {
+  font-weight: var(--navbar-brand-font-weight);
+  padding-bottom: -10px;
+}
+
+.cluster-title-button {
+  margin-left: 87%;
+  margin-top: -57px;
+}
+
+.view-all {
+  border: none;
+  background-color: inherit;
+  padding: 14px 28px;
+  font-size: var(--cluster-small-font-size);
+  cursor: pointer;
+  display: inline-block;
+  color: var(--neutral-light-color);
+}
+
+.view-all:focus {
+  outline: none;
+}
+
+/* On mouse-over */
+.view-all:hover {
+  color: var(--neutral-color);
+}
+
 .card-img-top {
-    width: 100%;
-    height: 7vw;
-    object-fit: cover;
+  width: 100%;
+  height: 11vw;
+  object-fit: cover;
 }
 
-.card {
-    width: 500px;
-    height: 350px
+.card-text {
+  font-size: var(--cluster-small-font-size);
+  font-weight: var(--navbar-brand-font-weight);
+  color: var(--title-text-color);
+  height: 20px;
 }
 
-#cardCarousel {
-    width: 1090px;
+.carousel slide {
+  width: var(--container-width);
 }
 
-/**make carousel responsive to screen size **/
+/* Make carousel responsive to screen size */
 @media (min-width: 768px) {
-  /* show 3 items */
+  /* Show 3 items */
   .carousel-inner .active,
   .carousel-inner .active + .carousel-item,
   .carousel-inner .active + .carousel-item + .carousel-item {
@@ -54,7 +357,7 @@
     visibility: visible;
   }
 
-  /* left or forward direction */
+  /* Left or forward direction */
   .active.carousel-item-left + .carousel-item-next.carousel-item-left,
   .carousel-item-next.carousel-item-left + .carousel-item,
   .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item,
@@ -68,7 +371,7 @@
     visibility: visible;
   }
 
-  /* farthest right hidden item must be abso position for animations */
+  /* Farthest right hidden item must be abso position for animations */
   .carousel-inner .carousel-item-prev.carousel-item-right {
     position: absolute;
     top: 0;
@@ -78,7 +381,7 @@
     visibility: visible;
   }
 
-  /* right or prev direction */
+  /* Right or prev direction */
   .active.carousel-item-right + .carousel-item-prev.carousel-item-right,
   .carousel-item-prev.carousel-item-right + .carousel-item,
   .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item,
@@ -91,6 +394,4 @@
             transform: translate3d(100%, 0, 0);
     visibility: visible;
     display: block;
-    visibility: visible;
-  }
-}
+  }}
