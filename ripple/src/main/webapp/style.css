@@ -499,13 +499,13 @@
 .post-container {
   margin-left: auto;
   margin-right: auto;
-  width: 560px;
+  width: 600px;
 }
 
 .post-subwrapper {
   margin-left: auto;
   margin-right: auto;
-  width: 525px;
+  width: 560px;
 }
 
 .post {
@@ -529,7 +529,6 @@
   padding-top: 12px;
 }
 
-
 .boldest-text {
   font-weight: var(--boldest-font-weight);
 }
@@ -544,13 +543,13 @@
 }
 
 .post-photo {
-  height: 450px;
+  height: 550px;
   width: 100%;
 }
 
 .post-line-height p {
   margin: 0;
-  padding-bottom:2px;
+  padding-bottom: 2px;
 }
 
 .post-view-all {
