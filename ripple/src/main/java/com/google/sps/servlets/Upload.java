@@ -30,7 +30,6 @@ public class Upload extends HttpServlet {
       res.sendRedirect("/");
     } else {
       System.out.println("Success: redirected to Serve.java");
-      //   res.sendRedirect("/accountsettings.html?blob-key=" + blobKeys.get(0).getKeyString());
       res.sendRedirect("/" + webUrl + "?blob-key=" + blobKeys.get(0).getKeyString());
     }
   }
