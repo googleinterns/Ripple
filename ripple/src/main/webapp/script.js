@@ -40,9 +40,8 @@ function addComment(e) {
   }
 }
 
-/* creates blobstoreUrl for user profile image to firestore */
+/* creates blobstoreUrl for image to firestore */
 function fetchBlobstoreUploadUrl(formId, fileId, webUrl) {
-  console.log("called fetchBlobstoreUpload(" + formId + ", " + fileId + ")");
   fetch('/blobstore-upload-url?file-id=' + fileId + '&web-url=' + webUrl)
       .then((response) => {
         return response.text();

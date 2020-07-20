@@ -23,8 +23,6 @@ public class Upload extends HttpServlet {
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
     String fileId = getParameter(req, "file-id", "");
     String webUrl = getParameter(req, "web-url", "");
-    System.out.println("webUrl=" + webUrl);
-    System.out.println("fileId= " + fileId);
     List<BlobKey> blobKeys = blobs.get(fileId);
 
     if (blobKeys == null || blobKeys.isEmpty()) {

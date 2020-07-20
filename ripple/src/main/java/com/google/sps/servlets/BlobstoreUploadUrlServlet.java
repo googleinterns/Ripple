@@ -37,7 +37,6 @@ public class BlobstoreUploadUrlServlet extends HttpServlet {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     String fileId = getParameter(req, "file-id", "");
     String webUrl = getParameter(req, "web-url", "");
-    System.out.println("webUrl=" + webUrl);
     String blobstoreUploadUrl = blobstoreService.createUploadUrl("/upload?file-id=" + fileId + "&web-url=" + webUrl);
     res.setContentType("text/html");
     res.getWriter().println(blobstoreUploadUrl);
