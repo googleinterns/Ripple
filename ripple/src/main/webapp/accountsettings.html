@@ -69,8 +69,7 @@
                 <li class="nav-item avatar dropdown">
                   <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false">
-                    <img id="nav-bar-avatar" class="rounded-circle z-depth-0"
-                        alt="avatar image">
+                    <img id="nav-bar-avatar" class="rounded-circle z-depth-0">
                   </a>
                   <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
                       aria-labelledby="navbarDropdownMenuLink-55">
@@ -98,11 +97,11 @@
     <div class = "container">
       <div class="row">
         <div class="col-4 align-center avatar-padding-top">
-          <img id="profile-image" alt="Blobstore image" class="profile-photo-cropped">
-          <form id="user-profile-form" onchange="fetchBlobstoreUploadUrl()" method="post" enctype="multipart/form-data">
+          <img id="profile-image" class="profile-photo-cropped" width="110px" height="110px">
+          <form id="user-profile-form" onchange="fetchBlobstoreUploadUrl('user-profile-form', 'file', 'accountsettings.html')" method="post" enctype="multipart/form-data">
             <input id="file" type="file" name="file" style="display: none;">
           </form><br/>
-          <button class="upload-photo-button" type="button" onclick="selectFile()"><img id="camera-icon-id"> Change photo</button>
+          <button class="upload-photo-button" type="button" onclick="selectFile('file')"><img id="camera-icon-id"> Change photo</button>
         </div>
         <div class="col-8">
           <h3 class="acct-info-subtitle acct-padding-top">Account details</h3>

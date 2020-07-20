@@ -41,17 +41,17 @@ function addComment(e) {
 }
 
 /* creates blobstoreUrl for user profile image to firestore */
-function fetchBlobstoreUploadUrl() {
-  console.log("called fetchBlobstoreUpload()");
-  fetch('/blobstore-upload-url')
+function fetchBlobstoreUploadUrl(formId, fileId, webUrl) {
+  console.log("called fetchBlobstoreUpload(" + formId + ", " + fileId + ")");
+  fetch('/blobstore-upload-url?file-id=' + fileId + '&web-url=' + webUrl)
       .then((response) => {
         return response.text();
       })
       .then((blobstoreUploadUrl) => {
-        const userProfileForm = document.getElementById("user-profile-form");
-        userProfileForm.action = blobstoreUploadUrl;
+        const form = document.getElementById(formId);
+        form.action = blobstoreUploadUrl;
         console.log("fetched blobstoreUploadUrl: " + blobstoreUploadUrl);
-        userProfileForm.submit();
+        form.submit();
       });
 }
 
@@ -62,8 +62,8 @@ function loadAcctSettingsIcons() {
 }
 
 /* Clicks button to insert file on Account Settings page */
-function selectFile() {
-  document.getElementById("file").click();
+function selectFile(fileId) {
+  document.getElementById(fileId).click();
 }
 
 function viewAllPostComments() {

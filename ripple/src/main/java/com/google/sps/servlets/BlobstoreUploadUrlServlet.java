@@ -31,12 +31,23 @@ import javax.servlet.http.HttpServletResponse;
 public class BlobstoreUploadUrlServlet extends HttpServlet {
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
     // Store the blob and add blob info to datastore
     System.out.println("BlobstoreUploadUrlServlet called to create blobstore path");
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    String blobstoreUploadUrl = blobstoreService.createUploadUrl("/upload");
-    response.setContentType("text/html");
-    response.getWriter().println(blobstoreUploadUrl);
+    String fileId = getParameter(req, "file-id", "");
+    String webUrl = getParameter(req, "web-url", "");
+    System.out.println("webUrl=" + webUrl);
+    String blobstoreUploadUrl = blobstoreService.createUploadUrl("/upload?file-id=" + fileId + "&web-url=" + webUrl);
+    res.setContentType("text/html");
+    res.getWriter().println(blobstoreUploadUrl);
+  }
+
+  private String getParameter(HttpServletRequest req, String name, String defaultValue) {
+    String value = req.getParameter(name);
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
   }
 }
