@@ -13,7 +13,7 @@
   --chip-border-radius: 30px;
   --container-width: 1090px;
   --screen-height: 1080px;
-  --header-height: 585px;
+  --header-height: 455px;
   --header-title-line-height: 90px;
 
   /* Font properties */
@@ -50,6 +50,10 @@
 
 .italic-text {
   font-style: italic;
+}
+
+.image-resizing {
+  object-fit: cover;
 }
 
 /* Applies to main page, acct settings, more */
@@ -275,9 +279,7 @@
 .profile-photo-cropped {
   border: 1px solid var(--neutral-color);
   border-radius: 50%;
-  height: 110px;
   object-fit: cover;
-  width: 110px;
 }
 
 .align-center {
@@ -334,7 +336,7 @@
 .header-subwrapper {
   display: flex;
   flex-direction: column;
-  height: var(--header-height);
+  height: 350px;
   justify-content: center;
 }
 
@@ -484,3 +486,111 @@
     visibility: visible;
     display: block;
   }}
+
+  /* Post page */
+.half-bg-primary-color {
+  background-color: var(--primary-color);
+  height: var(--header-height);
+}
+
+.post-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 600px;
+}
+
+.post-subwrapper {
+  margin-left: auto;
+  margin-right: auto;
+  width: 560px;
+}
+
+.post {
+  border: 1px solid var(--neutral-light-color);
+  color: var(--neutral-color);
+  font-size: 16px;
+  font-weight: var(--medium-font-weight);
+  margin-top: 80px;
+}
+
+.post-header {
+  display: flex;
+  line-height: 6px;
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+  line-height: 25px;
+  padding-bottom: 3px;
+  padding-top: 12px;
+}
+
+.boldest-text {
+  font-weight: var(--boldest-font-weight);
+}
+
+.post-margin-right {
+  margin-right: 0px;
+}
+
+.post-user-business {
+  padding-left: 15px;
+  padding-top: 8px;
+}
+
+.post-photo {
+  height: 550px;
+  width: 100%;
+}
+
+.post-line-height p {
+  margin: 0;
+  padding-bottom: 2px;
+}
+
+.post-view-all {
+  font-weight: var(--boldest-font-weight);
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.post-profile-photo {
+  border: 1px solid var(--neutral-light-color);
+  border-radius: 50%;
+  height: 45px;
+  object-fit: cover;
+  width: 45px;
+}
+
+.post-comments {
+  border: none;
+  height: 40px;
+  width: 100%;
+  resize: none;
+  color: var(--neutral-color);
+}
+
+.post-comments::placeholder {
+  color: var(--neutral-light-color);
+}
+
+.post-comments:focus {
+  outline: none; 
+}
+
+.line-break-lighter {
+  border-top: 1px solid var(--neutral-lighter-color);
+}
+
+.post-share-icon {
+  height: 22px;
+  margin-top: 10px;
+  width: 22px;
+}
+
+.heart-icon {
+  height: 20px;
+  margin-bottom: 7px;
+  width: 20px;
+}

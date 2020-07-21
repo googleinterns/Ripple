@@ -65,7 +65,6 @@ function searchAddressAutocomplete() {
             (place.address_components[2] && place.address_components[2].short_name || '')
         ].join(' ');
         }
-        alert(address);
 
         //Convert address if user clicks on the autocomplete suggestion
         convertAddressToCoord(address);
@@ -153,29 +152,34 @@ function addDynamicCarousel(carouselId, tag) {
         if (makeElement) {
           var carouselElement = document.getElementById(carouselId);
           var carouselInner = carouselElement.getElementsByClassName('carousel-inner row w-100 mx-auto')[0];
-          alert(contentStrings.join("\n"));
           carouselInner.innerHTML = contentStrings.join("\n");
-          alert(document.getElementById('card-dynamic-image').src);
           carouselInner.firstElementChild.className += " active";
           $(carouselElement).carousel({slide : true, interval : false});
         }
    });
 }
 
-/* Blobstore functions. */
+/* Blobstore and post functions. */
 
-/* creates blobstoreUrl for user profile image to firestore */
-function fetchBlobstoreUploadUrl() {
-  console.log("called fetchBlobstoreUpload()");
-  fetch('/blobstore-upload-url')
+/* Display an alert if user presses enter to comment on a post */
+function addComment(e) {
+  comment = document.getElementById("add-comment").value;
+  if (e.keyCode === 13) {
+    alert("You are commenting: " + comment);
+  }
+}
+
+/* creates blobstoreUrl for image to firestore */
+function fetchBlobstoreUploadUrl(formId, fileId, webUrl) {
+  fetch('/blobstore-upload-url?file-id=' + fileId + '&web-url=' + webUrl)
       .then((response) => {
         return response.text();
       })
       .then((blobstoreUploadUrl) => {
-        const userProfileForm = document.getElementById("user-profile-form");
-        userProfileForm.action = blobstoreUploadUrl;
+        const form = document.getElementById(formId);
+        form.action = blobstoreUploadUrl;
         console.log("fetched blobstoreUploadUrl: " + blobstoreUploadUrl);
-        userProfileForm.submit();
+        form.submit();
       });
 }
 
@@ -186,6 +190,10 @@ function loadAcctSettingsIcons() {
 }
 
 /* Clicks button to insert file on Account Settings page */
-function selectFile() {
-  document.getElementById("file").click();
+function selectFile(fileId) {
+  document.getElementById(fileId).click();
+}
+
+function viewAllPostComments() {
+  alert("Fetch all comments for this post!");
 }

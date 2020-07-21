@@ -1,22 +1,17 @@
-//import * as geofirestore from 'https://unpkg.com/geofirestore/dist/geofirestore.js';
 /* Address input and manipulation functions. */
 
-/* Function that takes the user input and converts it to latitude and longitude coordinates. */
+/* Function that takes the user inputted address and converts it to latitude and longitude coordinates. */
 function convertAddressToCoord(address) {
   var geocoder = new google.maps.Geocoder();
-  alert(address);
   geocoder.geocode( { 'address': address}, function(results, status) {
     if (status == 'OK') {
-        alert(status);
+      //Stores user's latitude and longitude in localStorage, to be used for computing walking distance
       localStorage.setItem('enteredLat', results[0].geometry.location.lat());
       localStorage.setItem('enteredLong', results[0].geometry.location.lng());
-      alert(typeof localStorage.getItem('enteredLat'));
-      alert(typeof localStorage.getItem('enteredLong'));
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }
   });
-  //convertCoordToCity(geocoder);
 }
 
 //TODO: use latitude and longitude to query businesses within a certain radius in future, when Firestore allows for Geopoint queries
@@ -26,10 +21,9 @@ function convertCoordToCity() {
   var latlng = { lat: parseFloat(localStorage.getItem('enteredLat')), lng: parseFloat(localStorage.getItem('enteredLong'))};
   geocoder.geocode({ location: latlng }, function(results, status) {
     if (status === "OK") {
-      alert(status);
       if (results[0]) {
+        //Stores user's city in localStorage, to be used in the main page query
         localStorage.setItem('enteredCity', getAddressComponent(results[0].address_components, 'locality'));
-        alert(localStorage.getItem('enteredCity'));
       } else {
         window.alert("No results found");
       }
@@ -39,11 +33,13 @@ function convertCoordToCity() {
   });
 }
 
-/* When a list of address components and the type is specified, returns the long name of the type requested. */
+/* When a list of address components and the type is specified, returns the long name of the type requested. Uses map and filter to parse
+   the address_components arrays. */
 function getAddressComponent(components, type) {
   return components.filter((component) => component.types.indexOf(type) === 0).map((item) => item.long_name).pop() || null;
 }
 
+/* Function that utilizes the Place API to implement an autocomplete feature when a user is entering an address. */
 function searchAddressAutocomplete() {
     var input = document.getElementById('address-input');
     var autocomplete = new google.maps.places.Autocomplete(input);
@@ -55,11 +51,12 @@ function searchAddressAutocomplete() {
     autocomplete.addListener('place_changed', function() {
         var place = autocomplete.getPlace();
         if (!place.geometry) {
-        // User entered the name of a Place that was not suggested and
-        // pressed the Enter key, or the Place Details request failed.
+          // User entered the name of a Place that was not suggested and pressed the Enter key, or the Place Details request failed.
+          //Use searchAddress function instead to handle queries not made through the autocomplete feature.
           searchAddress(event);
         }
 
+        //Reconstruct address from the place API components
         var address = '';
         if (place.address_components) {
         address = [
@@ -68,7 +65,6 @@ function searchAddressAutocomplete() {
             (place.address_components[2] && place.address_components[2].short_name || '')
         ].join(' ');
         }
-        alert(address);
 
         //Convert address if user clicks on the autocomplete suggestion
         convertAddressToCoord(address);
@@ -88,9 +84,9 @@ function searchAddress(e) {
   return false;
 }
 
-/* Carousel functions. */
+/* Dynamic Carousel functions. */
 
-/* Carousel function that allows cards to move to the left or right by one. */
+/* Carousel function that allows cards to move to the left or right by one. Establishes functionality of the carousel. */
   $("#card-carousel1").on("slide.bs.carousel", function(e) {
     var $e = $(e.relatedTarget);
     var idx = $e.index();
@@ -115,31 +111,7 @@ function searchAddress(e) {
     }
   });
 
-function geoQuery() {
-  //const GeoFirestore = geofirestore.initializeApp(db);
-  var GeoFirestore = new GeoFirestore(db);
-  // Create a GeoCollection reference
-  const geocollection = GeoFirestore.collection('businesses');
-
-  // Add a GeoDocument to a GeoCollection
-  geocollection.add({
-    name: 'Geofirestore',
-    score: 100,
-    // The coordinates field must be a GeoPoint!
-    coordinates: new db.GeoPoint(40.7589, -73.9851)
-  })
-
-  // Create a GeoQuery based on a location
-  const query = geocollection.near({ center: new db.GeoPoint(40.7589, -73.9851), radius: 1000 });
-
-  // Get query (as Promise)
-  query.get().then((value) => {
-    // All GeoDocument returned by GeoQuery, like the GeoDocument added above
-    console.log(value.docs);
-  });
-}
-
-/* Code to dynamically load carousels. */
+/* Code to dynamically load carousels. Calls addDynamicCarousel function to populate the carousels. */
 function loadCarousels() {
     addDynamicCarousel("black-owned-businesses", "Black-owned");
     addDynamicCarousel("under-10-mins-away", "5-10");
@@ -147,17 +119,20 @@ function loadCarousels() {
     addDynamicCarousel("up-and-coming", "New");
 }
 
+/* Dynamically loads content into Bootstrap carousel by reconstructing HTML elements and making a Firestore query. */
 function addDynamicCarousel(carouselId, tag) {
     db.collection("businessClusters").get().then((querySnapshot) => {
         var contentStrings = [];
         var makeElement = false;
         querySnapshot.forEach((doc) => {
+            //Check if the city in Firestore matches the city extracted from the user inputted address.
+            //Also checks if the business's tag list contains the tag that the carousel requires.
             if (doc.data().city == localStorage.getItem('enteredCity') && doc.data().tags[tag] == true) {
               makeElement = true;
               const card = document.createElement('div');
               card.classList = 'carousel-inner row w-100 mx-auto';
 
-            // Construct card content
+            // Construct card content by appending HTML strings
               var content = `
                 <div class="carousel-item col-md-4">
                 <div class="card">
@@ -169,6 +144,7 @@ function addDynamicCarousel(carouselId, tag) {
                 </div>
                 </div>
               `;
+              //Add every line of reconstructed HTML to contentStrings array
               contentStrings.push(content);
             }
         });
@@ -176,31 +152,34 @@ function addDynamicCarousel(carouselId, tag) {
         if (makeElement) {
           var carouselElement = document.getElementById(carouselId);
           var carouselInner = carouselElement.getElementsByClassName('carousel-inner row w-100 mx-auto')[0];
-          alert(contentStrings.join("\n"));
           carouselInner.innerHTML = contentStrings.join("\n");
-          alert(document.getElementById('card-dynamic-image').src);
           carouselInner.firstElementChild.className += " active";
           $(carouselElement).carousel({slide : true, interval : false});
         }
    });
 }
 
+/* Blobstore and post functions. */
 
+/* Display an alert if user presses enter to comment on a post */
+function addComment(e) {
+  comment = document.getElementById("add-comment").value;
+  if (e.keyCode === 13) {
+    alert("You are commenting: " + comment);
+  }
+}
 
-/* Blobstore functions. */
-
-/* creates blobstoreUrl for user profile image to firestore */
-function fetchBlobstoreUploadUrl() {
-  console.log("called fetchBlobstoreUpload()");
-  fetch('/blobstore-upload-url')
+/* creates blobstoreUrl for image to firestore */
+function fetchBlobstoreUploadUrl(formId, fileId, webUrl) {
+  fetch('/blobstore-upload-url?file-id=' + fileId + '&web-url=' + webUrl)
       .then((response) => {
         return response.text();
       })
       .then((blobstoreUploadUrl) => {
-        const userProfileForm = document.getElementById("user-profile-form");
-        userProfileForm.action = blobstoreUploadUrl;
+        const form = document.getElementById(formId);
+        form.action = blobstoreUploadUrl;
         console.log("fetched blobstoreUploadUrl: " + blobstoreUploadUrl);
-        userProfileForm.submit();
+        form.submit();
       });
 }
 
@@ -211,6 +190,10 @@ function loadAcctSettingsIcons() {
 }
 
 /* Clicks button to insert file on Account Settings page */
-function selectFile() {
-  document.getElementById("file").click();
+function selectFile(fileId) {
+  document.getElementById(fileId).click();
+}
+
+function viewAllPostComments() {
+  alert("Fetch all comments for this post!");
 }
