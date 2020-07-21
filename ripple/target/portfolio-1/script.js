@@ -1,3 +1,95 @@
+//import * as geofirestore from 'https://unpkg.com/geofirestore/dist/geofirestore.js';
+/* Address input and manipulation functions. */
+
+/* Function that takes the user input and converts it to latitude and longitude coordinates. */
+function convertAddressToCoord(address) {
+  var geocoder = new google.maps.Geocoder();
+  alert(address);
+  geocoder.geocode( { 'address': address}, function(results, status) {
+    if (status == 'OK') {
+        alert(status);
+      localStorage.setItem('enteredLat', results[0].geometry.location.lat());
+      localStorage.setItem('enteredLong', results[0].geometry.location.lng());
+      alert(typeof localStorage.getItem('enteredLat'));
+      alert(typeof localStorage.getItem('enteredLong'));
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+  //convertCoordToCity(geocoder);
+}
+
+//TODO: use latitude and longitude to query businesses within a certain radius in future, when Firestore allows for Geopoint queries
+/* Given a latitude and longitude, finds the name of the city in the US with those coordinates. */
+function convertCoordToCity() {
+  var geocoder = new google.maps.Geocoder();
+  var latlng = { lat: parseFloat(localStorage.getItem('enteredLat')), lng: parseFloat(localStorage.getItem('enteredLong'))};
+  geocoder.geocode({ location: latlng }, function(results, status) {
+    if (status === "OK") {
+      alert(status);
+      if (results[0]) {
+        localStorage.setItem('enteredCity', getAddressComponent(results[0].address_components, 'locality'));
+        alert(localStorage.getItem('enteredCity'));
+      } else {
+        window.alert("No results found");
+      }
+    } else {
+      window.alert("Geocoder failed due to: " + status);
+    }
+  });
+}
+
+/* When a list of address components and the type is specified, returns the long name of the type requested. */
+function getAddressComponent(components, type) {
+  return components.filter((component) => component.types.indexOf(type) === 0).map((item) => item.long_name).pop() || null;
+}
+
+function searchAddressAutocomplete() {
+    var input = document.getElementById('address-input');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+
+    // Set the data fields to return when the user selects a place.
+    autocomplete.setFields(
+        ['address_components', 'geometry', 'icon', 'name']);
+
+    autocomplete.addListener('place_changed', function() {
+        var place = autocomplete.getPlace();
+        if (!place.geometry) {
+        // User entered the name of a Place that was not suggested and
+        // pressed the Enter key, or the Place Details request failed.
+          searchAddress(event);
+        }
+
+        var address = '';
+        if (place.address_components) {
+        address = [
+            (place.address_components[0] && place.address_components[0].short_name || ''),
+            (place.address_components[1] && place.address_components[1].short_name || ''),
+            (place.address_components[2] && place.address_components[2].short_name || '')
+        ].join(' ');
+        }
+        alert(address);
+
+        //Convert address if user clicks on the autocomplete suggestion
+        convertAddressToCoord(address);
+        convertCoordToCity();
+        window.location.assign("main.html");
+    });
+}
+
+/* Display an alert containing the inputted address if user presses enter */
+function searchAddress(e) {
+  if (e.keyCode === 13) {
+    var address = document.getElementById('address-input').value;
+    convertAddressToCoord(address);
+    convertCoordToCity();
+    window.location.assign("main.html");
+  }
+  return false;
+}
+
+/* Carousel functions. */
+
 /* Carousel function that allows cards to move to the left or right by one. */
   $("#card-carousel1").on("slide.bs.carousel", function(e) {
     var $e = $(e.relatedTarget);
@@ -23,97 +115,79 @@
     }
   });
 
+function geoQuery() {
+  //const GeoFirestore = geofirestore.initializeApp(db);
+  var GeoFirestore = new GeoFirestore(db);
+  // Create a GeoCollection reference
+  const geocollection = GeoFirestore.collection('businesses');
 
-/* Display an alert containing the inputted address if user presses enter */
-function searchAddress(e) {
-  addressInput = document.getElementById("address-input").value;
-  if (e.keyCode === 13) {
-    alert("You are searching: " + addressInput);
-  }
-  window.location.assign("main.html");
-  return false;
-}
-
-/* Query a singular business from the datastore. */
-function queryBusiness() {
-   db.collection("businessClusters").get().then((querySnapshot) => {
-       querySnapshot.forEach((doc) => {
-           console.log(doc.data().name);
-       });
-   });
-}
-
-/*Write a singular business to the datastore. */
-function writeBusiness() {
-  // Add a new document in collection "cities"
-  db.collection("businessClusters").doc("cupcakinBake").set({
-    name: "Cupcakin' Bake Shop",
+  // Add a GeoDocument to a GeoCollection
+  geocollection.add({
+    name: 'Geofirestore',
+    score: 100,
+    // The coordinates field must be a GeoPoint!
+    coordinates: new db.GeoPoint(40.7589, -73.9851)
   })
-  .then(function() {
-    console.log("Document successfully written!");
-  })
-  .catch(function(error) {
-    console.error("Error writing document: ", error);
+
+  // Create a GeoQuery based on a location
+  const query = geocollection.near({ center: new db.GeoPoint(40.7589, -73.9851), radius: 1000 });
+
+  // Get query (as Promise)
+  query.get().then((value) => {
+    // All GeoDocument returned by GeoQuery, like the GeoDocument added above
+    console.log(value.docs);
   });
 }
 
+/* Code to dynamically load carousels. */
 function loadCarousels() {
-    addDynamicCarousel("black-owned-businesses");
-    addDynamicCarousel("under-10-mins-away");
-    addDynamicCarousel("trending-near-you");
-    addDynamicCarousel("up-and-coming");
+    addDynamicCarousel("black-owned-businesses", "Black-owned");
+    addDynamicCarousel("under-10-mins-away", "5-10");
+    addDynamicCarousel("trending-near-you", "Trending");
+    addDynamicCarousel("up-and-coming", "New");
 }
 
-function addDynamicCarousel(carouselId) {
+function addDynamicCarousel(carouselId, tag) {
     db.collection("businessClusters").get().then((querySnapshot) => {
         var contentStrings = [];
+        var makeElement = false;
         querySnapshot.forEach((doc) => {
-            const card = document.createElement('div');
-            card.classList = 'carousel-inner row w-100 mx-auto';
+            if (doc.data().city == localStorage.getItem('enteredCity') && doc.data().tags[tag] == true) {
+              makeElement = true;
+              const card = document.createElement('div');
+              card.classList = 'carousel-inner row w-100 mx-auto';
 
             // Construct card content
-            var content = `
+              var content = `
                 <div class="carousel-item col-md-4">
                 <div class="card">
-                    <img class="card-img-top img-fluid" src="images/chinese_food.jpg" alt="Card image cap">
+                    <img class="card-img-top img-fluid" id="card-dynamic-image" src = "/serve?blob-key=${doc.data().thumbnailImage}">
                     <div class="card-body">
                     <p class="card-text">${doc.data().name}</p>
-                    <p class="card-text"><small class="text-muted">5-10 min walking</small></p>
+                    <p class="card-text"><small class="text-muted">${doc.data().walkingDistance}</small></p>
                     </div>
                 </div>
                 </div>
-            `;
-                
-            contentStrings.push(content);
+              `;
+              contentStrings.push(content);
+            }
         });
-
         // Append newly created card element to the container
-        var carouselElement = document.getElementById(carouselId);
-        var carouselInner = carouselElement.getElementsByClassName('carousel-inner row w-100 mx-auto')[0];
-        carouselInner.innerHTML = contentStrings.join("\n");
-        carouselInner.firstElementChild.className += " active";
-        $(carouselElement).carousel({slide : true, interval : false});
+        if (makeElement) {
+          var carouselElement = document.getElementById(carouselId);
+          var carouselInner = carouselElement.getElementsByClassName('carousel-inner row w-100 mx-auto')[0];
+          alert(contentStrings.join("\n"));
+          carouselInner.innerHTML = contentStrings.join("\n");
+          alert(document.getElementById('card-dynamic-image').src);
+          carouselInner.firstElementChild.className += " active";
+          $(carouselElement).carousel({slide : true, interval : false});
+        }
    });
 }
 
-function setBusinessEditFields() {
-  const snapshot = db.collection('businessClusters').doc('cupcakinBake').get().then(doc => {
-    if (doc.exists) {
-      document.getElementById("name").value = doc.data().name;
-    } else {
-      console.log("No such document!");
-    }
-    }).catch(function(error) {
-     console.log("Error getting document:", error);
-    });
-}
 
-function writeBusinessEditFields() {
-  var content = document.getElementById("name").value;
-  db.collection("businessClusters").doc("cupcakinBake").set({
-    name: content,
-  });
-}
+
+/* Blobstore functions. */
 
 /* creates blobstoreUrl for user profile image to firestore */
 function fetchBlobstoreUploadUrl() {
