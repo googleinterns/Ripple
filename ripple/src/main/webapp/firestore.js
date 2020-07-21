@@ -57,6 +57,8 @@ function getBlobKey(uid, blobKey) {
             // The document probably doesn't exist.
             console.error("Error updating document: ", error);
         });
+
+    alert(newBlobKey);
     serveBlob(newBlobKey, "nav-bar-avatar");
     serveBlob(newBlobKey, "profile-image");
   } else {
