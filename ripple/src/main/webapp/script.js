@@ -6,6 +6,14 @@ function serveBlob(blobKey, imageId) {
   image.src = '/serve?blob-key=' + blobKey;
 }
 
+/* Display an alert if user presses enter to comment on a post */
+function addComment(e) {
+  comment = document.getElementById("add-comment").value;
+  if (e.keyCode === 13) {
+    alert("You are commenting: " + comment);
+  }
+}
+
 /* creates blobstoreUrl for image to firestore */
 function fetchBlobstoreUploadUrl(formId, fileId, webUrl) {
   console.log("called fetchBlobstoreUploadUrl(" + formId + ", " + fileId + ", " + webUrl + ")");

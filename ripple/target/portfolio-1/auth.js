@@ -2,6 +2,7 @@
 existing user signs up. 
 TODO: Add alert if existing user signs up. 
 TODO: Get isBusinessOwner data from signup.html page */
+
 function signUpWithGoogle() {
   var provider = new firebase.auth.GoogleAuthProvider();
   provider.addScope('profile');
