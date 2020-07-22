@@ -75,7 +75,7 @@ function handleSignInWithGoogle(user, uid) {
           // Confirm that user has verified their email
           var isEmailVerified = firebase.auth().currentUser.emailVerified;
           console.log("isEmailVerified: " + isEmailVerified);
-          if (isEmailVerified == true) {
+          if (isEmailVerified == false) {
             // display alert
             displayElement("verify-login-subtitle");
           } else {
