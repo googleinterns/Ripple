@@ -412,6 +412,10 @@
   color: var(--neutral-light-color);
 }
 
+.view-all:focus {
+  outline: none;
+}
+
 /* On mouse-over */
 .view-all:hover {
   color: var(--neutral-color);
@@ -430,7 +434,7 @@
   height: 20px;
 }
 
-#card-carousel {
+.carousel slide {
   width: var(--container-width);
 }
 
