@@ -21,11 +21,9 @@
       var auth = firebase.auth();
       var db = firebase.firestore();
     </script>
-    <!-- This needs to be after firebase initialization -->
-    <script src="auth.js"></script>
-    <script src="firestore.js"></script>
     <!-- ./Firebase configuration and initialization -->
     <script src="script.js"></script>
+    <script src="auth.js"></script>
     <title>Ripple</title>
   </head>
   <body onload="checkUserStatus(); loadAcctSettingsIcons();">
@@ -92,11 +90,6 @@
           <p id="acct-email"></p>
           <hr class="line-break">
           <p id="acct-type"></p>
-          <hr class="line-break">
-
-          <h3 class="acct-info-subtitle acct-padding-top-2">Address</h3>
-          <hr class="line-break">
-          <p id="acct-address" class="acct-edit"></p>
           <hr class="line-break">
         </div>
       </div>    

@@ -1,4 +1,5 @@
 var blob = {
   DEFAULT_AVATAR : "XEkBWMfbItUDt70PromXrQ",
+  GOOGLE_LOGO: "Uux5zuGGClYGYVfg4DcASA",
   CAMERA_ICON: "faPTsRMvclAqSSbJsMXYwQ",
 }
