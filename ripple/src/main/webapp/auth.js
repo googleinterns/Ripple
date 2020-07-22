@@ -79,7 +79,7 @@ function handleSignInWithGoogle(user, uid) {
             // display alert
             displayElement("verify-login-subtitle");
           } else {
-            // window.location = 'landingbusiness.html';   
+            window.location = 'landingbusiness.html';   
             console.log("Success: Google account linked");
           }
         } else {
