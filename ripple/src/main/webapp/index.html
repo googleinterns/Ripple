@@ -23,10 +23,12 @@
     <script src="auth.js"></script>
     <script src="firestore.js"></script>
     <!-- ./Firebase configuration and initialization -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBo4gWG5T9oBscp7tHWzSL9L4masICev5U&region=US&libraries=places"></script>
     <script src="script.js"></script>
+    <script src="landing.js"></script>
     <title>Ripple</title>
   </head>
-  <body>
+  <body onload="searchAddressAutocomplete()">
     <div class="full-bg-primary-color">
       <!--Navbar -->
       <div class="wrapper" id="wrapper">
@@ -55,7 +57,7 @@
           <h1 class="landing-title-text">start with a</h1>
           <h1 class="landing-title-text italic-text">ripple.</h1></br></br>
           <h2 class="landing-subtitle-text">Find small businesses in your community to support.</h2>
-          <input class="address-input" id="address-input" type="text" onkeypress="searchAddress(event)" placeholder="Enter your address...">
+          <input class="address-input" id="address-input" type="text" onkeypress="searchAddress(event)" placeholder="1234 Fake Street, Berkeley, CA">
         </div>
       </div>
       <!-- /.Landing page content -->
