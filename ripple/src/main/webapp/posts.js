@@ -6,12 +6,29 @@ function viewAllPostComments() {
 /* Display an alert if user presses enter to comment on a post */
 function addComment(e) {
   comment = document.getElementById("add-comment").value;
-  if (e.keyCode === 13) {
+  if (e.keyCode === ENTER_KEY) {
     alert("You are commenting: " + comment);
   }
 }
 
-// Add posts onto the Posts page TODO: ADD A LIMIT
+/* If blobKey found in URL, automatically open pop up and display image */
+function postsOnload() {
+  var blobKey = readBlobKeyFromURl();
+  if (blobKey != null) {
+    // Open pop up
+    clickElement("post-button");
+    // Hide upload form
+    hideElement("modal-upload-photo");
+    // Display photo
+    displayElement("modal-display-photo");
+    // Serve photo
+    serveBlob(blobKey, "modal-display-photo");
+    // Remove disabled attribute from share button
+    enableElement("modal-share-button");
+  }
+}
+
+// TODO: Reduce Firestore reads by using local storage.
 function addDynamicPosts() {
   var postContainerElement = document.getElementById("post-container");
   // For each document in this city, state, in reverse timestamp, create a post element & appendChild to postContainer
@@ -28,6 +45,7 @@ function addDynamicPosts() {
           var caption = doc.data().caption;
           var numberComments = doc.data().numberComments;
           var blobKey = doc.data().blobKey;
+          console.log("blobKey: " + blobKey);
           // make sure that the postContainerElement finishes before the promises return
           getNameFromFirestoreFuture('businesses', uid, function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
@@ -62,8 +80,6 @@ function getNameFromFirestoreFuture(collection, uid, lambda) {
           console.log("Error getting documents: ", error);
       });
 }
-
-
 
 // Create a post element
 function createPostElement(userName, businessName, caption, numberComments, blobKey) {

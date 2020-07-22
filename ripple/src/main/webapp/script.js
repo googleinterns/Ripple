@@ -6,7 +6,9 @@ function serveBlob(blobKey, imageId) {
   image.src = '/serve?blob-key=' + blobKey;
 }
 
+/* Define global variable for enter key */
 var ENTER_KEY = 13;
+
 /* Display an alert if user presses enter to comment on a post */
 function addComment(e) {
   comment = document.getElementById("add-comment").value;
@@ -28,7 +30,7 @@ function fetchBlobstoreUploadUrl(formId, fileId, webUrl) {
     console.log("fetched blobstoreUploadUrl: " + blobstoreUploadUrl);
     form.submit();
   });
-}
+} 
 
 /* Serves blob by parsing blobKey from parameter. If no parameter, serves stored blob. */
 function getBlobKey(uid, blobKey) {
@@ -54,6 +56,12 @@ function getBlobKey(uid, blobKey) {
     serveBlob(blobKey, "nav-bar-avatar");
     serveBlob(blobKey, "profile-image");
   }
+}
+
+function readBlobKeyFromURl() {
+  var blobKey = getParameterByName('blob-key');
+  console.log("Parameter blobKey: " + blobKey);
+  return blobKey;
 }
 
 /* Read parameter in URL of window */
@@ -94,3 +102,17 @@ function selectFile(fileId) {
   document.getElementById(fileId).click();
 }
 
+/* Clicks button given id */
+function clickElement(id) {
+  document.getElementById(id).click();
+}
+
+/* Hides element given an id */
+function hideElement(id) {
+  document.getElementById(id).style.display = "none";
+}
+
+/* Removes disabled attribute from element given an id */
+function enableElement(id) {
+  document.getElementById(id).disabled = false;
+}
