@@ -20,11 +20,9 @@ function addComment(e) {
 /* creates blobstoreUrl for image to firestore */
 function fetchBlobstoreUploadUrl(formId, fileId, webUrl) {
   console.log("called fetchBlobstoreUploadUrl(" + formId + ", " + fileId + ", " + webUrl + ")");
-  fetch('/blobstore-upload-url?file-id=' + fileId + '&web-url=' + webUrl)
-  .then((response) => {
+  fetch('/blobstore-upload-url?file-id=' + fileId + '&web-url=' + webUrl).then((response) => {
     return response.text();
-  })
-  .then((blobstoreUploadUrl) => {
+  }).then((blobstoreUploadUrl) => {
     const form = document.getElementById(formId);
     form.action = blobstoreUploadUrl;
     console.log("fetched blobstoreUploadUrl: " + blobstoreUploadUrl);
@@ -41,11 +39,9 @@ function getBlobKey(uid, blobKey) {
     console.log("New image. Blobkey parameter: ", newBlobKey);
     db.collection("users").doc(uid).update({
       blobKey: newBlobKey,
-    })
-    .then(function() {
+    }).then(function() {
     console.log("Document successfully updated!");
-    })
-    .catch(function(error) {
+    }).catch(function(error) {
         // The document probably doesn't exist.
         console.error("Error updating document: ", error);
     });
