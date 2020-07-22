@@ -1,3 +1,4 @@
+ 
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,6 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script type='text/javascript' src='config.js'></script>   
+    <script type='text/javascript' src='variables.js'></script>
     <!-- Firebase configuration and initialization -->
     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
@@ -65,11 +67,12 @@
         <div class="authentication-subwrapper-one">
           <h1 class="authentication-title-text">Ready to make a Ripple?</h1></br>
           <h2 class="authentication-subtitle-text">Choose a method.</h2>
+          <p id="signup-method-subtitle" class="authentication-subtitle-text">Oops, you've already made an account! Please sign in.</p>
         </div>
         <div class="authentication-subwrapper-two">
           <!-- TODO: Add authentication methods via Firebase API -->
           <a>    
-            <button class="auth-button left-align-text" onclick="signUpWithGoogle()">
+            <button class="auth-button left-align-text" onclick="openGooglePopUp('signUp')">
               <img class="auth-icon" src="serve?blob-key=ea3XMBa-XElOKrxVZzNBeg">
               Sign up with Google
             </button>
