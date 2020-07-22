@@ -2,10 +2,10 @@
 function setUserType(userType) {
   if (userType == "business") {
     // Set local storage
-    localStorage.setItem('isBusinessOwner', true);
+    localStorage.setItem("isBusinessOwner", true);
   } else { // Assume userType == community member
     // Set local storage
-    localStorage.setItem('isBusinessOwner', false);
+    localStorage.setItem("isBusinessOwner", false);
   }
 }
 
@@ -55,7 +55,7 @@ function handleSignUpWithGoogle(user, uid) {
         //   var token = result.credential.accessToken;
           var name = user.displayName;
           var email = user.email;
-          var isBusinessOwner = localStorage.getItem('isBusinessOwner');
+          var isBusinessOwner = localStorage.getItem("isBusinessOwner");
           console.log("name: " + name);
           console.log("isBusinessOwner: " + isBusinessOwner);
           console.log("uid: " + uid);
@@ -76,10 +76,14 @@ function handleSignInWithGoogle(user, uid) {
           var isEmailVerified = firebase.auth().currentUser.emailVerified;
           console.log("isEmailVerified: " + isEmailVerified);
           if (isEmailVerified == false) {
-            // display alert
+            // Display alert
             displayElement("verify-login-subtitle");
           } else {
-            window.location = 'landingbusiness.html';   
+            // Store uid and business type
+            var userName = doc.data().name;
+            var isBusinessOwner = doc.data().isBusinessOwner;
+            setLocalStorageFromSignIn(uid, userName, isBusinessOwner);
+            window.location = 'landingbusiness.html';
             console.log("Success: Google account linked");
           }
         } else {
@@ -96,6 +100,14 @@ function getUsersDocByUid(uid, lambda) {
   .catch(function(error) {
     console.log("Error getting document:", error);
   })
+}
+
+function setLocalStorageFromSignIn(uid, userName, isBusinessOwner) {
+  localStorage.setItem("uid", uid);
+  localStorage.setItem("userName", userName);
+  localStorage.setItem("isBusinessOwner", isBusinessOwner);
+  console.log("From local storage: " + localStorage.getItem("uid") + ", " + 
+      localStorage.getItem("userName") + ", " + localStorage.getItem("isBusinessOwner"));
 }
 
 /* Writes user data to firestore */
@@ -133,11 +145,16 @@ function sendEmailVerification(user) {
  
 /* Sign a user out of session */
 function signOutUser(redirectPage="index.html") {
+  // console log statements will be removed in final product
   var user = auth.currentUser;
   var name = user.displayName;
   var uid = user.uid;
   console.log("name before logout: " + name);
   console.log("uid before logout: " + uid);
+  localStorage.removeItem("uid");
+  localStorage.removeItem("userName");
+  localStorage.removeItem("isBusinessOwner");
+  localStorage.removeItem("businessName");
   firebase.auth().signOut().then(function() {
     if (redirectPage != false) {
       window.location= redirectPage;

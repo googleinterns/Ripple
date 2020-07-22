@@ -16,26 +16,7 @@
     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-firestore.js"></script>
     <script>
-      var apiKey = config.API_KEY;
-      var authDomain = config.AUTH_DOMAIN;
-      var databaseURL = config.DATABASE_URL;
-      var projectId = config.PROJECT_ID;
-      var storageBucket = config.STORAGE_BUCKET;
-      var messagingSenderId = config.MESSAGING_SENDER_ID;
-      var appId = config.APP_ID;
-      var measurementId = config.MEASUREMENT_ID;
-
-      var firebaseConfig = {
-        apiKey: apiKey,
-        authDomain: authDomain,
-        databaseURL: databaseURL,
-        projectId: projectId,
-        storageBucket: storageBucket,
-        messagingSenderId: messagingSenderId,
-        appId: appId,
-        measurementId: measurementId,
-      };
-      firebase.initializeApp(firebaseConfig);
+      firebase.initializeApp(config);
       // Create auth and firestore references 
       var auth = firebase.auth();
       var db = firebase.firestore();
@@ -70,10 +51,10 @@
           <p id="signup-method-subtitle" class="authentication-subtitle-text">Oops, you've already made an account! Please sign in.</p>
         </div>
         <div class="authentication-subwrapper-two">
-          <!-- TODO: Add authentication methods via Firebase API -->
           <a>    
             <button class="auth-button left-align-text" onclick="openGooglePopUp('signUp')">
-              <img class="auth-icon" src="serve?blob-key=ea3XMBa-XElOKrxVZzNBeg">
+               <!-- TODO: Call blob key from JS and define a global variable blob key as GOOGLE_ICON -->
+              <img class="auth-icon" src="serve?blob-key=Uux5zuGGClYGYVfg4DcASA">
               Sign up with Google
             </button>
           </a>
