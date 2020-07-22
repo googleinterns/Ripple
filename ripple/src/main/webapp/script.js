@@ -6,7 +6,9 @@ function serveBlob(blobKey, imageId) {
   image.src = '/serve?blob-key=' + blobKey;
 }
 
+/* Define global variable for enter key */
 var ENTER_KEY = 13;
+
 /* Display an alert if user presses enter to comment on a post */
 function addComment(e) {
   comment = document.getElementById("add-comment").value;
@@ -18,42 +20,20 @@ function addComment(e) {
 /* creates blobstoreUrl for image to firestore */
 function fetchBlobstoreUploadUrl(formId, fileId, webUrl) {
   console.log("called fetchBlobstoreUploadUrl(" + formId + ", " + fileId + ", " + webUrl + ")");
-  fetch('/blobstore-upload-url?file-id=' + fileId + '&web-url=' + webUrl)
-  .then((response) => {
+  fetch('/blobstore-upload-url?file-id=' + fileId + '&web-url=' + webUrl).then((response) => {
     return response.text();
-  })
-  .then((blobstoreUploadUrl) => {
+  }).then((blobstoreUploadUrl) => {
     const form = document.getElementById(formId);
     form.action = blobstoreUploadUrl;
     console.log("fetched blobstoreUploadUrl: " + blobstoreUploadUrl);
     form.submit();
   });
-}
+} 
 
-/* Serves blob by parsing blobKey from parameter. If no parameter, serves stored blob. */
-function getBlobKey(uid, blobKey) {
-  var newBlobKey = getParameterByName('blob-key');
-  console.log("Parameter blobKey: " + newBlobKey);
-  // New image uploaded. Store blobkey in firestore.
-  if (newBlobKey != null) {
-    console.log("New image. Blobkey parameter: ", newBlobKey);
-    db.collection("users").doc(uid).update({
-      blobKey: newBlobKey,
-    })
-    .then(function() {
-    console.log("Document successfully updated!");
-    })
-    .catch(function(error) {
-        // The document probably doesn't exist.
-        console.error("Error updating document: ", error);
-    });
-    serveBlob(newBlobKey, "nav-bar-avatar");
-    serveBlob(newBlobKey, "profile-image");
-  } else {
-    console.log("firestore blobKey: " + blobKey);
-    serveBlob(blobKey, "nav-bar-avatar");
-    serveBlob(blobKey, "profile-image");
-  }
+function readBlobKeyFromURl() {
+  var blobKey = getParameterByName('blob-key');
+  console.log("Parameter blobKey: " + blobKey);
+  return blobKey;
 }
 
 /* Read parameter in URL of window */
@@ -94,3 +74,17 @@ function selectFile(fileId) {
   document.getElementById(fileId).click();
 }
 
+/* Clicks button given id */
+function clickElement(id) {
+  document.getElementById(id).click();
+}
+
+/* Hides element given an id */
+function hideElement(id) {
+  document.getElementById(id).style.display = "none";
+}
+
+/* Removes disabled attribute from element given an id */
+function enableElement(id) {
+  document.getElementById(id).disabled = false;
+}
