@@ -1,4 +1,4 @@
-/* Blobstore and post functions. */
+/* Blobstore, post, and generally-used functions. */
 
 /* Given blob key and image id, inserts image from Blobstore */
 function serveBlob(blobKey, imageId) {
@@ -30,6 +30,7 @@ function fetchBlobstoreUploadUrl(formId, fileId, webUrl) {
   });
 } 
 
+/* Return blob key from the URL */
 function readBlobKeyFromURl() {
   var blobKey = getParameterByName("blob-key");
   console.log("Parameter blobKey: " + blobKey);
@@ -48,6 +49,48 @@ function getParameterByName(name) {
   if (!results) return null;
   if (!results[2]) return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+/* Retrieve a doc by docId */
+function getDocByDocId(collection, docId, lambda, varArray=false) {
+  db.collection(collection).doc(docId).get()
+  .then(lambda)
+  .catch((error) => {
+    console.log("Error getting document:", error);
+  });
+}
+
+/* Retrieve a doc by query once OR as a snapshot
+   Method accepts either "get" or "snapshot" and filters according to parameters */
+function getOrSnapshotDocsByQuery(method, collection, lambda, whereFieldArray,
+    whereValueArray, orderByField=false, orderDirection=false, varArray=false) {
+  var ref = db.collection(collection);
+//   Filter by fields
+  i = 0;
+  while (i < whereFieldArray.length) {
+    console.log("filter by fields: where " + whereFieldArray[i] + " == " + whereValueArray[i]);
+    ref = ref.where(whereFieldArray[i], "==", whereValueArray[i]);
+    // Use prefix increment
+    i = ++i;
+  }
+  // Sort query
+  if (orderByField != false) {
+    if (orderDirection != false) {
+      ref = ref.orderBy(orderByField, orderDirection);
+    } else {
+      ref = ref.orderBy(orderByField);
+    }
+  }
+  // Get documents based on method get or snapshot
+  if (method == "get") {
+    ref.get()
+    .then(lambda);
+  } else { // method == "snapshot"
+    ref.onSnapshot(lambda)
+    .catch((error) => {
+      console.log("Error getting document:", error);
+    }) 
+  }
 }
 
 /* Given text and an id, function adds text to DOM */

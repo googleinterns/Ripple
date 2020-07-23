@@ -14,9 +14,9 @@ function setUserType(userType) {
 function openGooglePopUp(authMethod) {
   // Signed in state will persist until user logs out 
   firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-  .then(function() {
+  .then(() => {
     var provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider).then(function(result) {
+    auth.signInWithPopup(provider).then((result) => {
       var user = result.user;
       var uid = user.uid;
       if (authMethod == "signUp") {
@@ -24,7 +24,7 @@ function openGooglePopUp(authMethod) {
       } else {
         handleSignInWithGoogle(user, uid);
       }
-    }).catch(function(error) {
+    }).catch((error) =>  {
       console.log(error);
       // Handle Errors here.
       var errorCode = error.code;
@@ -33,7 +33,7 @@ function openGooglePopUp(authMethod) {
       var credential = error.credential;
     });
   })
-  .catch(function(error) {
+  .catch((error) => {
     // Handle Errors here.
     var errorCode = error.code;
     var errorMessage = error.message;
@@ -43,7 +43,7 @@ function openGooglePopUp(authMethod) {
 /* If user already made an account, send an alert message.
    Otherwise, authenticate user to Fireabse and send an email verifiation */
 function handleSignUpWithGoogle(user, uid) {
-  var lambda = function(doc) {
+  var lambda = (doc) => {
         // If user already has made an account, send an alert
         if (doc.exists) {
             displayElement("signup-method-subtitle")
@@ -53,24 +53,24 @@ function handleSignUpWithGoogle(user, uid) {
         } else { // User has not yet made an account
           console.log("Success: Google account linked");
         //   var token = result.credential.accessToken;
-          var name = user.displayName;
+          var userName = user.displayName;
           var email = user.email;
           var isBusinessOwner = localStorage.getItem("isBusinessOwner");
-          console.log("name: " + name);
+          console.log("userName: " + userName);
           console.log("isBusinessOwner: " + isBusinessOwner);
           console.log("uid: " + uid);
           sendEmailVerification(user);
-          addNewUser(uid, name, isBusinessOwner, email);
+          addNewUser(uid, userName, isBusinessOwner, email);
           signOutUser(false);
         }
       }
-  getUsersDocByUid(uid, lambda);
+  getDocByDocId("users", uid, lambda);
 }
 
 /* If user already has NOT made an account, send an alert message.
    Otherwise, authenticate user to Fireabse and send an email verifiation */
 function handleSignInWithGoogle(user, uid) {
-  var lambda = function(doc) {
+  var lambda = (doc) => {
         if (doc.exists) {
           // Confirm that user has verified their email
           var isEmailVerified = firebase.auth().currentUser.emailVerified;
@@ -80,7 +80,7 @@ function handleSignInWithGoogle(user, uid) {
             displayElement("verify-login-subtitle");
           } else {
             // Store uid and business type
-            var userName = doc.data().name;
+            var userName = doc.data().userName;
             var isBusinessOwner = doc.data().isBusinessOwner;
             setLocalStorageFromSignIn(uid, userName, isBusinessOwner);
             window.location = 'landingbusiness.html';
@@ -91,15 +91,7 @@ function handleSignInWithGoogle(user, uid) {
           signOutUser(false);
         }
       }
-  getUsersDocByUid(uid, lambda);
-}
-
-function getUsersDocByUid(uid, lambda) {
-  db.collection("users").doc(uid).get()
-  .then(lambda)
-  .catch(function(error) {
-    console.log("Error getting document:", error);
-  })
+  getDocByDocId("users", uid, lambda);
 }
 
 function setLocalStorageFromSignIn(uid, userName, isBusinessOwner) {
@@ -111,19 +103,19 @@ function setLocalStorageFromSignIn(uid, userName, isBusinessOwner) {
 }
 
 /* Writes user data to firestore */
-function addNewUser(uid, name, isBusinessOwner, email) {
-  console.log("addNewUser("+ uid + ", " + name + ", " + isBusinessOwner + "," + email + ")");
+function addNewUser(uid, userName, isBusinessOwner, email) {
+  console.log("addNewUser("+ uid + ", " + userName + ", " + isBusinessOwner + "," + email + ")");
   db.collection("users").doc(uid).set({
     uid: uid,
-    name: name,
+    userName: userName,
     isBusinessOwner: isBusinessOwner,
     email: email,
     blobKey: blob.DEFAULT_AVATAR,
   })
-  .then(function(docRef) {
+  .then((docRef) => {
     console.log("Document successfully written!");
   })
-  .catch(function(error) {
+  .catch((error) => {
     console.error("Error adding document: ", error);
   });
 }
@@ -134,10 +126,10 @@ function sendEmailVerification(user) {
     // URL is specific to Sarah's local dev server. TODO: generalize for deployed website.
     url: 'https://8080-90078eb5-4ff3-4249-9350-838131c19af3.us-west1.cloudshell.dev/login.html'
   };
-  user.sendEmailVerification(actionCodeSettings).then(function() {
+  user.sendEmailVerification(actionCodeSettings).then(() => {
     window.location = "signupverification.html";
     console.log("Success: email sent to user");  
-  }).catch(function(error) {
+  }).catch((error) => {
     // An error happened.
     console.log("Error: email not sent to user"); 
   });
@@ -147,15 +139,15 @@ function sendEmailVerification(user) {
 function signOutUser(redirectPage="index.html") {
   // console log statements will be removed in final product
   var user = auth.currentUser;
-  var name = user.displayName;
+  var userName = user.displayName;
   var uid = user.uid;
-  console.log("name before logout: " + name);
+  console.log("userName before logout: " + userName);
   console.log("uid before logout: " + uid);
   localStorage.removeItem("uid");
   localStorage.removeItem("userName");
   localStorage.removeItem("isBusinessOwner");
   localStorage.removeItem("businessName");
-  firebase.auth().signOut().then(function() {
+  firebase.auth().signOut().then(() => {
     if (redirectPage != false) {
       window.location= redirectPage;
     }
@@ -167,23 +159,24 @@ function signOutUser(redirectPage="index.html") {
       console.log("Error: user is not null");
     }
     // Sign-out successful.
-  }).catch(function(error) {
+  }).catch((error) => {
     console.log("Error in signing out a user");
   });
 }
  
-/* Reads account name, email, type, and address and adds to DOM.
+/* TODO: Use general Fireabse function [move to Account settings JS file].
+Reads account name, email, type, and address and adds to DOM.
 Passes blobKey to getBlobKey() */
 function getAcctInfo(uid) {
   console.log("Success: getAcctInfo() recognizes uid: " + uid);
-  var name, email, isBusinessOwner, address, blobKey;
+  var userName, email, isBusinessOwner, address, blobKey;
   db.collection("users")
       .where("uid", "==", uid)
       .get()
-      .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          name = doc.data().name;
-          addTextToDom(name, "acct-name", "id");
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          userName = doc.data().userName;
+          addTextToDom(userName, "acct-name", "id");
           email = doc.data().email;  
           addTextToDom(email, "acct-email", "id");
           isBusinessOwner = doc.data().isBusinessOwner;  
@@ -198,7 +191,7 @@ function getAcctInfo(uid) {
           getBlobKey(uid, blobKey);
         });
       })
-      .catch(function(error) {
+      .catch((error) => {
         console.log("Error getting documents: ", error);
       });
 }
