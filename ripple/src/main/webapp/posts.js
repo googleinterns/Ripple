@@ -56,8 +56,8 @@ function newPost() {
   var whereFieldArray = ["uid"];
   var whereValueArray = [uid];
   // Get city and state from businesses
-  var lambda = function(querySnapshot) {
-    querySnapshot.forEach(function(doc) {
+  var lambda = (querySnapshot) => {
+    querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       console.log(doc.id, " => ", doc.data());
       var city = doc.data().city;
@@ -78,10 +78,10 @@ function addPostToFirestore(collection, uid, blobKey, caption, city, state) {
     city: city,
     state: state,
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-  }).then(function() {
+  }).then(() => {
     window.location = 'postcommunity.html';
     console.log("Document successfully written!");
-  }).catch(function(error) {
+  }).catch((error) => {
     console.error("Error writing document: ", error);
   });
 }
@@ -90,8 +90,8 @@ function addPostToFirestore(collection, uid, blobKey, caption, city, state) {
 function addDynamicPosts() {
   var postContainerElement = document.getElementById("post-container");
   // For each document in this city, state, in reverse timestamp, create a post element & appendChild to postContainer
-  var lambda = function(querySnapshot) {
-    querySnapshot.forEach(function(doc) {
+  var lambda = (querySnapshot) => {
+    querySnapshot.forEach((doc) => {
       // Print statements will be deleted in final product
       var uid = doc.data().uid;
       console.log("uid: " + uid);
@@ -106,13 +106,13 @@ function addDynamicPosts() {
       var whereFieldArray = ["uid"];
       var whereValueArray = [uid];
       // Get businessName from "businesses" collection using uid. Assume one business per business owner max.
-      var secondLambda = function(secondQuerySnapshot) {
-        secondQuerySnapshot.forEach(function(doc) {
+      var secondLambda = (secondQuerySnapshot) => {
+        secondQuerySnapshot.forEach((doc) => {
           var businessName = doc.data().businessName[1];
           console.log("businessName: " + businessName);
           // Get userName from "users" collection using uid
-          var thirdLambda = function(thirdQuerySnapshot) {
-            thirdQuerySnapshot.forEach(function(doc) {
+          var thirdLambda = (thirdQuerySnapshot) => {
+            thirdQuerySnapshot.forEach((doc) => {
               var userName = doc.data().userName;
               console.log("userName: " + userName);
               var userBlobKey = doc.data().userBlobKey;
@@ -140,7 +140,7 @@ function getNameFromFirestoreFuture(collection, uid, lambda) {
       .where("uid", "==", uid)
       .get()
       .then(lambda)
-      .catch(function(error) {
+      .catch((error) => {
           console.log("Error getting documents: ", error);
       });
 }

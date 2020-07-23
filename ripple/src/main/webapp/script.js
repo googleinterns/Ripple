@@ -55,7 +55,7 @@ function getParameterByName(name) {
 function getDocByDocId(collection, docId, lambda, varArray=false) {
   db.collection(collection).doc(docId).get()
   .then(lambda)
-  .catch(function(error) {
+  .catch((error) => {
     console.log("Error getting document:", error);
   });
 }
@@ -87,7 +87,7 @@ function getOrSnapshotDocsByQuery(method, collection, lambda, whereFieldArray,
     .then(lambda);
   } else { // method == "snapshot"
     ref.onSnapshot(lambda)
-    .catch(function(error) {
+    .catch((error) => {
       console.log("Error getting document:", error);
     }) 
   }
