@@ -41,6 +41,11 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+              <!-- Actual search box -->
+              <div class=search>
+                <i class="material-icons">search</i>
+                <input class="search-bar-neutral" id="search-bar" type="text" onkeypress="searchInput(event)" placeholder="Search for anything...">
+              </div>
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
                   <a class="nav-link hover-neutral-to-primary-color" href="stories.html">Today</a>
@@ -75,7 +80,7 @@
     </div>
     <!-- /.Banner -->
     <!-- Account settings content: Blobstore image upload -->
-    <div class = "container">
+    <div class="container">
       <div class="row">
         <div class="col-4 align-center avatar-padding-top">
           <img id="profile-image" class="profile-photo-cropped" width="110px" height="110px">

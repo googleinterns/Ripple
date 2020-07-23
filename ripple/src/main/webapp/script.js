@@ -36,3 +36,19 @@ function selectFile(fileId) {
 function viewAllPostComments() {
   alert("Fetch all comments for this post!");
 }
+
+/* Backend for search functionality */
+
+var ENTER_KEY = 13;
+/* Takes navbar search input, stores in session storage. */
+function searchInput(keyPress) {
+    if (keyPress.keyCode === ENTER_KEY) {
+      var searchString = document.getElementById('search-bar').value;
+      console.log(searchString);
+      localStorage.setItem('searchString', searchString);
+      localStorage.setItem('galleryPageName', searchString);
+      window.location.assign("businessgallery.html");
+    } else {
+        return false;
+    }
+}
