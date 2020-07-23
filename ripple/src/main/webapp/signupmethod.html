@@ -1,3 +1,4 @@
+ 
 <!DOCTYPE html>
 <html>
   <head>
@@ -47,12 +48,13 @@
         <div class="authentication-subwrapper-one">
           <h1 class="authentication-title-text">Ready to make a Ripple?</h1></br>
           <h2 class="authentication-subtitle-text">Choose a method.</h2>
+          <p id="signup-method-subtitle" class="authentication-subtitle-text">Oops, you've already made an account! Please sign in.</p>
         </div>
         <div class="authentication-subwrapper-two">
-          <!-- TODO: Add authentication methods via Firebase API -->
           <a>    
-            <button class="auth-button left-align-text" onclick="signUpWithGoogle()">
-              <img class="auth-icon" src="serve?blob-key=ea3XMBa-XElOKrxVZzNBeg">
+            <button class="auth-button left-align-text" onclick="openGooglePopUp('signUp')">
+               <!-- TODO: Call blob key from JS and define a global variable blob key as GOOGLE_ICON -->
+              <img class="auth-icon" src="serve?blob-key=Uux5zuGGClYGYVfg4DcASA">
               Sign up with Google
             </button>
           </a>

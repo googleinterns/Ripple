@@ -8,11 +8,24 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script type='text/javascript' src='config.js'></script>   
+    <script type='text/javascript' src='config.js'></script>
+    <!-- Firebase configuration and initialization -->
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-firestore.js"></script>
+    <script>
+      firebase.initializeApp(config);
+      // Create auth and firestore references 
+      var auth = firebase.auth();
+      var db = firebase.firestore();
+    </script>
+    <!-- ./Firebase configuration and initialization -->
     <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script src="posts.js"></script>
     <title>Ripple</title>
   </head>
-  <body>
+  <body onload="postsOnload(); addDynamicPosts();">
     <!-- Banner -->
     <div class="half-bg-primary-color">
       <!--Navbar -->
@@ -51,109 +64,73 @@
         </div>
       </div>
       <!-- /.Navbar -->
-      <!-- Account settings header -->
-      <div class="container"> 
+      <!-- Post community header -->
+      <div class="container">
         <!-- <h1 class="left-align-header">Meet the faces</br>behind the business.</h1> -->
         <div class="header-subwrapper">
           <h1 class="header-title-text">Meet the faces</h1>
           <h1 class="header-title-text">behind the business.</h1>
         </div>
       </div>
-      <!-- /.Account settings header -->
+      <!-- /.Post community header -->
     </div>
     <!-- /.Banner -->
     <!-- Stories community content-->
-    <div class="post-container">
-      <!-- Post -->
-      <div class="post">
-        <div class="post-subwrapper space-between">
-          <div class="post-header">
-            <img id="post-avatar" src="images/undrawAvatar.svg" class="post-profile-photo">
-            <div class="post-user-business">
-              <p class="boldest-text">Ken Yang</p>
-              <p>Mandarette Cafe</p>
+    <!-- Container -->
+    <div class="container center">
+      <!-- Button to open the modal -->
+      <button type="button" id="post-button" data-toggle="modal" data-target="#myModal">
+        Share your story
+      </button>
+      <!-- The Modal -->
+      <div class="modal show fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- Modal header -->
+            <div class="modal-header center">
+              <h3 class="col-12 modal-title center-align">
+                New post
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </h3>
             </div>
-          </div>
-          <img class="post-share-icon" src="/images/post_share_icon.png">
-        </div>
-        <img src="/images/family_restaurant.png" class="post-photo image-resizing">
-        <div class="post-line-height"> 
-          <div class="post-subwrapper">
-            <div class="space-between">
-              <p>
-                <span class="post-margin-right">
-                  <img class="heart-icon" src="/images/heart_icon.svg">
-                </span>
-                 482
-              </p>
-              <p>2 hours ago</p>
+            <!--/Modal  -->
+            <!-- Modal body -->
+            <div class="modal-body">
+              <div class="modal-subwrapper">
+                <div id="modal-upload-photo" class="modal-upload-photo" onclick="selectFile('post-file')">
+                  <div class="circle-icon">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-images" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M12.002 4h-10a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1zm-10-1a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-10z"/>
+                      <path d="M10.648 8.646a.5.5 0 0 1 .577-.093l1.777 1.947V14h-12v-1l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71z"/>
+                      <path fill-rule="evenodd" d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM4 2h10a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1v1a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2h1a1 1 0 0 1 1-1z"/>
+                    </svg>
+                  </div>
+                  <p>Add photo</p>
+                </div>
+                <form id="post-form" onchange="fetchBlobstoreUploadUrl('post-form', 'post-file', 'postcommunity.html')" method="post" enctype="multipart/form-data">
+                  <input id="post-file" type="file" name="post-file" style="display: none;">
+                </form>
+                <img onclick="selectFile('post-file')" id="modal-display-photo">
+                <div class="modal-caption">
+                  <textarea class="modal-caption-textarea" id="modal-caption" placeholder="Write a caption..."></textarea>
+                </div>
+                <!-- ./Modal body -->
+                <!-- Modal submit button -->
+                <div class="modal-centered-footer">
+                  <button disabled type="button" id="modal-share-button" class="modal-share-button" data-dismiss="modal">Share</button>
+                </div>
+                <!-- ./Modal submit button -->
+              </div>
             </div>
-            <p>
-              <span class="boldest-text">Ken Yang</span>
-              My team and I have had a difficult few months due to COVID, but we have adapted quickly to protect your safety and our own safety. 
-              We look forward to continuing to serve the food you love! 
-            </p>
-            <p class="post-view-all" onclick="viewAllPostComments()"> View all 153 comments</p>
-            <p>
-              <span class="boldest-text">Sarah Wu</span>
-              Love this photo!
-            </p>
-            <p>
-              <span class="boldest-text">Smruthi Balajee</span>
-              Wow, I'd really love to visit this place sometime!
-            </p>
-            <hr class="line-break-lighter">
-            <textarea class="post-comments" id="add-comment" placeholder="Commenting publicly..." 
-                onkeypress="addComment(event)"></textarea>
-          </div>
-        </div>
-      </div>
-      <!-- ./Post -->
-      <!-- Post -->
-      <div class="post">
-        <div class="post-subwrapper space-between">
-          <div class="post-header">
-            <img id="post-avatar" src="images/undrawAvatar.svg" class="post-profile-photo">
-            <div class="post-user-business">
-              <p class="boldest-text">Skel Islamaj</p>
-              <p>Maison Mathis</p>
-            </div>
-          </div>
-          <img class="post-share-icon" src="/images/post_share_icon.png">
-        </div>
-        <img src="/images/maison_mathis.jpg" class="post-photo image-resizing">
-        <div class="post-line-height"> 
-          <div class="post-subwrapper">
-            <div class="space-between">
-              <p>
-                <span class="post-margin-right">
-                  <img class="heart-icon" src="/images/unheart_icon.svg">
-                </span>
-                 482
-              </p>
-              <p>5 hours ago</p>
-            </div>
-            <p>
-              <span class="boldest-text">Skel Islamaj</span>
-              Omer and I created this cafe with the purpose of sharing a piece of European life with community. And we're still doing that today. Swing by for take-out! 
-            </p>
-            <p class="post-view-all" onclick="viewAllPostComments()">View all 201 comments</p>
-            <p>
-              <span class="boldest-text">Sarah Wu</span>
-              Hi Skel! Thanks for sharing. Can't wait to grab coffee to-go from your cafe soon!
-            </p>
-            <p>
-              <span class="boldest-text">Smruthi Balajee</span>
-              The Belgian bakery is definitely something that you have to partake in if you come here!
-            </p>
-            <hr class="line-break-lighter">
-            <textarea class="post-comments" id="add-comment" placeholder="Commenting publicly..." 
-                onkeypress="addComment(event)"></textarea>
           </div>
         </div>
       </div>
-      <!-- ./Post -->
+      <!-- ./Modal -->
     </div>
+    <!-- ./Container -->
+    <div id="post-container" class="post-container"></div>
     <!-- ./Stories community content-->
     </br></br></br></br></br></br></br></br></br></br>
   </body>

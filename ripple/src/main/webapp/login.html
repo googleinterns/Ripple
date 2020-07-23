@@ -45,11 +45,18 @@
         <div class="authentication-subwrapper-one">
           <h1 class="authentication-title-text">Welcome back.</h1></br>
           <h2 class="authentication-subtitle-text">Log in here.</h2>
+          <div class="center">
+            <div class="verification-text-wrapper">
+             <p id="login-subtitle" class="authentication-subtitle-text">Oops, you haven't made an account yet! Please sign up first.</p>
+             <p id="verify-login-subtitle" class="authentication-subtitle-text">Oops, please verify your email address first!</p>
+            </div>
+          </div>
         </div>
         <div class="authentication-subwrapper-two">
           <a>
-            <button class="auth-button left-align-text" onclick="signInWithGoogle()">
-              <img class="auth-icon" src="serve?blob-key=ea3XMBa-XElOKrxVZzNBeg">
+            <button class="auth-button left-align-text" onclick="openGooglePopUp('signIn')">
+              <!-- TODO: Call blob key from JS and define a global variable blob key as GOOGLE_ICON -->
+              <img class="auth-icon" src="serve?blob-key=Uux5zuGGClYGYVfg4DcASA">
               Sign in with Google
             </button>
           </a>
