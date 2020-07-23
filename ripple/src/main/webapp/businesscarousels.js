@@ -25,12 +25,12 @@ function convertCoordToCity() {
   var geocoder = new google.maps.Geocoder();
   console.log(localStorage.getItem('enteredLat')+ ' in coordToCity');
   console.log(localStorage.getItem('enteredLong') + ' in coordToCity');
-  var latlng = { lat: parseFloat(localStorage.getItem('enteredLat')), lng: parseFloat(localStorage.getItem('enteredLong'))};
+  var latlng = { lat: parseFloat(localStorage.getItem("enteredLat")), lng: parseFloat(localStorage.getItem("enteredLong"))};
   geocoder.geocode({ location: latlng }, (results, status) => {
     if (status === "OK") {
       if (results[0]) {
         //Stores user's city in localStorage, to be used in the main page query
-        localStorage.setItem('enteredCity', getAddressComponent(results[0].address_components, 'locality'));
+        localStorage.setItem("enteredCity", getAddressComponent(results[0].address_components, "locality"));
         console.log('enteredCity ' + localStorage.getItem('enteredCity'));
         loadCarousels();
       } else {
@@ -123,6 +123,6 @@ function addDynamicCarousel(carouselId, tag) {
 
 /* When view all is clicked, redirects to the gallery page and sets the name to be view all. */
 function viewAll() {
-  localStorage.setItem('galleryPageName', 'View all');
+  localStorage.setItem("galleryPageName", "View all");
   window.location.assign("businessgallery.html");
 }
