@@ -3,7 +3,7 @@
 /* Given blob key and image id, inserts image from Blobstore */
 function serveBlob(blobKey, imageId) {
   const image = document.getElementById(imageId);
-  image.src = '/serve?blob-key=' + blobKey;
+  image.src = "/serve?blob-key=" + blobKey;
 }
 
 /* Define global variable for enter key */
@@ -32,14 +32,14 @@ function fetchBlobstoreUploadUrl(formId, fileId, webUrl) {
 
 /* Return blob key from the URL */
 function readBlobKeyFromURl() {
-  var blobKey = getParameterByName('blob-key');
+  var blobKey = getParameterByName("blob-key");
   console.log("Parameter blobKey: " + blobKey);
   return blobKey;
 }
 
 /* Read parameter in URL of window */
 function getParameterByName(name) {
-  console.log('called getParameterByName()');
+  console.log("called getParameterByName()");
   url = window.location.href;
   name = name.replace(/[\[\]]/g, '\\$&');
   // Define search pattern to start parsing URL at '?' or '&', match the name
@@ -115,6 +115,31 @@ function loadAcctSettingsIcons() {
 function selectFile(fileId) {
   console.log("fileId: " + fileId)
   document.getElementById(fileId).click();
+}
+
+function viewAllPostComments() {
+  alert("Fetch all comments for this post!");
+}
+
+/* Backend for search functionality */
+
+/* Takes navbar search input, stores in session storage. */
+function searchInput(keyPress) {
+  if (keyPress.keyCode === ENTER_KEY) {
+    var searchString = document.getElementById("search-bar").value;
+    console.log(searchString);
+    localStorage.setItem("searchString", searchString);
+    localStorage.setItem("searchStringRaw", )
+    localStorage.setItem("galleryPageName", "'" + searchString + "'");
+    window.location.assign("businessgallery.html");
+  } else {
+    return false;
+  }
+}
+
+/* Given a formatted user string, converts it to uppercase and removes special characters. */
+function convertToRawString(string) {
+  if ()
 }
 
 /* Clicks button given id */

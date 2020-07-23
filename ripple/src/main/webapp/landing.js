@@ -35,7 +35,6 @@ function searchAddressAutocomplete() {
 
 /* Display an alert containing the inputted address if user presses enter */
 function searchAddress(keyPress) {
-  var ENTER_KEY = 13;
   if (keyPress.keyCode === ENTER_KEY) {
     var address = document.getElementById('address-input').value;
     //Set the input address to use in the main page
