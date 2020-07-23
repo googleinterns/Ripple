@@ -33,7 +33,6 @@ function searchAddressAutocomplete() {
     });
 }
 
-var ENTER_KEY = 13;
 /* Display an alert containing the inputted address if user presses enter */
 function searchAddress(keyPress) {
   if (keyPress.keyCode === ENTER_KEY) {

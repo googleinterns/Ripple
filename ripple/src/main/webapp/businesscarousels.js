@@ -5,7 +5,7 @@ function convertAddressToCoord() {
   var address = localStorage.getItem('inputAddress');
   var geocoder = new google.maps.Geocoder();
   console.log("old" + localStorage.getItem('enteredLat') + localStorage.getItem('enteredLong'));
-  geocoder.geocode( { 'address': address}, function(results, status) {
+  geocoder.geocode( { 'address': address}, (results, status) => {
     if (status == 'OK') {
       //Stores user's latitude and longitude in localStorage, to be used for computing walking distance
       localStorage.setItem('enteredLat', results[0].geometry.location.lat());
@@ -26,7 +26,7 @@ function convertCoordToCity() {
   console.log(localStorage.getItem('enteredLat')+ ' in coordToCity');
   console.log(localStorage.getItem('enteredLong') + ' in coordToCity');
   var latlng = { lat: parseFloat(localStorage.getItem('enteredLat')), lng: parseFloat(localStorage.getItem('enteredLong'))};
-  geocoder.geocode({ location: latlng }, function(results, status) {
+  geocoder.geocode({ location: latlng }, (results, status) => {
     if (status === "OK") {
       if (results[0]) {
         //Stores user's city in localStorage, to be used in the main page query
