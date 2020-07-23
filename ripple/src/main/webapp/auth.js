@@ -53,18 +53,18 @@ function handleSignUpWithGoogle(user, uid) {
         } else { // User has not yet made an account
           console.log("Success: Google account linked");
         //   var token = result.credential.accessToken;
-          var name = user.displayName;
+          var userName = user.displayName;
           var email = user.email;
           var isBusinessOwner = localStorage.getItem("isBusinessOwner");
-          console.log("name: " + name);
+          console.log("userName: " + userName);
           console.log("isBusinessOwner: " + isBusinessOwner);
           console.log("uid: " + uid);
           sendEmailVerification(user);
-          addNewUser(uid, name, isBusinessOwner, email);
+          addNewUser(uid, userName, isBusinessOwner, email);
           signOutUser(false);
         }
       }
-  getUsersDocByUid(uid, lambda);
+  getDocByDocId("users", uid, lambda);
 }
 
 /* If user already has NOT made an account, send an alert message.
@@ -80,7 +80,7 @@ function handleSignInWithGoogle(user, uid) {
             displayElement("verify-login-subtitle");
           } else {
             // Store uid and business type
-            var userName = doc.data().name;
+            var userName = doc.data().userName;
             var isBusinessOwner = doc.data().isBusinessOwner;
             setLocalStorageFromSignIn(uid, userName, isBusinessOwner);
             window.location = 'landingbusiness.html';
@@ -91,15 +91,7 @@ function handleSignInWithGoogle(user, uid) {
           signOutUser(false);
         }
       }
-  getUsersDocByUid(uid, lambda);
-}
-
-function getUsersDocByUid(uid, lambda) {
-  db.collection("users").doc(uid).get()
-  .then(lambda)
-  .catch(function(error) {
-    console.log("Error getting document:", error);
-  })
+  getDocByDocId("users", uid, lambda);
 }
 
 function setLocalStorageFromSignIn(uid, userName, isBusinessOwner) {
@@ -111,11 +103,11 @@ function setLocalStorageFromSignIn(uid, userName, isBusinessOwner) {
 }
 
 /* Writes user data to firestore */
-function addNewUser(uid, name, isBusinessOwner, email) {
-  console.log("addNewUser("+ uid + ", " + name + ", " + isBusinessOwner + "," + email + ")");
+function addNewUser(uid, userName, isBusinessOwner, email) {
+  console.log("addNewUser("+ uid + ", " + userName + ", " + isBusinessOwner + "," + email + ")");
   db.collection("users").doc(uid).set({
     uid: uid,
-    name: name,
+    userName: userName,
     isBusinessOwner: isBusinessOwner,
     email: email,
     blobKey: blob.DEFAULT_AVATAR,
@@ -147,9 +139,9 @@ function sendEmailVerification(user) {
 function signOutUser(redirectPage="index.html") {
   // console log statements will be removed in final product
   var user = auth.currentUser;
-  var name = user.displayName;
+  var userName = user.displayName;
   var uid = user.uid;
-  console.log("name before logout: " + name);
+  console.log("userName before logout: " + userName);
   console.log("uid before logout: " + uid);
   localStorage.removeItem("uid");
   localStorage.removeItem("userName");
@@ -176,14 +168,14 @@ function signOutUser(redirectPage="index.html") {
 Passes blobKey to getBlobKey() */
 function getAcctInfo(uid) {
   console.log("Success: getAcctInfo() recognizes uid: " + uid);
-  var name, email, isBusinessOwner, address, blobKey;
+  var userName, email, isBusinessOwner, address, blobKey;
   db.collection("users")
       .where("uid", "==", uid)
       .get()
       .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-          name = doc.data().name;
-          addTextToDom(name, "acct-name", "id");
+          userName = doc.data().userName;
+          addTextToDom(userName, "acct-name", "id");
           email = doc.data().email;  
           addTextToDom(email, "acct-email", "id");
           isBusinessOwner = doc.data().isBusinessOwner;  

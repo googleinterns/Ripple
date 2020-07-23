@@ -99,7 +99,7 @@
             <!-- Modal body -->
             <div class="modal-body">
               <div class="modal-subwrapper">
-                <div id="modal-upload-photo" class="modal-upload-photo" onclick="selectFile('post-file')">
+                <div id="modal-upload-photo" class="modal-upload-photo" onclick="selectFile('post-file'); deleteCaption()">
                   <div class="circle-icon">
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-images" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" d="M12.002 4h-10a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1zm-10-1a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-10z"/>
@@ -112,14 +112,16 @@
                 <form id="post-form" onchange="fetchBlobstoreUploadUrl('post-form', 'post-file', 'postcommunity.html')" method="post" enctype="multipart/form-data">
                   <input id="post-file" type="file" name="post-file" style="display: none;">
                 </form>
-                <img onclick="selectFile('post-file')" id="modal-display-photo">
+                <img onclick="selectFile('post-file'); saveCaption()" id="modal-display-photo">
                 <div class="modal-caption">
                   <textarea class="modal-caption-textarea" id="modal-caption" placeholder="Write a caption..."></textarea>
                 </div>
                 <!-- ./Modal body -->
                 <!-- Modal submit button -->
                 <div class="modal-centered-footer">
-                  <button disabled type="button" id="modal-share-button" class="modal-share-button" data-dismiss="modal">Share</button>
+                  <button disabled type="button" id="modal-share-button" onclick="newPost()" class="modal-share-button" data-dismiss="modal">
+                    Share
+                  </button>
                 </div>
                 <!-- ./Modal submit button -->
               </div>
