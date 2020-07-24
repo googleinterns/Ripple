@@ -6,8 +6,11 @@ function serveBlob(blobKey, imageId) {
   image.src = "/serve?blob-key=" + blobKey;
 }
 
-/* Define global variable for enter key */
+/* Define global variable for key press */
 var ENTER_KEY = 13;
+var A_KEY = 65;
+var NUMPAD_9_KEY = 105;
+
 
 /* Display an alert if user presses enter to comment on a post */
 function addComment(e) {
@@ -123,10 +126,17 @@ function viewAllPostComments() {
 
 /* Backend for search functionality */
 
+var searchString = document.getElementById("search-bar");
+document.addEventListener('keyup', searchInput);
+
 /* Takes navbar search input, stores in session storage. */
 function searchInput(keyPress) {
+  var searchString = document.getElementById("search-bar").value;
+  console.log(searchString)
+  //if ((keyPress.keyCode >=  A_KEY) && (keyPress.keyCode <= NUMPAD_9_KEY)) {
+    autocompleteSearch(searchString);
+  //}
   if (keyPress.keyCode === ENTER_KEY) {
-    var searchString = document.getElementById("search-bar").value;
     console.log(searchString);
     localStorage.setItem("galleryPageSearchTag", searchString);
     localStorage.setItem("galleryPageName", "'" + searchString + "'");
@@ -134,6 +144,18 @@ function searchInput(keyPress) {
   } else {
     return false;
   }
+}
+
+function autocompleteSearch(searchString) {
+    rawString = convertToRawString(searchString);
+    autoOptions = trie.find(rawString);
+    var options = '';
+    for(var i = 0; i < autoOptions.length; i++) {
+      option = tagsDict[autoOptions[i]]
+      options += '<option value="'+option+'" />';
+    }
+    
+  document.getElementById('search-autocomplete').innerHTML = options;
 }
 
 /* Given a formatted user string, converts it to uppercase and removes special characters. */
@@ -166,7 +188,8 @@ function sum(a, b) {
 function multiply(a, b) {
   return a*b;
 } 
-module.exports = { 
+
+/*module.exports = { 
   sum: sum, 
   multiply: multiply 
-}
+}*/
