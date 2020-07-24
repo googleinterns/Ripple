@@ -139,7 +139,7 @@ function searchInput(keyPress) {
 /* Given a formatted user string, converts it to uppercase and removes special characters. */
 function convertToRawString(str) {
   var strUpper = str.toUpperCase();
-  return strLower.replace(/\W/g, '');
+  return strUpper.replace(/\W/g, '');
 }
 
 /* Clicks button given id */
