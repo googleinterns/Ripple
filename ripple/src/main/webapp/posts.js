@@ -194,3 +194,12 @@ function createPostElement(userName, userBlobKey, businessName, postBlobKey, cap
   postElement.innerHTML = content;
   return postElement;
 }
+
+// Unit testing exports set up
+
+function subtract(a, b) {
+  return a - b;
+}
+module.exports = { 
+  subtract: subtract,
+}

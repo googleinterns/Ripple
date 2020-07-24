@@ -113,7 +113,7 @@ function loadAcctSettingsIcons() {
 
 /* Clicks button to insert an image file */
 function selectFile(fileId) {
-  console.log("fileId: " + fileId)
+  console.log("fileId: " + fileId);
   document.getElementById(fileId).click();
 }
 
@@ -155,4 +155,18 @@ function hideElement(id) {
 /* Removes disabled attribute from element given an id */
 function enableElement(id) {
   document.getElementById(id).disabled = false;
+}
+
+// Unit testing exports set up
+
+function sum(a, b) {
+  return a + b;
+}
+
+function multiply(a, b) {
+  return a*b;
+} 
+module.exports = { 
+  sum: sum, 
+  multiply: multiply 
 }

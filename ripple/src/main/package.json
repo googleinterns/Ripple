@@ -1,0 +1,11 @@
+{
+  "name": "js-testing-introduction",
+  "main": "script.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^26.1.0"
+  }
+}
+
