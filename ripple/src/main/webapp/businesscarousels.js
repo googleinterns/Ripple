@@ -122,8 +122,10 @@ function addDynamicCarousel(carouselId, tag) {
    });
 }
 
-/* When view all is clicked, redirects to the gallery page and sets the name to be view all. */
-function viewAll() {
+/* When view all is clicked, redirects to the gallery page and sets the name to be view all. 
+   Sets the search tag for the gallery page to the corresponding carousel id tag. */
+function viewAll(tag) {
   localStorage.setItem("galleryPageName", "View all");
+  localStorage.setItem("galleryPageSearchTag", tag);
   window.location.assign("businessgallery.html");
 }
