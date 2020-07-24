@@ -60,12 +60,3 @@ function hardcodeBusinesses() {
   writeBusiness(tossname, tossmap, "5-10 mins walking", tossaddress, "Mn7Nc-q8KaWPWsR_wyaCDw", 37.867750, -122.267930);
 
 }
-
-/* Function to create a map given a list of tags. EDIT: Not used because Firestore doesn't recognize maps to be created like this. */
-function createTagMap(tagList) {
-  var tagMap = {};
-  for (i = 0; i < tagList.length; i++) {
-    var tag = tagList[i];
-    tagMap[tag] = convertToRawString(tag);
-  }
-}
