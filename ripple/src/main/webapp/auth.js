@@ -32,8 +32,7 @@ function openGooglePopUp(authMethod) {
       var email = error.email;
       var credential = error.credential;
     });
-  })
-  .catch((error) => {
+  }).catch((error) => {
     // Handle Errors here.
     var errorCode = error.code;
     var errorMessage = error.message;
@@ -164,7 +163,7 @@ function signOutUser(redirectPage="index.html") {
   });
 }
  
-/* TODO: Use general Fireabse function [move to Account settings JS file].
+/* TODO: Use general Firebase function [move to Account settings JS file].
 Reads account name, email, type, and address and adds to DOM.
 Passes blobKey to getBlobKey() */
 function getAcctInfo(uid) {
