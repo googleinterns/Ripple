@@ -76,7 +76,7 @@ function getAddressComponent(components, type) {
 /* Code to dynamically load carousels. Calls addDynamicCarousel function to populate the carousels. */
 function loadCarousels() {
     addDynamicCarousel("black-owned-businesses", "Black-owned");
-    addDynamicCarousel("under-10-mins-away", "5-10");
+    addDynamicCarousel("under-10-mins-away", "Close");
     addDynamicCarousel("trending-near-you", "Trending");
     addDynamicCarousel("up-and-coming", "New");
 }
@@ -89,7 +89,8 @@ function addDynamicCarousel(carouselId, tag) {
         querySnapshot.forEach((doc) => {
             //Check if the city in Firestore matches the city extracted from the user inputted address.
             //Also checks if the business's tag list contains the tag that the carousel requires.
-            if (doc.data().city == localStorage.getItem('enteredCity') && doc.data().tags[tag] == true) {
+            if (doc.data().address != null && doc.data().address[1] == localStorage.getItem('enteredCity') 
+                && doc.data().tags[convertToRawString(tag)] == tag) {
               makeElement = true;
               const card = document.createElement('div');
               card.classList = 'carousel-inner row w-100 mx-auto';
@@ -100,7 +101,7 @@ function addDynamicCarousel(carouselId, tag) {
                 <div class="card">
                     <img class="card-img-top img-fluid" id="card-dynamic-image" src="/serve?blob-key=${doc.data().thumbnailImage}">
                     <div class="card-body">
-                    <p class="card-text">${doc.data().name}</p>
+                    <p class="card-text">${doc.data().businessName[1]}</p>
                     <p class="card-text"><small class="text-muted">${doc.data().walkingDistance}</small></p>
                     </div>
                 </div>
