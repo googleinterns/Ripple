@@ -14,9 +14,8 @@ function loadSearchResults() {
             //Check if the city in Firestore matches the city extracted from the user inputted address.
             //Also checks if the business's tag list contains the tag that the carousel requires.
             var tag = localStorage.getItem('galleryPageSearchTag');
-            //alert(tag);
             if (doc.data().address != null && doc.data().address[1] == localStorage.getItem('enteredCity') 
-                && doc.data().tags[convertToRawString(tag)] == tag) {
+                && doc.data().tags[convertToRawString(tag)] !== undefined) {
               makeElement = true;
               const card = document.createElement('div');
               card.classList = 'row';
@@ -40,7 +39,6 @@ function loadSearchResults() {
         // Append newly created card element to the container
         if (makeElement) {
           var galleryElement = document.getElementById("row");
-          alert(galleryElement);
           galleryElement.innerHTML = contentStrings.join("\n");
         }
    });
