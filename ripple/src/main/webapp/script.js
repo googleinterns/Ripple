@@ -128,8 +128,7 @@ function searchInput(keyPress) {
   if (keyPress.keyCode === ENTER_KEY) {
     var searchString = document.getElementById("search-bar").value;
     console.log(searchString);
-    localStorage.setItem("searchString", searchString);
-    localStorage.setItem("searchStringRaw", )
+    localStorage.setItem("galleryPageSearchTag", searchString);
     localStorage.setItem("galleryPageName", "'" + searchString + "'");
     window.location.assign("businessgallery.html");
   } else {
@@ -138,8 +137,9 @@ function searchInput(keyPress) {
 }
 
 /* Given a formatted user string, converts it to uppercase and removes special characters. */
-function convertToRawString(string) {
-  if ()
+function convertToRawString(str) {
+  var strUpper = str.toUpperCase();
+  return strLower.replace(/\W/g, '');
 }
 
 /* Clicks button given id */
