@@ -32,13 +32,12 @@
     </script>
     <!-- This needs to be after firebase initialization -->
     <script src="auth.js"></script>
-    <script src="firestore.js"></script>
     <!-- ./Firebase configuration and initialization -->
     <script src="script.js"></script>
     <script src="businesscarousels.js"></script>
     <script src="businessgallery.js"></script>
   </head>
-  <body>
+  <body onload="displayName(); loadSearchResults()">
     <div class="half-bg-no-color">
         <!--Navbar -->
         <div class="wrapper" id="wrapper">
@@ -68,87 +67,14 @@
         <!-- /.Navbar -->
         <!-- Manage business header -->
         <div class="container"> 
-            <h1 class="left-align-header">View all</h1>
+            <h1 class="left-align-header" id="left-align-header">View all</h1>
         </div>
     </div>
     <!-- /.Business gallery header -->
     <div class="container">
         <!-- Card Carousels -->
         <div class="gallery-container">
-            <div class="row">
-                <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <div class="card h-100">
-                    <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/cupcakes.png">
-                        <div class="card-body">
-                            <p class="card-text">Cupcakin' Bake Shop</p>
-                            <p class="card-text"><small class="text-muted">15-20 mins</small></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <div class="card h-100">
-                    <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/indian_food.jpg">
-                        <div class="card-body">
-                            <p class="card-text">Vik's Chaat</p>
-                            <p class="card-text"><small class="text-muted">15-20 mins</small></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <div class="card h-100">
-                    <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/chinese_food.jpg">
-                        <div class="card-body">
-                            <p class="card-text">Mandarette Cafe</p>
-                            <p class="card-text"><small class="text-muted">15-20 mins</small></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <div class="card h-100">
-                    <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/indian_food.jpg">
-                        <div class="card-body">
-                            <p class="card-text">Vik's Chaat</p>
-                            <p class="card-text"><small class="text-muted">15-20 mins</small></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <div class="card h-100">
-                    <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/cupcakes.png">
-                        <div class="card-body">
-                            <p class="card-text">Cupcakin' Bake Shop</p>
-                            <p class="card-text"><small class="text-muted">15-20 mins</small></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <div class="card h-100">
-                    <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/cupcakes.png">
-                        <div class="card-body">
-                            <p class="card-text">Cupcakin' Bake Shop</p>
-                            <p class="card-text"><small class="text-muted">15-20 mins</small></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <div class="card h-100">
-                    <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/cupcakes.png">
-                        <div class="card-body">
-                            <p class="card-text">Cupcakin' Bake Shop</p>
-                            <p class="card-text"><small class="text-muted">15-20 mins</small></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <div class="card h-100">
-                    <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/cupcakes.png">
-                        <div class="card-body">
-                            <p class="card-text">Cupcakin' Bake Shop</p>
-                            <p class="card-text"><small class="text-muted">15-20 mins</small></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          <div class="row" id="row"></div>
         </div>
     </div>
   </body>

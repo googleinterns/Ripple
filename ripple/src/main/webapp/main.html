@@ -25,12 +25,10 @@
       var auth = firebase.auth();
       var db = firebase.firestore();
     </script>
-    <!-- This needs to be after firebase initialization -->
-    <script src="auth.js"></script>
-    <script src="firestore.js"></script>
     <!-- ./Firebase configuration and initialization -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBo4gWG5T9oBscp7tHWzSL9L4masICev5U&region=US&libraries=places"></script>
     <script src="script.js"></script>
+    <script src="auth.js"></script>
     <script src="landing.js"></script>
     <script src="businesscarousels.js"></script>
     <title>Ripple</title>
@@ -42,7 +40,6 @@
         <div class="custom-container">
           <nav class="mb-1 navbar navbar-expand-lg">
             <a class="navbar-brand" href="main.html">Ripple</a>
-            
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
                 aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
@@ -78,7 +75,7 @@
             <p class="cluster-title">Black-owned businesses</p>
             <p class="cluster-subtitle"><small class="text-muted">Let's support our neighbors.</small></p>
             <div class="cluster-title-button">
-              <button class="view-all" onclick="viewAll()">View all ></button>
+              <button class="view-all" onclick="viewAll('Black-owned')">View all ></button>
             </div>
           </div>
           <div id="black-owned-businesses" class="carousel slide" data-interval="false">
@@ -96,7 +93,7 @@
             <p class="cluster-title">Under 10 minutes away</p>
             <p class="cluster-subtitle"><small class="text-muted">Faster is always better.</small></p>
             <div class="cluster-title-button">
-              <button class="view-all" onclick="viewAll()">View all ></button>
+              <button class="view-all" onclick="viewAll('Close')">View all ></button>
             </div>
           </div>
           <div id="under-10-mins-away" class="carousel slide" data-interval="false">
@@ -114,7 +111,7 @@
             <p class="cluster-title">Trending near you</p>
             <p class="cluster-subtitle"><small class="text-muted">The best of your city, one click away.</small></p>
             <div class="cluster-title-button">
-              <button class="view-all" onclick="viewAll()">View all ></button>
+              <button class="view-all" onclick="viewAll('Trending')">View all ></button>
             </div>
           </div>
           <div id="trending-near-you" class="carousel slide" data-interval="false">
@@ -132,7 +129,7 @@
             <p class="cluster-title">Up-and-coming</p>
             <p class="cluster-subtitle"><small class="text-muted">Explore something new--you might find a favorite.</small></p>
             <div class="cluster-title-button">
-              <button class="view-all" onclick="viewAll()">View all ></button>
+              <button class="view-all" onclick="viewAll('New')">View all ></button>
             </div>
           </div>
           <div id="up-and-coming" class="carousel slide" data-interval="false">
