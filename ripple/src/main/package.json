@@ -2,10 +2,18 @@
   "name": "js-testing-introduction",
   "main": "script.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest || true"
   },
   "devDependencies": {
-    "jest": "^26.1.0"
+    "jest": "^26.1.0",
+    "jest-localstorage-mock": "^2.4.3"
+  },
+  "jest": {
+    "setupFiles": [
+      "jest-localstorage-mock"
+    ]
+  },
+  "dependencies": {
+    "jquery": "^3.5.1"
   }
 }
-
