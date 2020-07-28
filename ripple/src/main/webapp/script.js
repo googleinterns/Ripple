@@ -187,4 +187,3 @@ function enableElement(id) {
 module.exports = { 
   convertToRawString: convertToRawString,
 }
-
