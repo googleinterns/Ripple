@@ -33,6 +33,7 @@
     <!-- This needs to be after firebase initialization -->
     <script src="auth.js"></script>
     <!-- ./Firebase configuration and initialization -->
+    <script src="trie.js"></script>
     <script src="script.js"></script>
     <script src="businesscarousels.js"></script>
     <script src="businessgallery.js"></script>
@@ -53,7 +54,8 @@
                         <!-- Actual search box -->
                         <div class=search>
                             <i class="material-icons">search</i>
-                            <input class="search-bar-neutral" id="search-bar" type="text" onkeypress="searchInput(event)" placeholder="Search for anything...">
+                            <input class="search-bar-neutral" id="search-bar" list="search-autocomplete" type="text" placeholder="Search for anything..." autocomplete="off">
+                            <datalist id="search-autocomplete"></datalist>
                         </div>
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item active">
