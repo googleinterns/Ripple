@@ -155,10 +155,16 @@ function autocompleteSearch(searchString) {
   document.getElementById('search-autocomplete').innerHTML = options;
 }
 
-/* Given a formatted user string, converts it to uppercase and removes special characters. */
+/* Given a formatted user string, converts it to uppercase, removes special characters, 
+   converts accented characters to ascii. */
 function convertToRawString(str) {
-  var strUpper = str.toUpperCase();
-  return strUpper.replace(/\W/g, '');
+  if (typeof str === "string") {
+    var strUpper = str.toUpperCase();
+    // Normalize to NFD & use regex to remove diacritics. Remove special chars.
+    return strUpper.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\W/g, ''); 
+  } else {
+    return false;
+  }
 }
 
 /* Clicks button given id */
@@ -178,15 +184,7 @@ function enableElement(id) {
 
 // Unit testing exports set up
 
-function sum(a, b) {
-  return a + b;
+module.exports = { 
+  convertToRawString: convertToRawString,
 }
 
-function multiply(a, b) {
-  return a*b;
-} 
-
-/*module.exports = { 
-  sum: sum, 
-  multiply: multiply 
-}*/
