@@ -8,8 +8,6 @@ function serveBlob(blobKey, imageId) {
 
 /* Define global variable for key press */
 var ENTER_KEY = 13;
-var A_KEY = 65;
-var NUMPAD_9_KEY = 105;
 
 
 /* Display an alert if user presses enter to comment on a post */
@@ -133,22 +131,21 @@ document.addEventListener('keyup', searchInput);
 function searchInput(keyPress) {
   var searchString = document.getElementById("search-bar").value;
   console.log(searchString)
-  //if ((keyPress.keyCode >=  A_KEY) && (keyPress.keyCode <= NUMPAD_9_KEY)) {
+  if (keyPress.keyCode != ENTER_KEY) {
     autocompleteSearch(searchString);
-  //}
-  if (keyPress.keyCode === ENTER_KEY) {
+  } else {
     console.log(searchString);
     localStorage.setItem("galleryPageSearchTag", searchString);
     localStorage.setItem("galleryPageName", "'" + searchString + "'");
     window.location.assign("businessgallery.html");
-  } else {
-    return false;
   }
+  return false;
 }
 
+/* Function to perform search autocomplete. Calls trie to get autocomplete words. */
 function autocompleteSearch(searchString) {
     rawString = convertToRawString(searchString);
-    autoOptions = trie.find(rawString);
+    autoOptions = trie.getWords(rawString, 5);
     var options = '';
     for(var i = 0; i < autoOptions.length; i++) {
       option = tagsDict[autoOptions[i]]
