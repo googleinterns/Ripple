@@ -163,6 +163,13 @@ function enableElement(id) {
   document.getElementById(id).disabled = false;
 }
 
+function clearLocalStorage(arrayKeys) {
+  arrayKeys.forEach((key) => {
+    console.log("Removing from localStorage: " + key + ", " + localStorage.getItem(key));
+    localStorage.removeItem(key);
+  });
+}
+
 // Unit testing exports set up
 
 module.exports = { 
