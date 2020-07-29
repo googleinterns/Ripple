@@ -37,18 +37,14 @@ function addColorToRating(ratingType, rating, maxRating, elementIdPrefix, addCla
    Otherwise, ratings will be restored to last clicked value based on local storage */
 function removeColorFromRating(ratingType, rating, maxRating, elementIdPrefix, addClass) {
   // Reset all colors to neutral if no ratings have been set
-  console.log("removeColorsFromRating() called");
   var currRating = localStorage.getItem(ratingType);
-  console.log("currRating: " + currRating);
   if (currRating == null) {
     var j;
     for (j = 1; j <= maxRating; j++) {
-      console.log("j = " + j);
       elementId = elementIdPrefix + j.toString();
       $(elementId).removeClass(addClass);
     }
   } else {
-    console.log(ratingType, currRating, maxRating, elementIdPrefix, addClass);
     addColorToRating(ratingType, parseInt(currRating), maxRating, elementIdPrefix, addClass);
   }
 }
