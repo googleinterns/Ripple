@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.5.1/firebase-ui-auth.js"></script>
+    <script type='text/javascript' src='config.js'></script>
+    <script type='text/javascript' src='variables.js'></script>
+    <!-- Firebase configuration and initialization -->
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-firestore.js"></script>
+    <script>
+      firebase.initializeApp(config);
+      // Create auth and firestore references 
+      var auth = firebase.auth();
+      var db = firebase.firestore();
+    </script>
+    <!-- ./Firebase configuration and initialization -->
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script src="businessdetails.js"></script>
+    <title>Ripple</title>
+  </head>
+  <body onload="checkUserStatus(); loadAcctSettingsIcons();">
+    <!-- Banner -->
+    <div class="three-quarters-bg-no-color">
+      <!--Navbar -->
+      <div class="wrapper" id="wrapper">
+        <div class="custom-container" id="container">
+          <nav class="mb-1 navbar navbar-expand-lg">
+            <a class="navbar-brand hover-neutral-to-primary-color" href="#">Ripple</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
+                aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+              <!-- Actual search box -->
+              <div class=search>
+                <i class="material-icons">search</i>
+                <input class="search-bar-neutral" id="search-bar" type="text" onkeypress="searchInput(event)" placeholder="Search for anything...">
+              </div>
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                  <a class="nav-link hover-neutral-to-primary-color" href="stories.html">Today</a>
+                </li>
+              </ul>
+              <ul class="navbar-nav nav-flex-icons">
+                <li class="nav-item avatar dropdown">
+                  <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">
+                    <img id="nav-bar-avatar" class="rounded-circle z-depth-0">
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
+                      aria-labelledby="navbarDropdownMenuLink-55">
+                    <a class="dropdown-item" href="#">Your favorites</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Account settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" onclick="signOutUser()">Log out</a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+      <!-- /.Navbar -->
+      <!-- Business details image gallery TODO: SMRUTHI DYNAMICALLY ALLOCATE EXISTING IMGS -->
+      <div class="container bd-gallery"> 
+      </div>
+      <!-- /.Business details image gallery -->
+    </div>
+    <!-- /.Banner -->
+    <!-- Business details content -->
+    <div class="container bd-text">
+      <div class="light-font-weight bd-padding-top">
+        <i class="fa fa-map-marker fa-lg" aria-hidden="true"></i>
+        <p class="inline-block-child" id="bd-address">8386 Beverly Blvd</p>
+        <div class="inline-block-child"><div class="vl"></div></div>
+        <p class="inline-block-child"><span id="bd-walking-dist">5</span> min walking distance</p>
+        <div class="inline-block-child"><div class="vl"></div></div>
+        <p class="inline-block-child" id="bd-open-close">Open</p>
+        <div class="inline-block-child"><div class="vl"></div></div>
+        <p class="inline-block-child" id="bd-phone-number">(323) 656-6115</p>
+      </div>
+      <!-- tags TODO: SMRUTHI CREATE + DYNAMICALLY LOAD TAGS -->
+      <div class="bd-tags">
+      </div>
+      <!-- ./tags -->
+      <h1 class="bd-header" id="bd-header">Mandarette Cafe</h1>
+      <!-- Latest announcements -->
+      <div class="bd-padding-top">
+        <p class="inline-block-child boldest-text">Latest announcements</p>
+        <p class="inline-block-child" id="bd-announcement-date">June 13, 2020</p>
+      </div>
+      <p id="bd-announcement-text">We are now opened for outdoor dining, pickup and delivery
+          daily from 11:30am to 9:30pm. For your safety, we are now providing no contact delivery
+          options to our patrons. Please call and ask. Stay safe and let's beat Covid-19 together.
+      </p>
+      <!-- ./Latest announcements -->
+      <!-- Our story -->
+      <p class="boldest-text bd-padding-top">Our story</p>
+      <p id="bd-story-text">In business for over thirty years, our establishment remains true to its
+          original mission; treat the customers as you would treat your family. Mandarette Chinese
+          Cafe is a spin off from the Mandarin of Beverly Hills in 1984. In 1989, head chef, Yang
+          took over the operation and today he is still the head chef. Over the years we have proven
+          to be one of the best chinese restaurants in the area!
+      </p>
+      <!-- ./Our story -->
+      <!-- Our team -->
+      <p class="boldest-text bd-padding-top">Our team</p>
+      <div>
+        <img class="inline-block-child bd-avatar bd-team-highlight" id="bd-team-photo" src="/images/undrawAvatar.svg">
+        <img class="inline-block-child bd-avatar" width=45px height=45px id="bd-team-photo" src="/images/avatar_stock_man.jpg">
+        <img class="inline-block-child bd-avatar" id="bd-team-photo" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg">
+      </div>
+      <div class="bd-padding-top">
+        <p class="inline-block-child" id="bd-team-name">Ken Yang</p>
+        <div class="inline-block-child"><div class="vl"></div></div>
+        <p class="inline-block-child" id="bd-team-title">Owner</p>
+      </div>
+      <p id="bd-team-text">Hey Ripple family! I'm Ken, and I'd love to share a little bit about me: Outside of my restaurant work,
+          I love spending time with my family, hiking in LA's beautiful trails, and taking photos of nature. 
+      </p>
+      <!-- ./Our team -->
+      <!-- Health safety + icons -->
+      <p class="boldest-text bd-padding-top">Our health safety commitment</p>
+      <div class="bd-padding-top">
+        <div class="inline-block-child bd-safety-column">
+          <img class="bd-safety-icon" src="serve?blob-key=DSDJ6go4vUvQaCjaQRVNvw">
+          <p class="bd-safety-caption">Mask required upon entry</p>
+        </div>
+        <div class="inline-block-child"><div class="vl-long"></div></div>
+        <div class="inline-block-child bd-safety-column">
+          <img class="bd-safety-icon" src="serve?blob-key=7G862TaTkzfwj3KS9d1jSA">
+          <p class="bd-safety-caption">Delivery & pickup offered</p>
+        </div>
+        <div class="inline-block-child"><div class="vl-long"></div></div>
+        <div class="inline-block-child bd-safety-column">
+          <img class="bd-safety-icon" src="serve?blob-key=x9T12YWRtRp65jr5RfQ3QQ">
+          <p class="bd-safety-caption neutral-lighter-text">Outdoor dining not offered</p>
+        </div>
+        <div class="inline-block-child"><div class="vl-long"></div></div>
+        <div class="inline-block-child bd-safety-column">
+          <p class="boldest-text text-icon no-text-margin neutral-lighter-text" id="bd-max-occupany">n/a</p>
+          <p class="bd-safety-caption neutral-lighter-text">Max occupancy per table</p>
+        </div>
+      </div>
+      <!-- ./Health safety + icons-->
+      <!-- TODO: Open hours -->
+      <!-- ./Open hours -->
+      <!-- TODO: Order links -->
+      <!-- ./Order links -->
+    </div>
+    <!-- ./Business details content -->
+  </body>
+</html>
