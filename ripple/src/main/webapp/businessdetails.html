@@ -25,11 +25,11 @@
     </script>
     <!-- ./Firebase configuration and initialization -->
     <script src="script.js"></script>
-    <script src="auth.js"></script>
+    <script src="maps.js"></script>
     <script src="businessdetails.js"></script>
     <title>Ripple</title>
   </head>
-  <body onload="checkUserStatus(); loadAcctSettingsIcons();">
+  <body onload="clearLocalStorage(['starRating', 'priceRating'])">
     <!-- Banner -->
     <div class="three-quarters-bg-no-color">
       <!--Navbar -->
@@ -73,7 +73,7 @@
         </div>
       </div>
       <!-- /.Navbar -->
-      <!-- Business details image gallery TODO: SMRUTHI DYNAMICALLY ALLOCATE EXISTING IMGS -->
+      <!-- Business details image gallery TODO: SMRUTHI DYNAMICALLY ALLOCATE EXISTING IMGS FROM BD EDIT PAGE AS A CAROUSEL -->
       <div class="container bd-gallery"> 
       </div>
       <!-- /.Business details image gallery -->
@@ -89,16 +89,88 @@
         <div class="inline-block-child"><div class="vl"></div></div>
         <p class="inline-block-child" id="bd-open-close">Open</p>
         <div class="inline-block-child"><div class="vl"></div></div>
+        <i class="inline-block-child fa fa-phone fa-lg" aria-hidden="true"></i>
         <p class="inline-block-child" id="bd-phone-number">(323) 656-6115</p>
+        <div class="inline-block-child"><div class="vl"></div></div>
+        <a class="inline-block-child hyper-link" id="business-website" href="http://mandarette.com/">mandarette.com</a>
       </div>
       <!-- tags TODO: SMRUTHI CREATE + DYNAMICALLY LOAD TAGS -->
       <div class="bd-tags">
       </div>
       <!-- ./tags -->
       <h1 class="bd-header" id="bd-header">Mandarette Cafe</h1>
+      <!-- Ratings & price-->
+      <div>
+        <!-- Stars-->
+        <span id="star-1" class="fa fa-star star-color fa-lg"></span>
+        <span id="star-2" class="fa fa-star star-color fa-lg"></span>
+        <span id="star-3" class="fa fa-star star-color fa-lg"></span>
+        <span id="star-4" class="fa fa-star-half-o star-color fa-lg"></span>
+        <span id="star-5" class="fa fa-star-o star-color fa-lg"></span>
+        <!-- ./Stars -->
+        <p class="inline-block-child  bd-left-padding"><span id="bd-number-reviews">321</span> reviews</p>
+        <div class="inline-block-child"><div class="vl"></div></div>
+        <p class="inline-block-child" id="bd-price">$$</p>
+      </div>
+      <!-- Button to open the modal -->
+      <button type="button" id="review-button" class="primary-fill-chip chip-box-shadow bd-subheader-padding-top" data-toggle="modal" data-target="#bdModal">
+        Add a review
+      </button>
+      <!-- The Modal -->
+      <div class="modal show fade" id="bdModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- Modal header -->
+            <div class="modal-header center">
+              <h3 class="col-12 modal-title bd-center-align">
+                Write a review
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </h3>
+            </div>
+            <!--/Modal  -->
+            <!-- Modal body -->
+            <div class="modal-body">
+              <div class="bd-review-subwrapper">
+                <!-- User rates stars -->
+                <div class="bd-center bd-subheader-padding-top neutral-color">
+                  <span id="star-rating-1" class="star-rating fa fa-star fa-3x" onclick=starRating(1)></span>  
+                  <span id="star-rating-2" class="star-rating fa fa-star fa-3x" onclick=starRating(2)></span>  
+                  <span id="star-rating-3" class="star-rating fa fa-star fa-3x" onclick=starRating(3)></span>  
+                  <span id="star-rating-4" class="star-rating fa fa-star fa-3x" onclick=starRating(4)></span>  
+                  <span id="star-rating-5" class="star-rating fa fa-star fa-3x" onclick=starRating(5)></span>  
+                </div>
+                <!-- ./User rates stars -->
+                <!-- User rates price -->
+                <div>
+                  <p class="bd-center bd-review-price bd-subheader-padding-top neutral-color">
+                    <span id="price-1" class="cursor-pointer" onclick=priceRating(1)>$</span>
+                    <span id="price-2" class="cursor-pointer" onclick=priceRating(2)>$</span>
+                    <span id="price-3" class="cursor-pointer" onclick=priceRating(3)>$</span>
+                  </p>
+                </div>
+                <!-- ./User rates price -->
+                <div class="modal-caption">
+                  <textarea class="bd-review-textarea" id="bd-review-comment" placeholder="This was my first time at this restaurant and I absolutely loved their House Fried noodles. The wait to get into the store was long, but that makes sense because their quality of service and food is gaining popularity rapidly. I also felt safe because all the customers and workers were wearing masks."></textarea>
+                </div>
+                <!-- ./Modal body -->
+                <!-- Modal submit button -->
+                <div class="modal-centered-footer">
+                  <button disabled type="button" id="bd-post-review-button" onclick="newReview()" class="primary-fill-chip" data-dismiss="modal">
+                    Post
+                  </button>
+                </div>
+                <!-- ./Modal submit button -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ./Modal -->
       <!-- Latest announcements -->
       <div class="bd-padding-top">
-        <p class="inline-block-child boldest-text">Latest announcements</p>
+        <p class="inline-block-child boldest-text bd-subtitle">Latest announcements</p>
         <p class="inline-block-child" id="bd-announcement-date">June 13, 2020</p>
       </div>
       <p id="bd-announcement-text">We are now opened for outdoor dining, pickup and delivery
@@ -107,7 +179,7 @@
       </p>
       <!-- ./Latest announcements -->
       <!-- Our story -->
-      <p class="boldest-text bd-padding-top">Our story</p>
+      <p class="boldest-text bd-padding-top bd-subtitle">Our story</p>
       <p id="bd-story-text">In business for over thirty years, our establishment remains true to its
           original mission; treat the customers as you would treat your family. Mandarette Chinese
           Cafe is a spin off from the Mandarin of Beverly Hills in 1984. In 1989, head chef, Yang
@@ -116,13 +188,13 @@
       </p>
       <!-- ./Our story -->
       <!-- Our team -->
-      <p class="boldest-text bd-padding-top">Our team</p>
-      <div>
+      <p class="boldest-text bd-padding-top bd-subtitle">Our team</p>
+      <div class="bd-subheader-padding-top">
         <img class="inline-block-child bd-avatar bd-team-highlight" id="bd-team-photo" src="/images/undrawAvatar.svg">
         <img class="inline-block-child bd-avatar" width=45px height=45px id="bd-team-photo" src="/images/avatar_stock_man.jpg">
         <img class="inline-block-child bd-avatar" id="bd-team-photo" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg">
       </div>
-      <div class="bd-padding-top">
+      <div class="bd-subheader-padding-top">
         <p class="inline-block-child" id="bd-team-name">Ken Yang</p>
         <div class="inline-block-child"><div class="vl"></div></div>
         <p class="inline-block-child" id="bd-team-title">Owner</p>
@@ -132,34 +204,91 @@
       </p>
       <!-- ./Our team -->
       <!-- Health safety + icons -->
-      <p class="boldest-text bd-padding-top">Our health safety commitment</p>
+      <p class="boldest-text bd-padding-top bd-subtitle">Our health safety commitment</p>
       <div class="bd-padding-top">
         <div class="inline-block-child bd-safety-column">
           <img class="bd-safety-icon" src="serve?blob-key=DSDJ6go4vUvQaCjaQRVNvw">
-          <p class="bd-safety-caption">Mask required upon entry</p>
+          <p id="bd-mask-text" class="bd-safety-caption">Mask required upon entry</p>
         </div>
         <div class="inline-block-child"><div class="vl-long"></div></div>
         <div class="inline-block-child bd-safety-column">
           <img class="bd-safety-icon" src="serve?blob-key=7G862TaTkzfwj3KS9d1jSA">
-          <p class="bd-safety-caption">Delivery & pickup offered</p>
+          <p id="bd-delivery-pickup-text" class="bd-safety-caption">Delivery offered</p>
+        </div>
+        <div class="inline-block-child"><div class="vl-long"></div></div>
+        <div class="inline-block-child bd-safety-column">
+          <img class="bd-safety-icon" src="serve?blob-key=3VlrzMLnBwqNJ7DLf-1-xA">
+          <p id="bd-outdoor-dining-text" class="bd-safety-caption">Pickup offered</p>
         </div>
         <div class="inline-block-child"><div class="vl-long"></div></div>
         <div class="inline-block-child bd-safety-column">
           <img class="bd-safety-icon" src="serve?blob-key=x9T12YWRtRp65jr5RfQ3QQ">
-          <p class="bd-safety-caption neutral-lighter-text">Outdoor dining not offered</p>
+          <p id="bd-outdoor-dining-text" class="bd-safety-caption neutral-lighter-text">No outdoor dining</p>
         </div>
         <div class="inline-block-child"><div class="vl-long"></div></div>
+      </div>
+      <div class="bd-padding-top">
         <div class="inline-block-child bd-safety-column">
-          <p class="boldest-text text-icon no-text-margin neutral-lighter-text" id="bd-max-occupany">n/a</p>
-          <p class="bd-safety-caption neutral-lighter-text">Max occupancy per table</p>
+          <p class="boldest-text text-icon no-text-margin neutral-lighter-text" id="bd-max-occ-num">n/a</p>
+          <p id="bd-max-occ-text" class="bd-safety-caption neutral-lighter-text">Max occupancy per table</p>
         </div>
       </div>
       <!-- ./Health safety + icons-->
-      <!-- TODO: Open hours -->
+      <!-- Open hours -->
+      <div>
+        <div class="inline-block-child bd-hrs-column">
+          <p class="boldest-text bd-padding-top bd-subtitle">Open hours</p>
+          <div class="bd-hrs-span">
+            <span>Monday</span>
+            <span id="bd-mon-hrs">11:00am - 9:00pm</span>
+          </div>
+          <div class="bd-hrs-span">
+            <span>Tuesday</span>
+            <span id="bd-tues-hrs">11:00am - 9:00pm</span>
+          </div>
+          <div class="bd-hrs-span">
+            <span>Wednesday</span>
+            <span class="bd-hrs-highlight boldest-text" id="bd-wed-hrs">11:00am - 9:00pm</span>
+          </div>
+          <div class="bd-hrs-span">
+            <span>Thursday</span>
+            <span id="bd-thur-hrs">11:00am - 9:00pm</span>
+          </div>
+          <div class="bd-hrs-span">
+            <span>Friday</span>
+            <span id="bd-fri-hrs">11:00am - 9:00pm</span>
+          </div>
+          <div class="bd-hrs-span">
+            <span>Saturday</span>
+            <span id="bd-sat-hrs">11:00am - 9:00pm</span>
+          </div>
+          <div class="bd-hrs-span">
+            <span>Sunday</span>
+            <span id="bd-sun-hrs">11:00am - 9:00pm</span>
+          </div>
+        </div>
+        <!-- Map -->
+        <div class="inline-block-child bd-hrs-column">
+          <div id="map"></div>
+        </div>
+        <!-- ./Map -->
+      </div>
       <!-- ./Open hours -->
-      <!-- TODO: Order links -->
+      <!-- Order links -->
+      <p class="boldest-text bd-padding-top bd-subtitle">Order</p>
+      <div>
+        <a id="uber-eats" class="order-links" href="https://www.ubereats.com/los-angeles/food-delivery/mandarette-chinese-cafe/gUPV2Hz0TxWYwr1oh-6s6w">
+          <img class="inline-block-child bd-order-img" src="serve?blob-key=5N3NqYo-KaozWYsSCe7ESg">
+        </a>
+        <a id="postmates" class="order-links" href="https://postmates.com/merchant/mandarette-chinese-cafe-los-angeles">
+          <img class="inline-block-child bd-order-img-large" src="serve?blob-key=QBLu8l3peUtMe_gp5CVPnA">
+        </a>
+        <a id="grubhub" class="order-links" href="https://www.grubhub.com/restaurant/mandarette-cafe-8386-beverly-blvd-los-angeles/1179674">
+          <img class="inline-block-child bd-order-img" src="serve?blob-key=ox9yzloQEQOwI0mqSofTOQ">
+        </a>
+      </div>
       <!-- ./Order links -->
     </div>
     <!-- ./Business details content -->
-  </body>
+    </br></br></br></br></br></br></br></br></br></br>
 </html>
