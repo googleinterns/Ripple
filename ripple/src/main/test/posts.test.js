@@ -5,6 +5,7 @@ const $ = require('jquery');
 require('../__mocks__/localstorage');
 const sinon = require('../node_modules/sinon/pkg/sinon.js');
 
+/* Test checks that a user input in a post caption is correctly stored in local storage. */
 test('saveCaption: test #1 Save user input for caption area', () => {
   localStorage.clear();
   // Set up our document body
@@ -16,7 +17,7 @@ test('saveCaption: test #1 Save user input for caption area', () => {
   expect(localStorage.getItem("caption")).toBe("This is my caption!!!");
 });
 
-/* Test that checks if localStorage correctly stores values if a user registers as community member. */
+/* Test checks that a post element is generated with the correct values. */
 test('createPostElement: test #1 create a post element', () => {
   localStorage.clear();
   // Set up our document body

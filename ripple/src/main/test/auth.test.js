@@ -38,7 +38,7 @@ test('setLocalStorageFromSignIn: test #1 (isBusinessOwner set to be true)', () =
   expect(localStorage.getItem("userBlobKey")).toBe("userBlobKey12345");
 });
 
-/* Test that checks if localStorage correctly stores values */
+/* Test that checks if localStorage correctly stores uid, userName, isBusinessOwner, userBlobKey */
 test('setLocalStorageFromSignIn: test #2 (isBusinessOwner set to be false)', () => {
   localStorage.clear();
   var uid = "anotherUserId12345";
