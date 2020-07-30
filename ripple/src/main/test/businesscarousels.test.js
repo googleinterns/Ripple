@@ -1,8 +1,10 @@
-/* Contains unit tests for businesscarousels.js file. */
+/* Contains unit tests for businesscarousels.js file. Includes tests for functions that don't involve Firebase or Google API calls. */
 
 const carouselsModule = require('../webapp/businesscarousels');
 const $ = require('jquery');
 require('../__mocks__/localstorage');
+
+// Create mock JSON results object. This is what would normally be returned from the geocoding API call.
 var results = JSON.parse(
 `{
    "results" : [
@@ -73,6 +75,7 @@ var results = JSON.parse(
    "status" : "OK"
 }`);
 
+/* Test that getAddressComponent correctly parses the JSON object and filters for the city. */
 test('getAddressComponent: filters address components', () => {
   expect(carouselsModule.getAddressComponent(results.results[0].address_components, "locality")).toEqual("Mountain View");
 });
