@@ -134,20 +134,28 @@
             <div class="modal-body">
               <div class="bd-review-subwrapper">
                 <!-- User rates stars -->
-                <div class="bd-center bd-subheader-padding-top neutral-color">
-                  <span id="star-rating-1" class="star-rating fa fa-star fa-3x" onclick=starRating(1)></span>  
-                  <span id="star-rating-2" class="star-rating fa fa-star fa-3x" onclick=starRating(2)></span>  
-                  <span id="star-rating-3" class="star-rating fa fa-star fa-3x" onclick=starRating(3)></span>  
-                  <span id="star-rating-4" class="star-rating fa fa-star fa-3x" onclick=starRating(4)></span>  
-                  <span id="star-rating-5" class="star-rating fa fa-star fa-3x" onclick=starRating(5)></span>  
+                <div class="bd-center bd-subheader-padding-top-lg neutral-color">
+                  <span id="star-rating-1" class="star-rating fa fa-star fa-3x" onmouseover="addColorToRating('starRating', 1, 5, '#star-rating-', 'star-color')"
+                      onmouseout="removeColorFromRating('starRating', 1, 5, '#star-rating-', 'star-color')" onclick="addColorToRating('starRating', 1, 5, '#star-rating-', 'star-color', true)"></span>  
+                  <span id="star-rating-2" class="star-rating fa fa-star fa-3x" onmouseover="addColorToRating('starRating', 2, 5, '#star-rating-', 'star-color')"
+                      onmouseout="removeColorFromRating('starRating', 2, 5, '#star-rating-', 'star-color')" onclick="addColorToRating('starRating', 2, 5, '#star-rating-', 'star-color', true)"></span>  
+                  <span id="star-rating-3" class="star-rating fa fa-star fa-3x" onmouseover="addColorToRating('starRating', 3, 5, '#star-rating-', 'star-color')"
+                      onmouseout="removeColorFromRating('starRating', 3, 5, '#star-rating-', 'star-color')" onclick="addColorToRating('starRating', 3, 5, '#star-rating-', 'star-color', true)"></span>  
+                  <span id="star-rating-4" class="star-rating fa fa-star fa-3x" onmouseover="addColorToRating('starRating', 4, 5, '#star-rating-', 'star-color')"
+                      onmouseout="removeColorFromRating('starRating', 4, 5, '#star-rating-', 'star-color')" onclick="addColorToRating('starRating', 4, 5, '#star-rating-', 'star-color', true)"></span>  
+                  <span id="star-rating-5" class="star-rating fa fa-star fa-3x" onmouseover="addColorToRating('starRating', 5, 5, '#star-rating-', 'star-color')"
+                      onmouseout="removeColorFromRating('starRating', 5, 5, '#star-rating-', 'star-color')" onclick="addColorToRating('starRating', 5, 5, '#star-rating-', 'star-color', true)"></span>  
                 </div>
                 <!-- ./User rates stars -->
                 <!-- User rates price -->
                 <div>
-                  <p class="bd-center bd-review-price bd-subheader-padding-top neutral-color">
-                    <span id="price-1" class="cursor-pointer" onclick=priceRating(1)>$</span>
-                    <span id="price-2" class="cursor-pointer" onclick=priceRating(2)>$</span>
-                    <span id="price-3" class="cursor-pointer" onclick=priceRating(3)>$</span>
+                  <p class="bd-center bd-review-price bd-subheader-padding-top-lg-2x neutral-color">
+                    <span id="price-1" class="cursor-pointer" onmouseover="addColorToRating('priceRating', 1, 3, '#price-', 'primary-dark-color')" 
+                        onmouseout="removeColorFromRating('priceRating', 1, 3, '#price-', 'primary-dark-color')" onclick="addColorToRating('priceRating', 1, 3, '#price-', 'primary-dark-color', true)">$</span>
+                    <span id="price-2" class="cursor-pointer" onmouseover="addColorToRating('priceRating', 2, 3, '#price-', 'primary-dark-color')" 
+                        onmouseout="removeColorFromRating('priceRating', 2, 3, '#price-', 'primary-dark-color')" onclick="addColorToRating('priceRating', 2, 3, '#price-', 'primary-dark-color', true)">$</span>
+                    <span id="price-3" class="cursor-pointer" onmouseover="addColorToRating('priceRating', 3, 3, '#price-', 'primary-dark-color')" 
+                        onmouseout="removeColorFromRating('priceRating', 3, 3, '#price-', 'primary-dark-color')" onclick="addColorToRating('priceRating', 3, 3, '#price-', 'primary-dark-color', true)">$</span>
                   </p>
                 </div>
                 <!-- ./User rates price -->
