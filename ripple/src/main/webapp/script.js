@@ -6,8 +6,9 @@ function serveBlob(blobKey, imageId) {
   image.src = "/serve?blob-key=" + blobKey;
 }
 
-/* Define global variable for key */
+/* Define global variable for key press */
 var ENTER_KEY = 13;
+
 
 /* Display an alert if user presses enter to comment on a post */
 function addComment(e) {
@@ -17,7 +18,7 @@ function addComment(e) {
   }
 }
 
-/* creates blobstoreUrl for image to firestore */
+/* Creates blobstoreUrl for image to firestore */
 function fetchBlobstoreUploadUrl(formId, fileId, webUrl) {
   console.log("called fetchBlobstoreUploadUrl(" + formId + ", " + fileId + ", " + webUrl + ")");
   fetch('/blobstore-upload-url?file-id=' + fileId + '&web-url=' + webUrl).then((response) => {
@@ -37,7 +38,7 @@ function readBlobKeyFromURl() {
   return blobKey;
 }
 
-/* Read parameter in URL of window */
+/* Read parameter in URL of window. */
 function getParameterByName(name) {
   console.log("called getParameterByName()");
   url = window.location.href;
@@ -123,17 +124,35 @@ function viewAllPostComments() {
 
 /* Backend for search functionality */
 
+var searchString = document.getElementById("search-bar");
+document.addEventListener('keyup', searchInput);
+
 /* Takes navbar search input, stores in session storage. */
 function searchInput(keyPress) {
-  if (keyPress.keyCode === ENTER_KEY) {
-    var searchString = document.getElementById("search-bar").value;
+  var searchString = document.getElementById("search-bar").value;
+  console.log(searchString)
+  if (keyPress.keyCode != ENTER_KEY) {
+    autocompleteSearch(searchString);
+  } else {
     console.log(searchString);
     localStorage.setItem("galleryPageSearchTag", searchString);
     localStorage.setItem("galleryPageName", "'" + searchString + "'");
     window.location.assign("businessgallery.html");
-  } else {
-    return false;
   }
+  return false;
+}
+
+/* Function to perform search autocomplete. Calls trie to get autocomplete words. */
+function autocompleteSearch(searchString) {
+    rawString = convertToRawString(searchString);
+    autoOptions = trie.getWords(rawString, 5);
+    var options = '';
+    for(var i = 0; i < autoOptions.length; i++) {
+      option = tagsDict[autoOptions[i]]
+      options += '<option value="'+option+'" />';
+    }
+    
+  document.getElementById('search-autocomplete').innerHTML = options;
 }
 
 /* Given a formatted user string, converts it to uppercase, removes special characters, 
@@ -174,5 +193,12 @@ function clearLocalStorage(arrayKeys) {
 
 module.exports = { 
   convertToRawString: convertToRawString,
+  serveBlob: serveBlob,
+  getParameterByName: getParameterByName,
+  addTextToDom: addTextToDom,
+  displayElement: displayElement,
+  hideElement: hideElement,
+  enableElement: enableElement,
+  searchInput: searchInput,
+  clearLocalStorage: clearLocalStorage,
 }
-
