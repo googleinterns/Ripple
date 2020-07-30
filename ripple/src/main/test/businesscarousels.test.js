@@ -77,7 +77,7 @@ var results = JSON.parse(
 
 /* Test that getAddressComponent correctly parses the JSON object and filters for the city. */
 test('getAddressComponent: filters address components', () => {
-  expect(carouselsModule.getAddressComponent(results.results[0].address_components, "locality")).toEqual("Mountain View");
+  expect(carouselsModule.getAddressComponent(results.results[0].address_components, "locality")).toBe("Mountain View");
 });
 
 /* Test that viewAll correctly stores the tag in localStorage when the button is clicked. */
@@ -92,6 +92,6 @@ test('viewAll: reads and searches carousel tag', () => {
   });
   window.location.assign = jest.fn();
   carouselsModule.viewAll("Trending");
-  expect(localStorage.getItem("galleryPageSearchTag")).toEqual("Trending");
-  expect(localStorage.getItem("galleryPageName")).toEqual("View all");
+  expect(localStorage.getItem("galleryPageSearchTag")).toBe("Trending");
+  expect(localStorage.getItem("galleryPageName")).toBe("View all");
 });
