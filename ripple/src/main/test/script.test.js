@@ -60,13 +60,15 @@ test('getParameterByName: reads the blob key from the url', () => {
   expect(scriptsModule.getParameterByName("blob-key")).toEqual("blobKey");
 }); 
 
+var textInnerHtml = 
+  '<div>' +
+  '  <p id="test-text">goodbye</p>' +
+  '</div>';
+
 /* Tests that DOM is actually altered by function. */
 test('addTextToDom: modifies document inner html', () => {
   // Set up our document body
-  document.body.innerHTML =
-    '<div>' +
-    '  <p id="test-text">goodbye</p>' +
-    '</div>';
+  document.body.innerHTML = textInnerHtml
   scriptsModule.addTextToDom("hello", "test-text");
   expect(document.getElementById('test-text').innerText).toEqual("hello");
 });
@@ -74,10 +76,7 @@ test('addTextToDom: modifies document inner html', () => {
 /* Test basic displayElement function. */
 test('displayElement: displays hidden element', () => {
   // Set up our document body
-  document.body.innerHTML =
-    '<div>' +
-    '  <p id="test-text">goodbye</p>' +
-    '</div>';
+  document.body.innerHTML = textInnerHtml
   document.getElementById('test-text').style.display = "none";
   scriptsModule.displayElement("test-text");
   expect(document.getElementById('test-text').style.display).toEqual("block");
@@ -86,10 +85,7 @@ test('displayElement: displays hidden element', () => {
 /* Test basic hide element function. */
 test('hideElement: hides element', () => {
   // Set up our document body
-  document.body.innerHTML =
-    '<div>' +
-    '  <p id="test-text">goodbye</p>' +
-    '</div>';
+  document.body.innerHTML = textInnerHtml
   document.getElementById('test-text').style.display = "block";
   scriptsModule.hideElement("test-text");
   expect(document.getElementById('test-text').style.display).toEqual("none");
@@ -98,10 +94,7 @@ test('hideElement: hides element', () => {
 /* Test basic enable element function. */
 test('enableElement: Enables element', () => {
   // Set up our document body
-  document.body.innerHTML =
-    '<div>' +
-    '  <p id="test-text">goodbye</p>' +
-    '</div>';
+  document.body.innerHTML = textInnerHtml
   document.getElementById('test-text').disabled = true;
   scriptsModule.enableElement("test-text");
   expect(document.getElementById('test-text').disabled).toBeFalsy;
