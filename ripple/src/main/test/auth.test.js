@@ -8,7 +8,7 @@ require('../__mocks__/localstorage');
    Local storage only stores strings, so had to add check for boolean and string types */
 test('setUserType: set user type when signing up', () => {
   authModule.setUserType("business");
-  expect(localStorage.getItem("isBusinessOwner") === "true" || localStorage.getItem("isBusinessOwner") === true).toBeTruthy;
+  expect(localStorage.getItem("isBusinessOwner")).toBeTruthy;
   
 });
 
@@ -16,6 +16,6 @@ test('setUserType: set user type when signing up', () => {
    Local storage only stores strings, so had to add check for boolean and string types */
 test('setUserType: set user type when signing up', () => {
   authModule.setUserType("community");
-  expect(localStorage.getItem("isBusinessOwner") === "false" || localStorage.getItem("isBusinessOwner") === false).toBeTruthy;
+  expect(localStorage.getItem("isBusinessOwner")).toBeFalsy;
 });
 
