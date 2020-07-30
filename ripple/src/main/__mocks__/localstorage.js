@@ -1,3 +1,5 @@
+/* Class that creates a mock local storage entity for testing purposes. */
+
 class LocalStorageMock {
   constructor() {
     this.store = {};
