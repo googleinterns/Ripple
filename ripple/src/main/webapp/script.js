@@ -18,7 +18,7 @@ function addComment(e) {
   }
 }
 
-/* creates blobstoreUrl for image to firestore */
+/* Creates blobstoreUrl for image to firestore */
 function fetchBlobstoreUploadUrl(formId, fileId, webUrl) {
   console.log("called fetchBlobstoreUploadUrl(" + formId + ", " + fileId + ", " + webUrl + ")");
   fetch('/blobstore-upload-url?file-id=' + fileId + '&web-url=' + webUrl).then((response) => {
@@ -38,7 +38,7 @@ function readBlobKeyFromURl() {
   return blobKey;
 }
 
-/* Read parameter in URL of window */
+/* Read parameter in URL of window. */
 function getParameterByName(name) {
   console.log("called getParameterByName()");
   url = window.location.href;
@@ -186,4 +186,11 @@ function enableElement(id) {
 
 module.exports = { 
   convertToRawString: convertToRawString,
+  serveBlob: serveBlob,
+  getParameterByName: getParameterByName,
+  addTextToDom: addTextToDom,
+  displayElement: displayElement,
+  hideElement: hideElement,
+  enableElement: enableElement,
+  searchInput: searchInput,
 }
