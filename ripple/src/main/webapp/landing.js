@@ -33,6 +33,9 @@ function searchAddressAutocomplete() {
     });
 }
 
+// Added for testing purposes
+var ENTER_KEY = 13;
+
 /* Display an alert containing the inputted address if user presses enter */
 function searchAddress(keyPress) {
   if (keyPress.keyCode === ENTER_KEY) {
@@ -42,4 +45,10 @@ function searchAddress(keyPress) {
     window.location.assign("main.html");
   }
   return false;
+}
+
+// Unit testing exports set up
+
+module.exports = { 
+  searchAddress: searchAddress,
 }
