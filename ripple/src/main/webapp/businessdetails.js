@@ -6,54 +6,46 @@ $(document).ready(() => {
   });
 });
 
-$(".selector").on("mouseover", function () {
-    //stuff to do on mouseover
-});
-
-/* Set user's star rating in local storage upon click of star.
-   Change color of the stars accordingly  */
-function starRating(starRating) {
-  localStorage.setItem("starRating", starRating);
-  console.log("starRating() called");
-  console.log("starRating local storage: " + localStorage.getItem("starRating"));
+/* Change color of the elements according to user input onmouseover or onclick 
+   If event is onclick, set user choice in local storage.
+   If onclick event is for a star rating, enable the button */
+function addColorToRating(ratingType, rating, maxRating, elementIdPrefix, addClass, isOnClick=false) {
+  if (isOnClick == true) {
+    localStorage.setItem(ratingType, rating);
+    console.log("addColorToRating local storage: " + localStorage.getItem(ratingType));
+    // Enable post button if user has made a star rating
+    if (ratingType == "starRating") {
+      enableElement("bd-post-review-button");
+    }
+  }
   var elementId;
-  // Color current and preceding stars orange
+  // Color current and preceding elements
   var i;
-  for (i = 1; i <= starRating; i++) {
-    console.log("i = " + i);
-    elementId = "#star-rating-" + i.toString();
-    $(elementId).addClass("star-color");
+  for (i = 1; i <= rating; i++) {
+    elementId = elementIdPrefix + i.toString();
+    $(elementId).addClass(addClass);
   }
-  // Color remaining stars neutral
+  // Reset color of remaining elements to neutral
   var j;
-  for (j = starRating + 1; j <= 5; j++) {
-    console.log("j = " + j);
-    elementId = "#star-rating-" + j.toString();
-    $(elementId).removeClass("star-color");
+  for (j = rating + 1; j <= maxRating; j++) {
+    elementId = elementIdPrefix + j.toString();
+    $(elementId).removeClass(addClass);
   }
-  enableElement("bd-post-review-button");
 }
 
-/* Set user's price rating in local storage upon click of dollar sign.
-   Change color of the dollar signs accordingly */
-function priceRating(priceRating) {
-  localStorage.setItem("priceRating", priceRating);
-  console.log("priceRating() called");
-  console.log("priceRating local storage: " + localStorage.getItem("priceRating"));
-  var elementId;
-  // Color current and preceding dollar signs as primary
-  var i;
-  for (i = 1; i <= priceRating; i++) {
-    console.log("i = " + i);
-    elementId = "#price-" + i.toString();
-    $(elementId).addClass("primary-dark-color");
-  }
-  // Color remaining dollar signs as neutral
-  var j;
-  for (j = priceRating + 1; j <= 3; j++) {
-    console.log("j = " + j);
-    elementId = "#price-" + j.toString();
-    $(elementId).removeClass("primary-dark-color");
+/* If no ratings have yet been made, all color will be removed from elements
+   Otherwise, ratings will be restored to last clicked value based on local storage */
+function removeColorFromRating(ratingType, rating, maxRating, elementIdPrefix, addClass) {
+  // Reset all colors to neutral if no ratings have been set
+  var currRating = localStorage.getItem(ratingType);
+  if (currRating == null) {
+    var j;
+    for (j = 1; j <= maxRating; j++) {
+      elementId = elementIdPrefix + j.toString();
+      $(elementId).removeClass(addClass);
+    }
+  } else {
+    addColorToRating(ratingType, parseInt(currRating), maxRating, elementIdPrefix, addClass);
   }
 }
 
