@@ -16,4 +16,3 @@ test('setUserType: set user type when signing up', () => {
   authModule.setUserType("community");
   expect(localStorage.getItem("isBusinessOwner")).toBeFalsy;
 });
-
