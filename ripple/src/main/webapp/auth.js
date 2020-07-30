@@ -194,3 +194,9 @@ function getAcctInfo(uid) {
         console.log("Error getting documents: ", error);
       });
 }
+
+// Unit testing exports set up
+
+module.exports = { 
+  setUserType: setUserType,
+}
