@@ -200,4 +200,5 @@ module.exports = {
   hideElement: hideElement,
   enableElement: enableElement,
   searchInput: searchInput,
+  clearLocalStorage: clearLocalStorage,
 }

@@ -133,3 +133,17 @@ test('searchInput: reads and searches user input', () => {
   expect(localStorage.getItem("galleryPageSearchTag")).toEqual("Chinese");
   expect(localStorage.getItem("galleryPageName")).toEqual("'Chinese'");
 });
+
+/* Test clear local storage functionality. */
+test('clearLocalStorage: Enables element', () => {
+  // Set up local storage
+  var keys = ["key1", "key2", "key3"];
+  var i;
+  for (i = 0; i < keys.length; i++) {
+    localStorage.setItem(keys[i], "testing");
+  }
+  scriptsModule.clearLocalStorage(keys);
+  for (i = 0; i < keys.length; i++) {
+    expect(localStorage.getItem(keys[i])).toBe(null);
+  }
+});
