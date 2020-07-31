@@ -65,7 +65,7 @@ function bdOnload() {
   walkingDist = localStorage.getItem("walkingDist");
   businessId = localStorage.getItem("businessId");
   inputAddress = localStorage.getItem("inputAddress");
-  
+
   // TODO: Access 'businesses' collection to grab businessAddress + render maps + add businessName 
   
   // Add walking time to DOM
@@ -158,7 +158,7 @@ function displayStars(numFullStars, numHalfStars) {
   // Replace empty star with half star and add color
   var j = numFullStars + 1;
   numHalfMax = numFullStars + numHalfStars;
-  if (numHalfMax  > 5) {
+  if (numHalfMax  > numTotalStars) {
     return false;
   }
   for (j; j <= numHalfMax; j++) {
