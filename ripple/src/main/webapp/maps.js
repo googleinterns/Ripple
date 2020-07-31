@@ -20,7 +20,7 @@ window.initMap = () => {
   calculateAndDisplayRoute(directionsService, directionsRenderer);
 }
 
-function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+function calculateAndDgisplayRoute(directionsService, directionsRenderer) {
   directionsService.route(
     {
       origin: {
