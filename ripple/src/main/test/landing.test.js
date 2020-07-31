@@ -31,5 +31,5 @@ test('searchAddress: reads and stores user address input', () => {
   var event = new KeyboardEvent('keyup', {'keyCode': ENTER_KEY});
   document.dispatchEvent(event);
   landingModule.searchAddress(event);
-  expect(localStorage.getItem("inputAddress")).toEqual("2732 Haste Street, Berkeley, CA");
+  expect(localStorage.getItem("inputAddress")).toBe("2732 Haste Street, Berkeley, CA");
 });
