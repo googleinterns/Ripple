@@ -6,12 +6,13 @@ script.defer = true;
 script.async = true;
 document.head.appendChild(script); 
 
+/* Render a map */
 window.initMap = () => {
   const directionsService = new google.maps.DirectionsService();
   const directionsRenderer = new google.maps.DirectionsRenderer();
   const map = new google.maps.Map(document.getElementById("map"), {
     zoom: 8,
-    // Import user's current location from local storage
+    // TODO: Import user's current location from local storage
     center: { lat: 34.05, lng: -118.24 },
     disableDefaultUI: true,
     zoomControl: true,
@@ -20,7 +21,8 @@ window.initMap = () => {
   calculateAndDisplayRoute(directionsService, directionsRenderer);
 }
 
-function calculateAndDgisplayRoute(directionsService, directionsRenderer) {
+/* Calculate and display walking route from origin to destination */
+function calculateAndDisplayRoute(directionsService, directionsRenderer) {
   directionsService.route(
     {
       origin: {
