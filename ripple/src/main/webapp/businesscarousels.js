@@ -76,10 +76,13 @@ function cardFunctionality() {
   });
 }
 
+// Defines the max walking time allowed in the nearby business carousel.
+var maxWalkingTime = 1200;
+
 /* Code to dynamically load carousels. Calls addDynamicCarousel function to populate the carousels. */
 function loadCarousels() {
     addDynamicCarouselByTag("black-owned-businesses", "Black-owned");
-    addDynamicCarouselByTime("under-20-mins-away", 1200);
+    addDynamicCarouselByTime("under-20-mins-away", maxWalkingTime);
     addDynamicCarouselByTag("trending-near-you", "Trending");
     addDynamicCarouselByTag("up-and-coming", "New");
 }
