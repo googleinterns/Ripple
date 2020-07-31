@@ -196,7 +196,7 @@ function displayStarReviewSummary(avgStarRatings, numStarRatings) {
   }
 }
 
-/* Given an float, function rounds decimals to the ones place. Ex: 3.14 -> 3.1 */
+/* Given an float, function rounds decimals to the tenths place. Ex: 3.14 -> 3.1 */
 function RoundDecimals(float) {
   var roundedFloat = Math.round(float * 10) / 10;
   return roundedFloat;
