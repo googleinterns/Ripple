@@ -1,37 +1,39 @@
-/* Contains unit tests for script.js file. Currently has ~50% coverage for all script functions (doesn't test functions that just call 
+/* Contains unit tests for script.js file. Currently has ~43% coverage for all script functions (doesn't test functions that just call 
    already tested functions or firebase functions). */
 
-const scriptsModule = require('../webapp/script');
+const scriptModule = require('../webapp/script');
 const $ = require('jquery');
 require('../__mocks__/localstorage');
 require('../webapp/trie');
 
+const sinon = require('../node_modules/sinon/pkg/sinon.js');
+
 test('convertToRawString: test #1 empty str', () => {
-  expect(scriptsModule.convertToRawString("")).toBe("");
+  expect(scriptModule.convertToRawString("")).toBe("");
 });
 
 test('convertToRawString: test #2 str contains a space', () => {
-  expect(scriptsModule.convertToRawString(" ")).toBe("");
+  expect(scriptModule.convertToRawString(" ")).toBe("");
 });
 
 test('convertToRawString: test #3 Does not accept non-string type int', () => {
-  expect(scriptsModule.convertToRawString(12345)).toBeFalsy;
+  expect(scriptModule.convertToRawString(12345)).toBeFalsy;
 });
 
 test('convertToRawString: test #4 Does not accept non-string type null', () => {
-  expect(scriptsModule.convertToRawString()).toBeFalsy;
+  expect(scriptModule.convertToRawString()).toBeFalsy;
 });
 
 test('convertToRawString: test #5 Converts to upper case w/o spaces or special characters', () => {
-  expect(scriptsModule.convertToRawString("Cup Cakin' & Bake")).toBe("CUPCAKINBAKE");
+  expect(scriptModule.convertToRawString("Cup Cakin' & Bake")).toBe("CUPCAKINBAKE");
 });
 
 test('convertToRawString: test #6 Converts accented characters to ascii', () => {
-  expect(scriptsModule.convertToRawString("á, é, í, ó, ú, ü, ñ, ¿, ¡")).toBe("AEIOUUN");
+  expect(scriptModule.convertToRawString("á, é, í, ó, ú, ü, ñ, ¿, ¡")).toBe("AEIOUUN");
 });
 
 test('serve: test #6 Converts accented characters to ascii', () => {
-  expect(scriptsModule.convertToRawString("á, é, í, ó, ú, ü, ñ, ¿, ¡")).toBe("AEIOUUN");
+  expect(scriptModule.convertToRawString("á, é, í, ó, ú, ü, ñ, ¿, ¡")).toBe("AEIOUUN");
 });
 
 /* Tests that the image element's source is properly set by function. */
@@ -42,7 +44,7 @@ test('serveBlob: changes image source', () => {
     '  <img id="test-img" src="old" />' +
     '</div>';
   // Expect that the url returned is accurate
-  scriptsModule.serveBlob("blobKey", "test-img");
+  scriptModule.serveBlob("blobKey", "test-img");
   expect(document.getElementById('test-img').src).toBe("http://localhost/serve?blob-key=blobKey");
 });
 
@@ -57,7 +59,7 @@ test('getParameterByName: reads the blob key from the url', () => {
     }
   });
   // Expect that the regex retrieves the correct parameter string
-  expect(scriptsModule.getParameterByName("blob-key")).toBe("blobKey");
+  expect(scriptModule.getParameterByName("blob-key")).toBe("blobKey");
 }); 
 
 var textInnerHtml = 
@@ -69,7 +71,7 @@ var textInnerHtml =
 test('addTextToDom: modifies document inner html', () => {
   // Set up our document body
   document.body.innerHTML = textInnerHtml
-  scriptsModule.addTextToDom("hello", "test-text");
+  scriptModule.addTextToDom("hello", "test-text");
   expect(document.getElementById('test-text').innerText).toBe("hello");
 });
 
@@ -78,7 +80,7 @@ test('displayElement: displays hidden element', () => {
   // Set up our document body
   document.body.innerHTML = textInnerHtml
   document.getElementById('test-text').style.display = "none";
-  scriptsModule.displayElement("test-text");
+  scriptModule.displayElement("test-text");
   expect(document.getElementById('test-text').style.display).toBe("block");
 });
 
@@ -87,7 +89,7 @@ test('hideElement: hides element', () => {
   // Set up our document body
   document.body.innerHTML = textInnerHtml
   document.getElementById('test-text').style.display = "block";
-  scriptsModule.hideElement("test-text");
+  scriptModule.hideElement("test-text");
   expect(document.getElementById('test-text').style.display).toBe("none");
 });
 
@@ -96,12 +98,13 @@ test('enableElement: Enables element', () => {
   // Set up our document body
   document.body.innerHTML = textInnerHtml
   document.getElementById('test-text').disabled = true;
-  scriptsModule.enableElement("test-text");
+  scriptModule.enableElement("test-text");
   expect(document.getElementById('test-text').disabled).toBeFalsy;
 });
 
 /* Test that searchInput correctly stores in localStorage when enter key is pressed. */
 test('searchInput: reads and searches user input', () => {
+  localStorage.clear();
   // Set up our document body
   document.body.innerHTML =
     '<div>' +
@@ -122,20 +125,21 @@ test('searchInput: reads and searches user input', () => {
   var ENTER_KEY = 13;
   var event = new KeyboardEvent('keyup', {'keyCode': 13});
   document.dispatchEvent(event);
-  scriptsModule.searchInput(event);
+  scriptModule.searchInput(event);
   expect(localStorage.getItem("galleryPageSearchTag")).toBe("Chinese");
   expect(localStorage.getItem("galleryPageName")).toBe("'Chinese'");
 });
 
 /* Test clear local storage functionality. */
 test('clearLocalStorage: Enables element', () => {
+  localStorage.clear();
   // Set up local storage
   var keys = ["key1", "key2", "key3"];
   var i;
   for (i = 0; i < keys.length; i++) {
     localStorage.setItem(keys[i], "testing");
   }
-  scriptsModule.clearLocalStorage(keys);
+  scriptModule.clearLocalStorage(keys);
   for (i = 0; i < keys.length; i++) {
     expect(localStorage.getItem(keys[i])).toBe(null);
   }
