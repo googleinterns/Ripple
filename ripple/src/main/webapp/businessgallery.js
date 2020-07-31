@@ -61,7 +61,8 @@ function loadSearchResults() {
                 var content = `
                 <div class="col-6 col-md-4 col-lg-3 mb-4">
                     <div class="card h-100">
-                    <img class="card-img-top img-fluid" id="card-dynamic-image" src="/serve?blob-key=${doc.data().thumbnailImage}">
+                    <img class="card-img-top img-fluid" id="card-dynamic-image" src="/serve?blob-key=${doc.data().thumbnailImage}"
+                                onclick="redirectToBusinessInfo('${doc.id}', '${walkingDist}', '${walkingTime}')"></img>
                         <div class="card-body">
                             <p class="card-text">${doc.data().businessName[1]}</p>
                             <p class="card-text"><small class="text-muted">${response.rows[0].elements[0].duration.text + " walking"}</small></p>
