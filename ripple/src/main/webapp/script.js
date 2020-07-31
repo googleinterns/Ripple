@@ -100,10 +100,20 @@ function addTextToDom(text, id) {
   element.innerText = text;
 }
 
+/* Given text and an id, function adds href to a tag in DOM */
+function addHrefToDom(href, id) {
+var element = document.getElementById(id); //or grab it by tagname etc
+element.href = href;
+}
+
 /* Given an id, function displays a hidden element */
 function displayElement(id) {
   var element = document.getElementById(id);
   element.style.display = "block";
+}
+function hideElement(id) {
+  var element = document.getElementById(id);
+  element.style.display = "none";
 }
 
 /* Loads camera icon on Account Settings page */
@@ -142,7 +152,7 @@ function searchInput(keyPress) {
   return false;
 }
 
-/* Function to perform search autocomplete. Calls trie to get autocomplete words. */
+// /* Function to perform search autocomplete. Calls trie to get autocomplete words. */
 function autocompleteSearch(searchString) {
     rawString = convertToRawString(searchString);
     autoOptions = trie.getWords(rawString, 5);

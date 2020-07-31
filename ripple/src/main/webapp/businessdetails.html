@@ -25,11 +25,12 @@
     </script>
     <!-- ./Firebase configuration and initialization -->
     <script src="script.js"></script>
-    <script src="maps.js"></script>
     <script src="businessdetails.js"></script>
+    <script src="maps.js"></script>
     <title>Ripple</title>
   </head>
-  <body onload="clearLocalStorage(['starRating', 'priceRating'])">
+  <body onload="bdOnload();">
+    <div id="loading-mask"></div>
     <!-- Banner -->
     <div class="three-quarters-bg-no-color">
       <!--Navbar -->
@@ -85,14 +86,14 @@
         <i class="fa fa-map-marker fa-lg" aria-hidden="true"></i>
         <p class="inline-block-child" id="bd-address">8386 Beverly Blvd</p>
         <div class="inline-block-child"><div class="vl"></div></div>
-        <p class="inline-block-child"><span id="bd-walking-dist">5</span> min walking distance</p>
+        <p class="inline-block-child"><span id="bd-walking-dist">0</span> min walking distance</p>
         <div class="inline-block-child"><div class="vl"></div></div>
         <p class="inline-block-child" id="bd-open-close">Open</p>
         <div class="inline-block-child"><div class="vl"></div></div>
         <i class="inline-block-child fa fa-phone fa-lg" aria-hidden="true"></i>
-        <p class="inline-block-child" id="bd-phone-number">(323) 656-6115</p>
+        <p class="inline-block-child" id="bd-phone-number"></p>
         <div class="inline-block-child"><div class="vl"></div></div>
-        <a class="inline-block-child hyper-link" id="business-website" href="http://mandarette.com/">mandarette.com</a>
+        <a class="inline-block-child hyper-link" id="business-website"></a>
       </div>
       <!-- tags TODO: SMRUTHI CREATE + DYNAMICALLY LOAD TAGS -->
       <div class="bd-tags">
@@ -102,15 +103,18 @@
       <!-- Ratings & price-->
       <div>
         <!-- Stars-->
-        <span id="star-1" class="fa fa-star star-color fa-lg"></span>
-        <span id="star-2" class="fa fa-star star-color fa-lg"></span>
-        <span id="star-3" class="fa fa-star star-color fa-lg"></span>
-        <span id="star-4" class="fa fa-star-half-o star-color fa-lg"></span>
-        <span id="star-5" class="fa fa-star-o star-color fa-lg"></span>
+        <div class="inline-block-child neutral-color">
+          <span id="star-1" class="fa fa-star-o fa-lg"></span>
+          <span id="star-2" class="fa fa-star-o fa-lg"></span>
+          <span id="star-3" class="fa fa-star-o fa-lg"></span>
+          <span id="star-4" class="fa fa-star-o fa-lg"></span>
+          <span id="star-5" class="fa fa-star-o fa-lg"></span>
+        </div>
         <!-- ./Stars -->
-        <p class="inline-block-child  bd-left-padding"><span id="bd-number-reviews">321</span> reviews</p>
+        <p id="review-summary" class="inline-block-child display-none"><span id="bd-average-rating"></span> from <span id="bd-number-reviews"></span> <span id="sing-plural-review">reviews</p>
+        <p id="no-review-summary" class="inline-block-child ">No reviews yet</p>
         <div class="inline-block-child"><div class="vl"></div></div>
-        <p class="inline-block-child" id="bd-price">$$</p>
+        <p class="inline-block-child" id="bd-price">N/A</p>
       </div>
       <!-- Button to open the modal -->
       <button type="button" id="review-button" class="primary-fill-chip chip-box-shadow bd-subheader-padding-top" data-toggle="modal" data-target="#bdModal">
@@ -233,7 +237,6 @@
           <img class="bd-safety-icon" src="serve?blob-key=x9T12YWRtRp65jr5RfQ3QQ">
           <p id="bd-outdoor-dining-text" class="bd-safety-caption neutral-lighter-text">No outdoor dining</p>
         </div>
-        <div class="inline-block-child"><div class="vl-long"></div></div>
       </div>
       <div class="bd-padding-top">
         <div class="inline-block-child bd-safety-column">
@@ -299,4 +302,5 @@
     </div>
     <!-- ./Business details content -->
     </br></br></br></br></br></br></br></br></br></br>
+  </body>
 </html>
