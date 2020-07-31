@@ -65,7 +65,8 @@ function bdOnload() {
   walkingDist = localStorage.getItem("walkingDist");
   businessId = localStorage.getItem("businessId");
   inputAddress = localStorage.getItem("inputAddress");
-  // Access 'businesses' collection to grab businessAddress + render maps + add businessName 
+  
+  // TODO: Access 'businesses' collection to grab businessAddress + render maps + add businessName 
   
   // Add walking time to DOM
   walkingTime = localStorage.getItem("walkingTime");
@@ -218,6 +219,7 @@ function calculatePrice(avgPriceRatings, numPriceRatings) {
   }
 }
 
+/* Display the number of dollar signs for price rating on the page */
 function displayPrice(dollarString) {
   addTextToDom(dollarString, "bd-price");
 }
