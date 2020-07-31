@@ -1,5 +1,14 @@
 /* Address input and autocomplete functions. */
 
+/* Maps JS API initialization */
+var mapKey = config.apiKey;
+var script = document.createElement("script");
+script.src = "https://maps.googleapis.com/maps/api/js?key=" + mapKey + "&region=US&libraries=places";
+script.defer = true;
+script.async = true;
+document.head.appendChild(script); 
+
+
 /* Function that utilizes the Place API to implement an autocomplete feature when a user is entering an address. */
 function searchAddressAutocomplete() {
     var input = document.getElementById('address-input');
