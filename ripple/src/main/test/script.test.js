@@ -45,7 +45,7 @@ test('serveBlob: changes image source', () => {
     '</div>';
   // Expect that the url returned is accurate
   scriptModule.serveBlob("blobKey", "test-img");
-  expect(document.getElementById('test-img').src).toEqual("http://localhost/serve?blob-key=blobKey");
+  expect(document.getElementById('test-img').src).toBe("http://localhost/serve?blob-key=blobKey");
 });
 
 /* Tests that the function reads the url and retrieves the blob key correctly. */
@@ -59,7 +59,7 @@ test('getParameterByName: reads the blob key from the url', () => {
     }
   });
   // Expect that the regex retrieves the correct parameter string
-  expect(scriptModule.getParameterByName("blob-key")).toEqual("blobKey");
+  expect(scriptModule.getParameterByName("blob-key")).toBe("blobKey");
 }); 
 
 var textInnerHtml = 
@@ -72,7 +72,7 @@ test('addTextToDom: modifies document inner html', () => {
   // Set up our document body
   document.body.innerHTML = textInnerHtml
   scriptModule.addTextToDom("hello", "test-text");
-  expect(document.getElementById('test-text').innerText).toEqual("hello");
+  expect(document.getElementById('test-text').innerText).toBe("hello");
 });
 
 /* Test basic displayElement function. */
@@ -81,7 +81,7 @@ test('displayElement: displays hidden element', () => {
   document.body.innerHTML = textInnerHtml
   document.getElementById('test-text').style.display = "none";
   scriptModule.displayElement("test-text");
-  expect(document.getElementById('test-text').style.display).toEqual("block");
+  expect(document.getElementById('test-text').style.display).toBe("block");
 });
 
 /* Test basic hide element function. */
@@ -90,7 +90,7 @@ test('hideElement: hides element', () => {
   document.body.innerHTML = textInnerHtml
   document.getElementById('test-text').style.display = "block";
   scriptModule.hideElement("test-text");
-  expect(document.getElementById('test-text').style.display).toEqual("none");
+  expect(document.getElementById('test-text').style.display).toBe("none");
 });
 
 /* Test basic enable element function. */
@@ -126,8 +126,8 @@ test('searchInput: reads and searches user input', () => {
   var event = new KeyboardEvent('keyup', {'keyCode': 13});
   document.dispatchEvent(event);
   scriptModule.searchInput(event);
-  expect(localStorage.getItem("galleryPageSearchTag")).toEqual("Chinese");
-  expect(localStorage.getItem("galleryPageName")).toEqual("'Chinese'");
+  expect(localStorage.getItem("galleryPageSearchTag")).toBe("Chinese");
+  expect(localStorage.getItem("galleryPageName")).toBe("'Chinese'");
 });
 
 /* Test clear local storage functionality. */

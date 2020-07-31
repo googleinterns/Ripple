@@ -49,6 +49,7 @@ function getAddressComponent(components, type) {
 }
 
 /* Carousel function that allows cards to move to the left or right by one. Establishes functionality of the carousel. */
+function cardFunctionality() {
   $("#card-carousel1").on("slide.bs.carousel", function(e) {
     var $e = $(e.relatedTarget);
     var idx = $e.index();
@@ -72,6 +73,7 @@ function getAddressComponent(components, type) {
       }
     }
   });
+}
 
 /* Code to dynamically load carousels. Calls addDynamicCarousel function to populate the carousels. */
 function loadCarousels() {
@@ -128,4 +130,9 @@ function viewAll(tag) {
   localStorage.setItem("galleryPageName", "View all");
   localStorage.setItem("galleryPageSearchTag", tag);
   window.location.assign("businessgallery.html");
+}
+
+module.exports = { 
+  viewAll: viewAll,
+  getAddressComponent: getAddressComponent,
 }
