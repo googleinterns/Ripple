@@ -48,6 +48,7 @@ function getAddressComponent(components, type) {
   return components.filter((component) => component.types.indexOf(type) === 0).map((item) => item.long_name).pop() || null;
 }
 
+
 /* Carousel function that allows cards to move to the left or right by one. Establishes functionality of the carousel. */
 function cardFunctionality() {
   $("#card-carousel1").on("slide.bs.carousel", function(e) {
@@ -78,7 +79,7 @@ function cardFunctionality() {
 /* Code to dynamically load carousels. Calls addDynamicCarousel function to populate the carousels. */
 function loadCarousels() {
     addDynamicCarousel("black-owned-businesses", "Black-owned");
-    addDynamicCarousel("under-10-mins-away", "Close");
+    addDynamicCarousel("under-20-mins-away", "Close");
     addDynamicCarousel("trending-near-you", "Trending");
     addDynamicCarousel("up-and-coming", "New");
 }
@@ -86,41 +87,74 @@ function loadCarousels() {
 /* Dynamically loads content into Bootstrap carousel by reconstructing HTML elements and making a Firestore query. */
 function addDynamicCarousel(carouselId, tag) {
     db.collection("businesses").get().then((querySnapshot) => {
-        var contentStrings = [];
         var makeElement = false;
+        var firstCard = true;
         querySnapshot.forEach((doc) => {
-            //Check if the city in Firestore matches the city extracted from the user inputted address.
-            //Also checks if the business's tag list contains the tag that the carousel requires.
+            // Check if the city in Firestore matches the city extracted from the user inputted address.
+            // Also checks if the business's tag list contains the tag that the carousel requires.
             if (doc.data().address != null && doc.data().address[1] == localStorage.getItem('enteredCity') 
                 && doc.data().tags[convertToRawString(tag)] == tag) {
               makeElement = true;
               const card = document.createElement('div');
               card.classList = 'carousel-inner row w-100 mx-auto';
+              
+              // Distance matrix calculations
+              // Get user's latitude and longitude from localStorage
+              var userLat = localStorage.getItem('enteredLat');
+              var userLong = localStorage.getItem('enteredLong');
 
-            // Construct card content by appending HTML strings
-              var content = `
-                <div class="carousel-item col-md-4">
-                <div class="card">
-                    <img class="card-img-top img-fluid" id="card-dynamic-image" src="/serve?blob-key=${doc.data().thumbnailImage}">
-                    <div class="card-body">
-                    <p class="card-text">${doc.data().businessName[1]}</p>
-                    <p class="card-text"><small class="text-muted">${doc.data().walkingDistance}</small></p>
+              // Get business latitude and longitude from GeoPoint object in firestore
+              var busLat = doc.data().coordinates.latitude;
+              var busLong = doc.data().coordinates.longitude;
+
+              // Reconstruct as maps LatLng object
+              var origin = new google.maps.LatLng(userLat, userLong);
+              var destination = new google.maps.LatLng(busLat, busLong);
+              
+              // Call distance matrix service
+              var service = new google.maps.DistanceMatrixService();
+              service.getDistanceMatrix(
+                {
+                  origins: [origin],
+                  destinations: [destination],
+                  travelMode: google.maps.TravelMode.WALKING,
+                }, callback);
+              
+              // In callback function, dynamically construct the HTML for the cards in each carousel
+              function callback(response, status) {
+                if (status !== "OK") {
+                    alert("Error with distance matrix");
+                    return;
+                }
+                // Construct card content by appending HTML strings
+                var content = `
+                  <div class="carousel-item col-md-4">
+                    <div class="card">
+                        <img class="card-img-top img-fluid" id="card-dynamic-image" src="/serve?blob-key=${doc.data().thumbnailImage}">
+                        <div class="card-body">
+                        <p class="card-text">${doc.data().businessName[1]}</p>
+                        <p class="card-text"><small class="text-muted">${response.rows[0].elements[0].duration.text + " walking"}</small></p>
+                        </div>
                     </div>
-                </div>
-                </div>
-              `;
-              //Add every line of reconstructed HTML to contentStrings array
-              contentStrings.push(content);
+                  </div>
+                `;
+
+                // Append newly created card element to the container
+                if (makeElement) {
+                  var carouselElement = document.getElementById(carouselId);
+                  var carouselInner = carouselElement.getElementsByClassName('carousel-inner row w-100 mx-auto')[0];
+                  carouselInner.innerHTML = carouselInner.innerHTML + content + "\n";
+                  
+                  // Only want to append the string active once
+                  if (firstCard == true) {
+                      carouselInner.firstElementChild.className += " active";
+                      firstCard = false;
+                  }
+                  $(carouselElement).carousel({slide : true, interval : false});
+                }
+              }
             }
-        });
-        // Append newly created card element to the container
-        if (makeElement) {
-          var carouselElement = document.getElementById(carouselId);
-          var carouselInner = carouselElement.getElementsByClassName('carousel-inner row w-100 mx-auto')[0];
-          carouselInner.innerHTML = contentStrings.join("\n");
-          carouselInner.firstElementChild.className += " active";
-          $(carouselElement).carousel({slide : true, interval : false});
-        }
+        });   
    });
 }
 
