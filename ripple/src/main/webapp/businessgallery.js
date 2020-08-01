@@ -24,7 +24,6 @@ function loadSearchResults() {
     }
 }
 
-
 /* Function that dynamically loads the businesses into the gallery, depending on the tag that was searched/selected. 
    Filters by the business tags.*/
 function loadSearchResultsTags(tag) {
