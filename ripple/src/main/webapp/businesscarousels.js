@@ -48,7 +48,6 @@ function getAddressComponent(components, type) {
   return components.filter((component) => component.types.indexOf(type) === 0).map((item) => item.long_name).pop() || null;
 }
 
-
 /* Carousel function that allows cards to move to the left or right by one. Establishes functionality of the carousel. */
 function cardFunctionality() {
   $("#card-carousel1").on("slide.bs.carousel", function(e) {
@@ -117,12 +116,11 @@ function addDynamicCarouselByTag(carouselId, tag) {
               
               // Call distance matrix service
               var service = new google.maps.DistanceMatrixService();
-              service.getDistanceMatrix(
-                {
-                  origins: [origin],
-                  destinations: [destination],
-                  travelMode: google.maps.TravelMode.WALKING,
-                }, callback);
+              service.getDistanceMatrix({
+                origins: [origin],
+                destinations: [destination],
+                travelMode: google.maps.TravelMode.WALKING,
+              }, callback);
               
               // In callback function, dynamically construct the HTML for the cards in each carousel
               function callback(response, status) {
@@ -194,12 +192,11 @@ function addDynamicCarouselByTime(carouselId, time) {
               
               // Call distance matrix service
               var service = new google.maps.DistanceMatrixService();
-              service.getDistanceMatrix(
-                {
-                  origins: [origin],
-                  destinations: [destination],
-                  travelMode: google.maps.TravelMode.WALKING,
-                }, callback);
+              service.getDistanceMatrix({
+                origins: [origin],
+                destinations: [destination],
+                travelMode: google.maps.TravelMode.WALKING,
+              }, callback);
               
               // In callback function, dynamically construct the HTML for the cards in each carousel
               function callback(response, status) {

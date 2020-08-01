@@ -54,12 +54,11 @@ function loadSearchResultsTags(tag) {
               
               // Call distance matrix service
               var service = new google.maps.DistanceMatrixService();
-              service.getDistanceMatrix(
-                {
-                  origins: [origin],
-                  destinations: [destination],
-                  travelMode: google.maps.TravelMode.WALKING,
-                }, callback);
+              service.getDistanceMatrix({
+                origins: [origin],
+                destinations: [destination],
+                travelMode: google.maps.TravelMode.WALKING,
+              }, callback);
               
               // In callback function, dynamically construct the HTML for the cards in each carousel
               function callback(response, status) {
@@ -124,12 +123,11 @@ function loadSearchResultsTime(time) {
               
               // Call distance matrix service
               var service = new google.maps.DistanceMatrixService();
-              service.getDistanceMatrix(
-                {
-                  origins: [origin],
-                  destinations: [destination],
-                  travelMode: google.maps.TravelMode.WALKING,
-                }, callback);
+              service.getDistanceMatrix({
+                origins: [origin],
+                destinations: [destination],
+                travelMode: google.maps.TravelMode.WALKING,
+              }, callback);
               
               // In callback function, dynamically construct the HTML for the cards in each carousel
               function callback(response, status) {
