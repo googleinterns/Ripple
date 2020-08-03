@@ -80,99 +80,36 @@ var maxWalkingTime = 1200;
 
 /* Code to dynamically load carousels. Calls addDynamicCarousel function to populate the carousels. */
 function loadCarousels() {
-    addDynamicCarouselByTag("black-owned-businesses", "Black-owned");
-    addDynamicCarouselByTime("under-20-mins-away", maxWalkingTime);
-    addDynamicCarouselByTag("trending-near-you", "Trending");
-    addDynamicCarouselByTag("up-and-coming", "New");
+    addDynamicCarousel("black-owned-businesses", "Black-owned", false);
+    addDynamicCarousel("under-20-mins-away", false, maxWalkingTime);
+    addDynamicCarousel("trending-near-you", "Trending", false);
+    addDynamicCarousel("up-and-coming", "New", false);
 }
 
 /* Dynamically loads content into Bootstrap carousel by reconstructing HTML elements and making a Firestore query. 
-   Filters by tag.*/
-function addDynamicCarouselByTag(carouselId, tag) {
+   Filters by tag or walking time in seconds.*/
+function addDynamicCarousel(carouselId, tag, time) {
     db.collection("businesses").get().then((querySnapshot) => {
         var makeElement = false;
         var firstCard = true;
         querySnapshot.forEach((doc) => {
-            // Check if the city in Firestore matches the city extracted from the user inputted address.
-            // Also checks if the business's tag list contains the tag that the carousel requires.
-            if (doc.data().address != null && doc.data().address[1] == localStorage.getItem('enteredCity') 
-                && doc.data().tags[convertToRawString(tag)] == tag) {
-              makeElement = true;
-              const card = document.createElement('div');
-              card.classList = 'carousel-inner row w-100 mx-auto';
-              
-              // Distance matrix calculations
-              // Get user's latitude and longitude from localStorage
-              var userLat = localStorage.getItem('enteredLat');
-              var userLong = localStorage.getItem('enteredLong');
-
-              // Get business latitude and longitude from GeoPoint object in firestore
-              var busLat = doc.data().coordinates.latitude;
-              var busLong = doc.data().coordinates.longitude;
-
-              // Reconstruct as maps LatLng object
-              var origin = new google.maps.LatLng(userLat, userLong);
-              var destination = new google.maps.LatLng(busLat, busLong);
-              
-              // Call distance matrix service
-              var service = new google.maps.DistanceMatrixService();
-              service.getDistanceMatrix({
-                origins: [origin],
-                destinations: [destination],
-                travelMode: google.maps.TravelMode.WALKING,
-              }, callback);
-              
-              // In callback function, dynamically construct the HTML for the cards in each carousel
-              function callback(response, status) {
-                if (status !== "OK") {
-                    alert("Error with distance matrix");
-                    return;
+            // Variable that checks if business should be used in the carousel.
+            var useBusiness = false;
+            // Different cases based on passed in values.
+            if (time == false) {
+                // Check if the city in Firestore matches the city extracted from the user inputted address.
+                // Also checks if the business's tag list contains the tag that the carousel requires.
+                if (doc.data().address != null && doc.data().address[1] == localStorage.getItem('enteredCity') 
+                    && doc.data().tags[convertToRawString(tag)] == tag) {
+                    useBusiness = true;
                 }
-                // Construct card content by appending HTML strings
-                var walkingTime = response.rows[0].elements[0].duration.text;
-                var walkingDist = response.rows[0].elements[0].distance.text;
-                var content = `
-                  <div class="carousel-item col-md-4">
-                    <div class="card">
-                      <img class="card-img-top img-fluid" id="card-dynamic-image" src="/serve?blob-key=${doc.data().thumbnailImage}" 
-                                  onclick="redirectToBusinessInfo('${doc.id}', '${walkingDist}', '${walkingTime}')"></img>
-                      <div class="card-body">
-                      <p class="card-text">${doc.data().businessName[1]}</p>
-                      <p class="card-text"><small class="text-muted">${walkingTime + " walking"}</small></p>
-                      </div>
-                    </div>
-                  </div>
-                `;
-                console.log(content);
-                // Append newly created card element to the container
-                if (makeElement) {
-                  var carouselElement = document.getElementById(carouselId);
-                  var carouselInner = carouselElement.getElementsByClassName('carousel-inner row w-100 mx-auto')[0];
-                  carouselInner.innerHTML = carouselInner.innerHTML + content + "\n";
-
-                  // Only want to append the string active once
-                  if (firstCard == true) {
-                      carouselInner.firstElementChild.className += " active";
-                      firstCard = false;
-                  }
-                  $(carouselElement).carousel({slide : true, interval : false});
+            } else if (tag == false) {
+                if (doc.data().address != null && doc.data().address[1] == localStorage.getItem('enteredCity')) {
+                    useBusiness = true;
                 }
-              }
             }
-        });   
-   });
-}
 
-/* Dynamically loads content into Bootstrap carousel by reconstructing HTML elements and making a Firestore query. 
-   Filters by walking time in seconds.*/
-function addDynamicCarouselByTime(carouselId, time) {
-    db.collection("businesses").get().then((querySnapshot) => {
-        var makeElement = false;
-        var firstCard = true;
-        querySnapshot.forEach((doc) => {
-            // Check if the city in Firestore matches the city extracted from the user inputted address.
-            // Also checks if the business's tag list contains the tag that the carousel requires.
-            if (doc.data().address != null && doc.data().address[1] == localStorage.getItem('enteredCity')) {
+            if (useBusiness) {
               makeElement = true;
               const card = document.createElement('div');
               card.classList = 'carousel-inner row w-100 mx-auto';
@@ -219,9 +156,9 @@ function addDynamicCarouselByTime(carouselId, time) {
                     </div>
                   </div>
                 `;
-                console.log(content);
-                // Append newly created card element to the container only if the walking duration is less than the inputted time
-                if (makeElement && response.rows[0].elements[0].duration.value <= time) {
+                // console.log(content);
+                // Append newly created card element to the container
+                if (makeElement && (time == false || response.rows[0].elements[0].duration.value <= time)) {
                   var carouselElement = document.getElementById(carouselId);
                   var carouselInner = carouselElement.getElementsByClassName('carousel-inner row w-100 mx-auto')[0];
                   carouselInner.innerHTML = carouselInner.innerHTML + content + "\n";
