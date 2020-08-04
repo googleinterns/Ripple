@@ -6,7 +6,9 @@ script.defer = true;
 script.async = true;
 document.head.appendChild(script); 
 
-/* Render a map */
+/* Render a world map centered at the US. Read user address and business address
+ from local Storage and Firestore, respectively. Read business name and street from 
+ Firestore and add to DOM */
 window.initMap = () => {
 
   // TEMPORARY LOCAL STORAGE 
