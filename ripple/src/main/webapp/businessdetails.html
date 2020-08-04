@@ -70,6 +70,39 @@
       <!-- /.Navbar -->
       <!-- Business details image gallery TODO: SMRUTHI DYNAMICALLY ALLOCATE EXISTING IMGS FROM BD EDIT PAGE AS A CAROUSEL -->
       <div class="container bd-gallery"> 
+          <div id="imageCarousel" class="carousel slide" data-interval="false">
+            <div class="carousel-inner row w-100 mx-auto" id="firstRow">
+                <div class="carousel-item col-md-4 active">
+                    <div class="card">
+                    <!-- TODO: Sarah will add the svg image -->
+                      <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/addimage.png" onclick=selectFile('business-file')></img>
+                    </div>
+                </div>
+                <div class="carousel-item col-md-4">
+                    <div class="card">
+                      <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/chinese_food.jpg"></img>
+                    </div>
+                </div>
+                <div class="carousel-item col-md-4">
+                    <div class="card">
+                      <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/louisiana_kitchen.jpg"></img>
+                    </div>
+                </div>
+                <div class="carousel-item col-md-4">
+                    <div class="card">
+                      <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/maison_mathis.jpg"></img>
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+            </a>
+        </div>
       </div>
       <!-- /.Business details image gallery -->
     </div>
