@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/v4-shims.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -24,12 +25,14 @@
       var db = firebase.firestore();
     </script>
     <!-- ./Firebase configuration and initialization -->
+    <script src="trie.js"></script>
     <script src="script.js"></script>
+    <script src="auth.js"></script>
     <script src="businessdetails.js"></script>
     <script src="maps.js"></script>
     <title>Ripple</title>
   </head>
-  <body onload="bdOnload();">
+  <body onload="navbarDisplay(); bdOnload();">
     <div id="loading-mask"></div>
     <!-- Banner -->
     <div class="three-quarters-bg-no-color">
@@ -37,38 +40,29 @@
       <div class="wrapper" id="wrapper">
         <div class="custom-container" id="container">
           <nav class="mb-1 navbar navbar-expand-lg">
-            <a class="navbar-brand hover-neutral-to-primary-color" href="#">Ripple</a>
+            <a class="navbar-brand hover-neutral-to-primary-color" href="index.html">Ripple</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
                 aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
-              <!-- Actual search box -->
-              <div class=search>
+              <!-- Search box -->
+              <div class="search">
                 <i class="material-icons">search</i>
-                <input class="search-bar-neutral" id="search-bar" type="text" onkeypress="searchInput(event)" placeholder="Search for anything...">
+                <input class="search-bar" id="search-bar" list="search-autocomplete" type="text" placeholder="Search for anything..." autocomplete="off">
+                <datalist id="search-autocomplete"></datalist>
               </div>
+              <!-- ./Search box -->
+              <!-- Today -->
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                  <a class="nav-link hover-neutral-to-primary-color" href="stories.html">Today</a>
+                  <a class="nav-link hover-neutral-to-primary-color" href="posts.html">Today</a>
                 </li>
               </ul>
-              <ul class="navbar-nav nav-flex-icons">
-                <li class="nav-item avatar dropdown">
-                  <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                    <img id="nav-bar-avatar" class="rounded-circle z-depth-0">
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
-                      aria-labelledby="navbarDropdownMenuLink-55">
-                    <a class="dropdown-item" href="#">Your favorites</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Account settings</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" onclick="signOutUser()">Log out</a>
-                  </div>
-                </li>
-              </ul>
+              <!-- ./Today -->
+              <!-- User type options -->
+              <div id="user-options"><div>
+              <!-- ./User type options -->
             </div>
           </nav>
         </div>
@@ -83,14 +77,14 @@
     <!-- Business details content -->
     <div class="container bd-text">
       <div class="light-font-weight bd-padding-top">
-        <i class="fa fa-map-marker fa-lg" aria-hidden="true"></i>
-        <p class="inline-block-child" id="bd-address">8386 Beverly Blvd</p>
+        <i class="fa fa-map-marker" aria-hidden="true"></i>
+        <p class="inline-block-child" id="bd-address"></p>
         <div class="inline-block-child"><div class="vl"></div></div>
         <p class="inline-block-child"><span id="bd-walking-dist">0</span> min walking distance</p>
         <div class="inline-block-child"><div class="vl"></div></div>
-        <p class="inline-block-child" id="bd-open-close">Open</p>
+        <p class="inline-block-child" id="bd-open-closed"></p>
         <div class="inline-block-child"><div class="vl"></div></div>
-        <i class="inline-block-child fa fa-phone fa-lg" aria-hidden="true"></i>
+        <i class="inline-block-child fa fa-phone" aria-hidden="true"></i>
         <p class="inline-block-child" id="bd-phone-number"></p>
         <div class="inline-block-child"><div class="vl"></div></div>
         <a class="inline-block-child hyper-link" id="business-website"></a>
@@ -99,7 +93,7 @@
       <div class="bd-tags">
       </div>
       <!-- ./tags -->
-      <h1 class="bd-header" id="bd-header">Mandarette Cafe</h1>
+      <h1 class="bd-header" id="bd-header"></h1>
       <!-- Ratings & price-->
       <div>
         <!-- Stars-->
@@ -111,15 +105,24 @@
           <span id="star-5" class="fa fa-star-o fa-lg"></span>
         </div>
         <!-- ./Stars -->
+        <!-- Review summary -->
         <p id="review-summary" class="inline-block-child display-none"><span id="bd-average-rating"></span> from <span id="bd-number-reviews"></span> <span id="sing-plural-review">reviews</p>
         <p id="no-review-summary" class="inline-block-child ">No reviews yet</p>
         <div class="inline-block-child"><div class="vl"></div></div>
         <p class="inline-block-child" id="bd-price">N/A</p>
+        <!-- ./Review summary -->
       </div>
+      <!-- ./Ratings & price-->
+      <!-- Business owner last update timestamp -->
+      <div>
+        <p class="inline-block-child">Updated <span id="bd-last-update-timestamp"></span> by business owner</p>
+      </div>
+      <!-- ./Business owner last update timestamp -->
       <!-- Button to open the modal -->
-      <button type="button" id="review-button" class="primary-fill-chip chip-box-shadow bd-subheader-padding-top" data-toggle="modal" data-target="#bdModal">
+      <button type="button" id="review-button" class="primary-fill-chip chip-box-shadow bd-subheader-padding-top-sm" data-toggle="modal" data-target="#bdModal">
         Add a review
       </button>
+      <!-- ./Button to open the modal -->
       <!-- The Modal -->
       <div class="modal show fade" id="bdModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -183,65 +186,51 @@
       <!-- Latest announcements -->
       <div class="bd-padding-top">
         <p class="inline-block-child boldest-text bd-subtitle">Latest announcements</p>
-        <p class="inline-block-child" id="bd-announcement-date">June 13, 2020</p>
+        <p class="inline-block-child">Updated <span id="bd-announcement-date"></span></p>
       </div>
-      <p id="bd-announcement-text">We are now opened for outdoor dining, pickup and delivery
-          daily from 11:30am to 9:30pm. For your safety, we are now providing no contact delivery
-          options to our patrons. Please call and ask. Stay safe and let's beat Covid-19 together.
-      </p>
+      <p id="bd-announcement-text"></p>
       <!-- ./Latest announcements -->
       <!-- Our story -->
       <p class="boldest-text bd-padding-top bd-subtitle">Our story</p>
-      <p id="bd-story-text">In business for over thirty years, our establishment remains true to its
-          original mission; treat the customers as you would treat your family. Mandarette Chinese
-          Cafe is a spin off from the Mandarin of Beverly Hills in 1984. In 1989, head chef, Yang
-          took over the operation and today he is still the head chef. Over the years we have proven
-          to be one of the best chinese restaurants in the area!
-      </p>
+      <p id="bd-story-text"></p>
       <!-- ./Our story -->
       <!-- Our team -->
       <p class="boldest-text bd-padding-top bd-subtitle">Our team</p>
-      <div class="bd-subheader-padding-top">
-        <img class="inline-block-child bd-avatar bd-team-highlight" id="bd-team-photo" src="/images/undrawAvatar.svg">
-        <img class="inline-block-child bd-avatar" width=45px height=45px id="bd-team-photo" src="/images/avatar_stock_man.jpg">
-        <img class="inline-block-child bd-avatar" id="bd-team-photo" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg">
-      </div>
-      <div class="bd-subheader-padding-top">
-        <p class="inline-block-child" id="bd-team-name">Ken Yang</p>
+      <div id="team-blob-keys" class="bd-subheader-padding-top"></div>
+      <div>
+        <p class="inline-block-child" id="bd-team-name"></p>
         <div class="inline-block-child"><div class="vl"></div></div>
-        <p class="inline-block-child" id="bd-team-title">Owner</p>
+        <p class="inline-block-child" id="bd-team-position"></p>
       </div>
-      <p id="bd-team-text">Hey Ripple family! I'm Ken, and I'd love to share a little bit about me: Outside of my restaurant work,
-          I love spending time with my family, hiking in LA's beautiful trails, and taking photos of nature. 
-      </p>
+      <p id="bd-team-bio"></p>
       <!-- ./Our team -->
       <!-- Health safety + icons -->
       <p class="boldest-text bd-padding-top bd-subtitle">Our health safety commitment</p>
       <div class="bd-padding-top">
         <div class="inline-block-child bd-safety-column">
-          <img class="bd-safety-icon" src="serve?blob-key=DSDJ6go4vUvQaCjaQRVNvw">
-          <p id="bd-mask-text" class="bd-safety-caption">Mask required upon entry</p>
+          <img id="bd-mask-img-id" class="bd-safety-icon">
+          <p id="bd-mask-text" class="bd-safety-caption"></p>
         </div>
         <div class="inline-block-child"><div class="vl-long"></div></div>
         <div class="inline-block-child bd-safety-column">
-          <img class="bd-safety-icon" src="serve?blob-key=7G862TaTkzfwj3KS9d1jSA">
-          <p id="bd-delivery-pickup-text" class="bd-safety-caption">Delivery offered</p>
+          <img id="bd-delivery-img-id" class="bd-safety-icon">
+          <p id="bd-delivery-text" class="bd-safety-caption"></p>
         </div>
         <div class="inline-block-child"><div class="vl-long"></div></div>
         <div class="inline-block-child bd-safety-column">
-          <img class="bd-safety-icon" src="serve?blob-key=3VlrzMLnBwqNJ7DLf-1-xA">
-          <p id="bd-outdoor-dining-text" class="bd-safety-caption">Pickup offered</p>
+          <img id="bd-pickup-img-id" class="bd-safety-icon">
+          <p id="bd-pickup-text" class="bd-safety-caption"></p>
         </div>
         <div class="inline-block-child"><div class="vl-long"></div></div>
         <div class="inline-block-child bd-safety-column">
-          <img class="bd-safety-icon" src="serve?blob-key=x9T12YWRtRp65jr5RfQ3QQ">
-          <p id="bd-outdoor-dining-text" class="bd-safety-caption neutral-lighter-text">No outdoor dining</p>
+          <img id="bd-outdoor-dining-img-id" class="bd-safety-icon">
+          <p id="bd-outdoor-dining-text" class="bd-safety-caption neutral-lighter-text"></p>
         </div>
       </div>
-      <div class="bd-padding-top">
+      <div class="bd-padding-top-lg">
         <div class="inline-block-child bd-safety-column">
-          <p class="boldest-text text-icon no-text-margin neutral-lighter-text" id="bd-max-occ-num">n/a</p>
-          <p id="bd-max-occ-text" class="bd-safety-caption neutral-lighter-text">Max occupancy per table</p>
+          <p class="boldest-text text-icon no-text-margin" id="bd-max-occ-num"></p>
+          <p id="bd-max-occ-text" class="bd-safety-caption">Max occupancy per table</p>
         </div>
       </div>
       <!-- ./Health safety + icons-->
@@ -251,31 +240,31 @@
           <p class="boldest-text bd-padding-top bd-subtitle">Open hours</p>
           <div class="bd-hrs-span">
             <span>Monday</span>
-            <span id="bd-mon-hrs">11:00am - 9:00pm</span>
+            <span id="bd-mon-hrs"></span>
           </div>
           <div class="bd-hrs-span">
             <span>Tuesday</span>
-            <span id="bd-tues-hrs">11:00am - 9:00pm</span>
+            <span id="bd-tues-hrs"></span>
           </div>
           <div class="bd-hrs-span">
             <span>Wednesday</span>
-            <span class="bd-hrs-highlight boldest-text" id="bd-wed-hrs">11:00am - 9:00pm</span>
+            <span id="bd-wed-hrs"></span>
           </div>
           <div class="bd-hrs-span">
             <span>Thursday</span>
-            <span id="bd-thur-hrs">11:00am - 9:00pm</span>
+            <span id="bd-thur-hrs"></span>
           </div>
           <div class="bd-hrs-span">
             <span>Friday</span>
-            <span id="bd-fri-hrs">11:00am - 9:00pm</span>
+            <span id="bd-fri-hrs"></span>
           </div>
           <div class="bd-hrs-span">
             <span>Saturday</span>
-            <span id="bd-sat-hrs">11:00am - 9:00pm</span>
+            <span id="bd-sat-hrs"></span>
           </div>
           <div class="bd-hrs-span">
             <span>Sunday</span>
-            <span id="bd-sun-hrs">11:00am - 9:00pm</span>
+            <span id="bd-sun-hrs"></span>
           </div>
         </div>
         <!-- Map -->
@@ -288,13 +277,13 @@
       <!-- Order links -->
       <p class="boldest-text bd-padding-top bd-subtitle">Order</p>
       <div>
-        <a id="uber-eats" class="order-links" href="https://www.ubereats.com/los-angeles/food-delivery/mandarette-chinese-cafe/gUPV2Hz0TxWYwr1oh-6s6w">
+        <a id="uber-eats" class="order-links">
           <img class="inline-block-child bd-order-img" src="serve?blob-key=5N3NqYo-KaozWYsSCe7ESg">
         </a>
-        <a id="postmates" class="order-links" href="https://postmates.com/merchant/mandarette-chinese-cafe-los-angeles">
+        <a id="postmates" class="order-links">
           <img class="inline-block-child bd-order-img-large" src="serve?blob-key=QBLu8l3peUtMe_gp5CVPnA">
         </a>
-        <a id="grubhub" class="order-links" href="https://www.grubhub.com/restaurant/mandarette-cafe-8386-beverly-blvd-los-angeles/1179674">
+        <a id="grubhub" class="order-links">
           <img class="inline-block-child bd-order-img" src="serve?blob-key=ox9yzloQEQOwI0mqSofTOQ">
         </a>
       </div>
