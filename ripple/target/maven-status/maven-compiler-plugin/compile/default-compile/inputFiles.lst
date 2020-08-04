@@ -1,2 +1,3 @@
-/home/saraholiviawu/step112-2020/ripple/src/main/java/com/google/sps/servlets/FormHandlerServlet.java
-/home/saraholiviawu/step112-2020/ripple/src/main/java/com/google/sps/servlets/BlobstoreUploadUrlServlet.java
+/home/smruthibalajee/step112-2020/ripple/src/main/java/com/google/sps/servlets/Serve.java
+/home/smruthibalajee/step112-2020/ripple/src/main/java/com/google/sps/servlets/Upload.java
+/home/smruthibalajee/step112-2020/ripple/src/main/java/com/google/sps/servlets/BlobstoreUploadUrlServlet.java

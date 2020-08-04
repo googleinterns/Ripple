@@ -1,21 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS and JavaScript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="config.js"></script> 
-    <script src="script.js"></script>
-
+    <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
-    <title>Ripple</title>
-
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type='text/javascript' src='config.js'></script>
     <!-- Firebase configuration and initialization -->
     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
@@ -26,15 +21,139 @@
       var auth = firebase.auth();
       var db = firebase.firestore();
     </script>
-    <!-- This needs to be after firebase initialization -->
-    <script src="auth.js"></script>
     <!-- ./Firebase configuration and initialization -->
+    <script src="trie.js"></script>
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script src="managebusinessinfo.js"></script>
+    <title>Ripple</title>
   </head>
-  <body onload="setBusinessInfo()">
-    <textarea id="name"></textarea>
-    <textarea id="phone" placeholder="Business phone"></textarea>
-    <textarea id="address" placeholder="Business address"></textarea>
-    <button type="button" onclick="writeBusinessInfo()">Save changes</button>
+  <body onload="addToCarousel();">
+      <div class="half-bg-no-color">
+        <!--Navbar -->
+        <div class="wrapper" id="wrapper">
+            <div class="custom-container">
+                <nav class="mb-1 navbar navbar-expand-lg">
+                    <a class="navbar-brand" href="main.html">Ripple</a>
+                    
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
+                        aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+                        <!-- Actual search box -->
+                        <div class=search>
+                            <i class="material-icons">search</i>
+                            <input class="search-bar-neutral" id="search-bar" list="search-autocomplete" type="text" placeholder="Search for anything..." autocomplete="off">
+                            <datalist id="search-autocomplete"></datalist>
+                        </div>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item active">
+                            <a class="nav-link login-chip" href="login.html">Log in</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- /.Navbar -->
+        <!-- Manage business header -->
+        <div class="container"> 
+            <h1 class="left-align-header" id="left-align-header">Manage business</h1>
+        </div>
+    </div>
+    <!-- /.Business gallery header -->
+    <div class="container">
+        <!-- Card Carousels -->
+       <h3 class="acct-info-subtitle acct-padding-top">Image gallery</h3>
+       <form id="business-form" onchange="fetchBlobstoreUploadUrl('business-form', 'business-file', 'managebusinessinfo.html')" method="post" enctype="multipart/form-data">
+            <input id="business-file" type="file" name="business-file" style="display: none;">
+        </form>
+       <div id="imageCarousel" class="carousel slide" data-interval="false">
+            <div class="carousel-inner row w-100 mx-auto" id="firstRow">
+                <div class="carousel-item col-md-4 active">
+                    <div class="card">
+                    <!-- TODO: Sarah will add the svg image -->
+                      <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/addimage.png" onclick=selectFile('business-file')></img>
+                    </div>
+                </div>
+                <div class="carousel-item col-md-4">
+                    <div class="card">
+                      <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/chinese_food.jpg"></img>
+                    </div>
+                </div>
+                <div class="carousel-item col-md-4">
+                    <div class="card">
+                      <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/louisiana_kitchen.jpg"></img>
+                    </div>
+                </div>
+                <div class="carousel-item col-md-4">
+                    <div class="card">
+                      <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/maison_mathis.jpg"></img>
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+            </a>
+        </div>
+        <div class="col-8">
+            <h3 class="acct-info-subtitle acct-padding-top">Business details</h3>
+            <textarea class="manage-business-text" id="businessName" placeholder="Business name"></textarea>
+            <textarea class="manage-business-text" id="phone" placeholder="Business phone"></textarea>
+            <textarea class="manage-business-text" id="address" placeholder="Business address"></textarea>
+        </div>
+        <h3 class="acct-info-subtitle acct-padding-top">Business tags</h3>
+            <div class="d-flex flex-row justify-content-around">
+			    <button type="button" id="tag1" class="secondary-fill-chip bd-subheader-padding-top inline-block-child" onclick="clickTag('tag1')"> Tag 1 </button>
+                <button type="button" id="tag2" class="secondary-fill-chip bd-subheader-padding-top inline-block-child" onclick="clickTag('tag2')"> Tag 1 </button>
+                <button type="button" id="tag3" class="secondary-fill-chip bd-subheader-padding-top inline-block-child" onclick="clickTag('tag3')"> Tag 1 </button>
+                <button type="button" id="tag4" class="secondary-fill-chip bd-subheader-padding-top inline-block-child" onclick="clickTag('tag4')"> Tag 1 </button>
+	        </div>
+        <h3 class="acct-info-subtitle acct-padding-top">Open hours</h3>
+        <div class="container-fluid px-1 px-sm-4 py-5 mx-auto">
+        <div class="row d-flex justify-content-left">
+            <div class="col-md-10 col-lg-9 col-xl-8">
+                <div class="card border-0">
+                    <div class="row px-3">
+                        <div class="col-sm-10 list">
+                            <div class="mb-2 row justify-content-between px-3"> <select class="mb-2 mob">
+                                    <option value="Mon">Mon</option>
+                                    <option value="Tues">Tues</option>
+                                    <option value="Wed">Wed</option>
+                                    <option value="Thurs">Thurs</option>
+                                    <option value="Fri">Fri</option>
+                                    <option value="Sat">Sat</option>
+                                    <option value="Sun">Sun</option>
+                                </select>
+                                <div class="mob"> <label class="text-grey mr-1">From</label> <input class="ml-1" type="time" name="from"> </div>
+                                <div class="mob mb-2"> <label class="text-grey mr-4">To</label> <input class="ml-1" type="time" name="to"> </div>
+                                <div class="mt-1 cancel fa fa-times text-danger"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row px-3 mt-3">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-10">
+                            <div class="row px-3 justify-content-left">
+                                <div class="fa fa-plus-circle text-success add"></div>
+                                <p class="text-success ml-3 add">Add day</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="button" id="save-changes-button" class="primary-fill-chip chip-box-shadow bd-subheader-padding-top" onclick="writeBusinessEditFields()">
+        Save changes
+        </button>
+      </div>
+    </div>    
   </body>
 </html>
     

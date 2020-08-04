@@ -66,3 +66,6 @@ node_modules/
 
 # target files
 target/
+
+# hide config.js file
+config.js

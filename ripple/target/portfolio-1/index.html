@@ -14,38 +14,15 @@
     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-firestore.js"></script>
     <script>
-      var apiKey = config.API_KEY;
-      var authDomain = config.AUTH_DOMAIN;
-      var databaseURL = config.DATABASE_URL;
-      var projectId = config.PROJECT_ID;
-      var storageBucket = config.STORAGE_BUCKET;
-      var messagingSenderId = config.MESSAGING_SENDER_ID;
-      var appId = config.APP_ID;
-      var measurementId = config.MEASUREMENT_ID;
-
-      var firebaseConfig = {
-        apiKey: apiKey,
-        authDomain: authDomain,
-        databaseURL: databaseURL,
-        projectId: projectId,
-        storageBucket: storageBucket,
-        messagingSenderId: messagingSenderId,
-        appId: appId,
-        measurementId: measurementId,
-      };
-      firebase.initializeApp(firebaseConfig);
-      // Create auth and firestore references 
-      var auth = firebase.auth();
-      var db = firebase.firestore();
+      firebase.initializeApp(config);
     </script>
-    <!-- This needs to be after firebase initialization -->
-    <script src="auth.js"></script>
-    <script src="firestore.js"></script>
     <!-- ./Firebase configuration and initialization -->
     <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script src="landing.js"></script>
     <title>Ripple</title>
   </head>
-  <body>
+  <body onload="searchAddressAutocomplete()">
     <div class="full-bg-primary-color">
       <!--Navbar -->
       <div class="wrapper" id="wrapper">

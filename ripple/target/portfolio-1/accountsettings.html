@@ -21,11 +21,9 @@
       var auth = firebase.auth();
       var db = firebase.firestore();
     </script>
-    <!-- This needs to be after firebase initialization -->
-    <script src="auth.js"></script>
-    <script src="firestore.js"></script>
     <!-- ./Firebase configuration and initialization -->
     <script src="script.js"></script>
+    <script src="auth.js"></script>
     <title>Ripple</title>
   </head>
   <body onload="checkUserStatus(); loadAcctSettingsIcons();">
@@ -41,6 +39,11 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+              <!-- Actual search box -->
+              <div class=search>
+                <i class="material-icons">search</i>
+                <input class="search-bar-neutral" id="search-bar" type="text" onkeypress="searchInput(event)" placeholder="Search for anything...">
+              </div>
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
                   <a class="nav-link hover-neutral-to-primary-color" href="stories.html">Today</a>
@@ -75,14 +78,14 @@
     </div>
     <!-- /.Banner -->
     <!-- Account settings content: Blobstore image upload -->
-    <div class = "container">
+    <div class="container">
       <div class="row">
         <div class="col-4 align-center avatar-padding-top">
           <img id="profile-image" class="profile-photo-cropped" width="110px" height="110px">
-          <form id="user-profile-form" onchange="fetchBlobstoreUploadUrl()" method="post" enctype="multipart/form-data">
+          <form id="user-profile-form" onchange="fetchBlobstoreUploadUrl('user-profile-form', 'file', 'accountsettings.html')" method="post" enctype="multipart/form-data">
             <input id="file" type="file" name="file" style="display: none;">
           </form><br/>
-          <button class="upload-photo-button" type="button" onclick="selectFile()"><img id="camera-icon-id"> Change photo</button>
+          <button class="upload-photo-button" type="button" onclick="selectFile('file')"><img id="camera-icon-id"> Change photo</button>
         </div>
         <div class="col-8">
           <h3 class="acct-info-subtitle acct-padding-top">Account details</h3>
@@ -92,11 +95,6 @@
           <p id="acct-email"></p>
           <hr class="line-break">
           <p id="acct-type"></p>
-          <hr class="line-break">
-
-          <h3 class="acct-info-subtitle acct-padding-top-2">Address</h3>
-          <hr class="line-break">
-          <p id="acct-address" class="acct-edit"></p>
           <hr class="line-break">
         </div>
       </div>    

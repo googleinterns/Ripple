@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type='text/javascript' src='config.js'></script>
+    <!-- Firebase configuration and initialization -->
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-firestore.js"></script>
+    <script>
+      firebase.initializeApp(config);
+      // Create auth and firestore references 
+      var auth = firebase.auth();
+      var db = firebase.firestore();
+    </script>
+    <!-- ./Firebase configuration and initialization -->
+    <script src="trie.js"></script>
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script src="posts.js"></script>
+    <title>Ripple</title>
+  </head>
+  <body style="background-color: var(--neutral-background-color);" onload="navbarDisplay(); postsOnload(); addDynamicPosts();">
+    <!-- Banner -->
+    <div class="half-bg-primary-color">
+      <!--Navbar -->
+      <div class="wrapper" id="wrapper">
+        <div class="custom-container" id="container">
+          <nav class="mb-1 navbar navbar-expand-lg">
+            <a class="navbar-brand hover-neutral-to-primary-color" href="index.html">Ripple</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
+                aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+              <!-- Search box -->
+              <div class="search">
+                <i class="material-icons">search</i>
+                <input class="search-bar primary-bg-color" id="search-bar" list="search-autocomplete" type="text" 
+                     placeholder="Search for anything..." autocomplete="off">
+                <datalist id="search-autocomplete"></datalist>
+              </div>
+              <!-- ./Search box -->
+              <!-- Today -->
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                  <a id="today" class="nav-link hover-neutral-to-primary-color" href="posts.html">Today</a>
+                </li>
+              </ul>
+              <!-- ./Today -->
+              <!-- User type options -->
+              <div id="user-options"><div>
+              <!-- ./User type options -->
+            </div>
+          </nav>
+        </div>
+      </div>
+      <!-- /.Navbar -->
+      <!-- Post community header -->
+      <div class="container">
+        <!-- <h1 class="left-align-header">Meet the faces</br>behind the business.</h1> -->
+        <div class="header-subwrapper">
+          <h1 class="header-title-text">Meet the faces</h1>
+          <h1 class="header-title-text">behind the business.</h1>
+        </div>
+      </div>
+      <!-- /.Post community header -->
+    </div>
+    <!-- /.Banner -->
+    <!-- Stories community content-->
+    <!-- Container -->
+    <div class="container center">
+      <!-- Button to open the modal -->
+      <button type="button" id="post-button" data-toggle="modal" data-target="#myModal">
+        Share your story
+      </button>
+      <!-- The Modal -->
+      <div class="modal show fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- Modal header -->
+            <div class="modal-header center">
+              <h3 class="col-12 modal-title center-align">
+                New post
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </h3>
+            </div>
+            <!--/Modal  -->
+            <!-- Modal body -->
+            <div class="modal-body">
+              <div class="modal-subwrapper">
+                <div id="modal-upload-photo" class="modal-upload-photo" onclick="selectFile('post-file'); saveCaption();">
+                  <div class="circle-icon">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-images" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M12.002 4h-10a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1zm-10-1a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-10z"/>
+                      <path d="M10.648 8.646a.5.5 0 0 1 .577-.093l1.777 1.947V14h-12v-1l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71z"/>
+                      <path fill-rule="evenodd" d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM4 2h10a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1v1a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2h1a1 1 0 0 1 1-1z"/>
+                    </svg>
+                  </div>
+                  <p>Add photo</p>
+                </div>
+                <form id="post-form" onchange="fetchBlobstoreUploadUrl('post-form', 'post-file', 'posts.html')" method="post" enctype="multipart/form-data">
+                  <input id="post-file" type="file" name="post-file" style="display: none;">
+                </form>
+                <img onclick="selectFile('post-file'); saveCaption()" id="modal-display-photo">
+                <div class="modal-caption">
+                  <textarea class="modal-caption-textarea" id="modal-caption" placeholder="Write a caption..."></textarea>
+                </div>
+                <!-- ./Modal body -->
+                <!-- Modal submit button -->
+                <div class="modal-centered-footer">
+                  <button disabled type="button" id="modal-share-button" onclick="newPost()" class="modal-share-button" data-dismiss="modal">
+                    Share
+                  </button>
+                </div>
+                <!-- ./Modal submit button -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ./Modal -->
+    </div>
+    <!-- ./Container -->
+    <div id="post-container" class="post-container"></div>
+    <!-- ./Stories community content-->
+    </br></br></br></br></br></br></br></br></br></br>
+  </body>
+</html>
+

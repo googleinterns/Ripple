@@ -72,7 +72,7 @@ var Trie = function () {
         node.isWord && words.push(word);
 
         // Checks to make sure that the number of words returned are less than the count specified. If this is true, then gets the children. 
-        // Then gets the keys from the node.children object and the some method will check if any of the children of the node satisfy the child(character) function.
+        // Gets the keys from the node.children object and .some method checks if any of the children of the node satisfy the child() function.
         return words.length >= count || Object.keys(node.children).some(child);
       }
       

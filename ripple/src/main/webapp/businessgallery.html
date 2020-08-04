@@ -35,36 +35,41 @@
     <!-- ./Firebase configuration and initialization -->
     <script src="trie.js"></script>
     <script src="script.js"></script>
+    <script src="trie.js"></script>
     <script src="businesscarousels.js"></script>
     <script src="businessgallery.js"></script>
   </head>
-  <body onload="displayName(); loadSearchResults()">
+  <body onload="navbarDisplay(); displayName(); loadSearchResults()">
     <div class="half-bg-no-color">
-        <!--Navbar -->
-        <div class="wrapper" id="wrapper">
-            <div class="custom-container">
-                <nav class="mb-1 navbar navbar-expand-lg">
-                    <a class="navbar-brand" href="main.html">Ripple</a>
-                    
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
-                        aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
-                        <!-- Actual search box -->
-                        <div class=search>
-                            <i class="material-icons">search</i>
-                            <input class="search-bar-neutral" id="search-bar" list="search-autocomplete" type="text" placeholder="Search for anything..." autocomplete="off">
-                            <datalist id="search-autocomplete"></datalist>
-                        </div>
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item active">
-                            <a class="nav-link login-chip" href="login.html">Log in</a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
+      <!--Navbar -->
+      <div class="wrapper" id="wrapper">
+        <div class="custom-container" id="container">
+          <nav class="mb-1 navbar navbar-expand-lg">
+            <a class="navbar-brand hover-neutral-to-primary-color" href="index.html">Ripple</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
+                aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+              <!-- Search box -->
+              <div class="search">
+                <i class="material-icons">search</i>
+                <input class="search-bar" id="search-bar" list="search-autocomplete" type="text" placeholder="Search for anything..." autocomplete="off">
+                <datalist id="search-autocomplete"></datalist>
+              </div>
+              <!-- ./Search box -->
+              <!-- Today -->
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                  <a id="today" class="nav-link hover-neutral-to-primary-color" href="posts.html">Today</a>
+                </li>
+              </ul>
+              <!-- ./Today -->
+              <!-- User type options -->
+              <div id="user-options"><div>
+              <!-- ./User type options -->
             </div>
+          </nav>
         </div>
         <!-- /.Navbar -->
         <!-- Gallery page header -->
