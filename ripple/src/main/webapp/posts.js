@@ -24,9 +24,7 @@ function saveCaption() {
 function postButtonDisplay() {
   // Check user type
   var isBusinessOwner = localStorage.getItem("isBusinessOwner");
-  console.log("isBusinessOwner()", isBusinessOwner);
   if (isBusinessOwner == "true") {
-    console.log("is a business owner");
     displayElement("post-button");
   }
 }
