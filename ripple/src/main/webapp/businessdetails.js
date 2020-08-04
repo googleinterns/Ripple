@@ -145,7 +145,7 @@ function iterateAndDisplayAddress(addressArray) {
   // Nothing
 }
 
-/* Add a review: Determine number of full stars, half stars or empty stars to return */
+/* Display review summary: Determine number of full stars, half stars or empty stars to return */
 function calculateStars(avgStarRatings, numStarRatings) {
   if (numStarRatings == 0) {
     displayStars(0, 0);
@@ -171,7 +171,7 @@ function calculateStars(avgStarRatings, numStarRatings) {
   }
 }
 
-/* Add a review: If no reviews yet, change stars to a neutral color. 
+/* Display review summary: If no reviews yet, change stars to a neutral color. 
 Otherwise, display correct star types (full, half, empty) and colors */
 function displayStars(numFullStars, numHalfStars) {
   var numTotalStars = 5;
@@ -214,7 +214,7 @@ function displayStars(numFullStars, numHalfStars) {
   console.log("displayStars(" + numFullStars + ", " + numHalfStars + ")");
 }
 
-/* Add a review: Display the average star ratings and number of users who left a review */ 
+/* Display review summary: Display the average star ratings and number of users who left a review */ 
 function displayStarReviewSummary(avgStarRatings, numStarRatings) {
   // If no reviews, keep default text "No reviews yet"
   if (numStarRatings == 0) {
@@ -234,14 +234,14 @@ function displayStarReviewSummary(avgStarRatings, numStarRatings) {
   }
 }
 
-/* Add a review: Given an float, function rounds decimals to the tenths place. Ex: 3.14 -> 3.1 */
+/* Display review summary: Given an float, function rounds decimals to the tenths place. Ex: 3.14 -> 3.1 */
 function RoundDecimals(float) {
   var roundedFloat = Math.round(float * 10) / 10;
   return roundedFloat;
   console.log("roundedFloat: " + roundedFloat);
 }
 
-/* Add a review: If no reviews yet, default price display is N/A. 
+/* Display review summary: If no reviews yet, default price display is N/A. 
 Otherwise, calculate correct price rating $, $$, or $$$ */
 function calculatePrice(avgPriceRatings, numPriceRatings) {
   // Default display is N/A if no price reviews have been made
@@ -256,7 +256,7 @@ function calculatePrice(avgPriceRatings, numPriceRatings) {
   }
 }
 
-/* Add a review: Display the number of dollar signs for price rating on the page */
+/* Display review summary: Display the number of dollar signs for price rating on the page */
 function displayPrice(dollarString) {
   addTextToDom(dollarString, "bd-price");
 }
