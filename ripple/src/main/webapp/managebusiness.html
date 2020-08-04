@@ -25,12 +25,12 @@
       var auth = firebase.auth();
       var db = firebase.firestore();
     </script>
-    <!-- This needs to be after firebase initialization -->
-    <script src="auth.js"></script>
-    <script src="firestore.js"></script>
-    <!-- ./Firebase configuration and initialization -->
+   <!-- ./Firebase configuration and initialization -->
+    <script src="trie.js"></script>
     <script src="script.js"></script>
+    <script src="auth.js"></script>
     <script src="managebusinessinfo.js"></script>
+    
   </head>
   <body onload="setBusinessEditFields()">
     <!-- Banner -->
@@ -47,7 +47,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                  <a class="nav-link hover-neutral-to-primary-color" href="stories.html">Today</a>
+                  <a class="nav-link hover-neutral-to-primary-color" href="posts.html">Today</a>
                 </li>
               </ul>
               <ul class="navbar-nav nav-flex-icons">
