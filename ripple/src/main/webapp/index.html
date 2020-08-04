@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -15,14 +16,18 @@
     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-firestore.js"></script>
     <script>
       firebase.initializeApp(config);
+      // Create auth and firestore references 
+      var auth = firebase.auth();
+      var db = firebase.firestore();
     </script>
     <!-- ./Firebase configuration and initialization -->
+    <script src="trie.js"></script>
     <script src="script.js"></script>
     <script src="auth.js"></script>
     <script src="landing.js"></script>
     <title>Ripple</title>
   </head>
-  <body onload="searchAddressAutocomplete()">
+  <body onload="navbarDisplay(); searchAddressAutocomplete();">
     <div class="full-bg-primary-color">
       <!--Navbar -->
       <div class="wrapper" id="wrapper">
@@ -34,11 +39,9 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
-              <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                  <a class="nav-link login-chip" href="login.html">Log in</a>
-                </li>
-              </ul>
+              <!-- User type options -->
+              <div id="user-options" class="ml-auto"></div>  
+              <!-- ./User type options -->
             </div>
           </nav>
         </div>
