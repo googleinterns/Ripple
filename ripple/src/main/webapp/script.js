@@ -373,10 +373,10 @@ function createCarouselElement(blobKey, id) {
     carouselInner.innerHTML = carouselInner.innerHTML + content + "\n";  
     // Only want to append the string active once
     if (!carouselInner.firstElementChild.className.includes("active")) {
-        carouselInner.firstElementChild.className += " active";
+      carouselInner.firstElementChild.className += " active";
     }
     $(carouselElement).carousel({slide : true, interval : false});
-    }
+  }
 }
 
 // Unit testing exports set up
