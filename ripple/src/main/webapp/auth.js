@@ -51,12 +51,17 @@ function handleSignUpWithGoogle(user, uid) {
             signOutUser(false);
         } else { // User has not yet made an account
           console.log("Success: Google account linked");
-        //   var token = result.credential.accessToken;
           var userName = user.displayName;
           var email = user.email;
           var isBusinessOwner = localStorage.getItem("isBusinessOwner");
-          console.log("userName: " + userName);
           console.log("isBusinessOwner: " + isBusinessOwner);
+          // local storage returns a string. Convert to boolean
+          if (isBusinessOwner == "true") {
+            isBusinessOwner = true;
+          } else {
+            isBusinessOwner = false;
+          }
+          console.log("userName: " + userName);
           console.log("uid: " + uid);
           sendEmailVerification(user);
           addNewUser(uid, userName, isBusinessOwner, email);
@@ -81,8 +86,10 @@ function handleSignInWithGoogle(user, uid) {
             // Store uid and business type
             var userName = doc.data().userName;
             var isBusinessOwner = doc.data().isBusinessOwner;
-            setLocalStorageFromSignIn(uid, userName, isBusinessOwner);
-            window.location = 'landingbusiness.html';
+            var userBlobKey = doc.data().userBlobKey;
+            var userEmail = doc.data().email;
+            setLocalStorageFromSignIn(uid, userName, isBusinessOwner, userBlobKey, userEmail);
+            window.location = "index.html";
             console.log("Success: Google account linked");
           }
         } else {
@@ -93,12 +100,15 @@ function handleSignInWithGoogle(user, uid) {
   getDocByDocId("users", uid, lambda);
 }
 
-function setLocalStorageFromSignIn(uid, userName, isBusinessOwner) {
+function setLocalStorageFromSignIn(uid, userName, isBusinessOwner, userBlobKey, userEmail) {
   localStorage.setItem("uid", uid);
   localStorage.setItem("userName", userName);
   localStorage.setItem("isBusinessOwner", isBusinessOwner);
+  localStorage.setItem("userBlobKey", userBlobKey);
+  localStorage.setItem("userEmail", userEmail);
   console.log("From local storage: " + localStorage.getItem("uid") + ", " + 
-      localStorage.getItem("userName") + ", " + localStorage.getItem("isBusinessOwner"));
+      localStorage.getItem("userName") + ", " + localStorage.getItem("isBusinessOwner")
+       + ", " + localStorage.getItem("userBlobKey") + ", " + localStorage.getItem("userEmail"));
 }
 
 /* Writes user data to firestore */
@@ -109,7 +119,7 @@ function addNewUser(uid, userName, isBusinessOwner, email) {
     userName: userName,
     isBusinessOwner: isBusinessOwner,
     email: email,
-    blobKey: blob.DEFAULT_AVATAR,
+    userBlobKey: blob.DEFAULT_AVATAR,
   })
   .then((docRef) => {
     console.log("Document successfully written!");
@@ -142,10 +152,8 @@ function signOutUser(redirectPage="index.html") {
   var uid = user.uid;
   console.log("userName before logout: " + userName);
   console.log("uid before logout: " + uid);
-  localStorage.removeItem("uid");
-  localStorage.removeItem("userName");
-  localStorage.removeItem("isBusinessOwner");
-  localStorage.removeItem("businessName");
+  clearLocalStorage(["uid", "userName", "isBusinessOwner", 
+      "businessName", "userBlobKey", "userEmail"]);
   firebase.auth().signOut().then(() => {
     if (redirectPage != false) {
       window.location= redirectPage;
@@ -162,41 +170,10 @@ function signOutUser(redirectPage="index.html") {
     console.log("Error in signing out a user");
   });
 }
- 
-/* TODO: Use general Firebase function [move to Account settings JS file].
-Reads account name, email, type, and address and adds to DOM.
-Passes blobKey to getBlobKey() */
-function getAcctInfo(uid) {
-  console.log("Success: getAcctInfo() recognizes uid: " + uid);
-  var userName, email, isBusinessOwner, address, blobKey;
-  db.collection("users")
-      .where("uid", "==", uid)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          userName = doc.data().userName;
-          addTextToDom(userName, "acct-name", "id");
-          email = doc.data().email;  
-          addTextToDom(email, "acct-email", "id");
-          isBusinessOwner = doc.data().isBusinessOwner;  
-          if (isBusinessOwner == true) {
-            addTextToDom("Business owner", "acct-type", "id");
-          } else {
-            addTextToDom("Community member", "acct-type", "id");
-          }
-          address = doc.data().address;  
-          addTextToDom(address, "acct-address", "id");
-          blobKey = doc.data().blobKey;
-          getBlobKey(uid, blobKey);
-        });
-      })
-      .catch((error) => {
-        console.log("Error getting documents: ", error);
-      });
-}
 
 // Unit testing exports set up
 
 module.exports = { 
   setUserType: setUserType,
+  setLocalStorageFromSignIn: setLocalStorageFromSignIn,
 }
