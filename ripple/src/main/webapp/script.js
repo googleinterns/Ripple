@@ -1,5 +1,69 @@
 /* Contains generalized functions to be used across multiple html and js files. */
 
+/* Detemine user type and grant corresponding levels of functionality in the nav bar */
+function navbarDisplay() {
+  /* Determine user type and returns true for business owner, 
+   false for community member, null for anonymous user  */
+  var userType = localStorage.getItem("isBusinessOwner");
+  console.log("userType: " + userType);
+  var userBlobKey = localStorage.getItem("userBlobKey");
+  console.log("userBlobKey: " + userBlobKey);
+  var content;
+  if (userType == null) {
+    console.log("entered userType null loop");
+    content = `
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link login-chip" href="login.html">Log in</a>
+        </li>
+      </ul>
+    `;
+    $("#today").addClass("today-padding");
+  } else if (userType == "false") { // Community member: avatar + 2 item drop down
+  console.log("entered userType false loop");
+    content = `
+      <ul class="navbar-nav nav-flex-icons">
+        <li class="nav-item avatar dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+            <img id="nav-bar-avatar" src="/serve?blob-key=${userBlobKey}" class="rounded-circle z-depth-0">
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
+              aria-labelledby="navbarDropdownMenuLink-55">
+            <a class="dropdown-item" href="accountsettings.html">Account settings</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item semi-bold-text" onclick="signOutUser()">Log out</a>
+          </div>
+        </li>
+      </ul>
+    `;
+  } else if (userType == "true") { // Business owner: avatar + 3 item drop down
+  console.log("entered userType true loop");
+    content = `
+      <ul class="navbar-nav nav-flex-icons">
+        <li class="nav-item avatar dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+            <img id="nav-bar-avatar" src="/serve?blob-key=${userBlobKey}" class="rounded-circle z-depth-0">
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
+              aria-labelledby="navbarDropdownMenuLink-55">
+            <a class="dropdown-item" href="managebusinessinfo.html">Manage business</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="accountsettings.html">Account settings</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item semi-bold-text" onclick="signOutUser()">Log out</a>
+          </div>
+        </li>
+      </ul>
+    `;
+  } else {
+    console.log("Error: User type is defined incorrectly");
+  }
+  userOptionsElement = document.getElementById("user-options");
+  userOptionsElement.innerHTML = content;
+}
+
 /* Given blob key and image id, inserts image from Blobstore */
 function serveBlob(blobKey, imageId) {
   const image = document.getElementById(imageId);
