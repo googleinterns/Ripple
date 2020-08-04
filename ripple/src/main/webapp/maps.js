@@ -27,7 +27,7 @@ window.initMap = () => {
   addTextToDom(walkingTime, "bd-walking-dist");
 
   // Access 'businesses' collection to read the business name and address 
-  var lambda = (doc) => {
+  var handleBusinessDoc = (doc) => {
         if (doc.exists) {
           // Read business name and add to DOM 
           businessName = doc.data().businessName[1];
@@ -58,7 +58,7 @@ window.initMap = () => {
           console.log("Error: business document does not exist");
         }
       }
-  getDocByDocId("businesses", businessId, lambda);
+  getDocByDocId("businesses", businessId, handleBusinessDoc);
 }
 
 /* Calculate and display walking directions from origin to destination. Add an info window 
