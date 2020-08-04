@@ -87,24 +87,5 @@ function clickTag(tagId) {
 function addToCarousel() {
   //TODO: Add to firestore.
   var blobKey = readBlobKeyFromURl();
-  if (blobKey != null) {
-    console.log(blobKey);
-    var content = `
-        <div class="carousel-item col-md-4">
-        <div class="card">
-            <img class="card-img-top img-fluid" id="card-dynamic-image" src="/serve?blob-key=${blobKey}"></img>
-        </div>
-        </div>
-    `;
-    console.log(content);
-    // Append newly created card element to the container
-    var carouselElement = document.getElementById(imageCarousel);
-    var carouselInner = document.getElementById("firstRow");
-    carouselInner.innerHTML = carouselInner.innerHTML + content + "\n";  
-    // Only want to append the string active once
-    if (!carouselInner.firstElementChild.className.includes("active")) {
-        carouselInner.firstElementChild.className += " active";
-    }
-    $(carouselElement).carousel({slide : true, interval : false});
-    }
+  createCarouselElement(blobKey, "imageCarousel");
 }
