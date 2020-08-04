@@ -207,17 +207,19 @@ function viewAllPostComments() {
 
 /* Backend for search functionality */
 
-var searchString = document.getElementById("search-bar");
-searchString.addEventListener('keyup', searchInput);
-
-// /* Takes navbar search input, stores in session storage. */
-function searchInput(keyPress) {
+/* Takes navbar search input, stores in local storage. */
+function searchInput(event) {
   console.log("searchInput() called");
   var searchString = document.getElementById("search-bar").value;
-  console.log(searchString)
-  if (keyPress.keyCode != ENTER_KEY) {
+  console.log(searchString);
+  // If there was a key press but the input is empty, return
+  if (!searchString) { 
+    return false;
+  }
+  // If any key other than enter is pressed, autocomplete word
+  if (event.keyCode != ENTER_KEY) {
     autocompleteSearch(searchString);
-  } else {
+  } else { // If enter is pressed, save user's input and redirect page
     console.log(searchString);
     localStorage.setItem("galleryPageSearchTag", searchString);
     localStorage.setItem("galleryPageName", "'" + searchString + "'");

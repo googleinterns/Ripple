@@ -52,8 +52,6 @@ function postsOnload() {
   }
 }
 
-
-
 /* Add data to Firestore without doc id*/
 function newPost() {
   // Remove caption from local storage

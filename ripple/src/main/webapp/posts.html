@@ -46,8 +46,7 @@
               <!-- Search box -->
               <div class="search">
                 <i class="material-icons">search</i>
-                <input class="search-bar primary-bg-color" id="search-bar" list="search-autocomplete" type="text" 
-                     placeholder="Search for anything..." autocomplete="off">
+                <input class="search-bar primary-bg-color" id="search-bar" onkeyup="searchInput(event)" list="search-autocomplete" type="text" placeholder="Search for anything..." autocomplete="off">
                 <datalist id="search-autocomplete"></datalist>
               </div>
               <!-- ./Search box -->
