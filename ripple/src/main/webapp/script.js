@@ -1,4 +1,4 @@
-/* Blobstore, post, and generally-used functions. */
+/* Contains generalized functions to be used across multiple html and js files. */
 
 /* Given blob key and image id, inserts image from Blobstore */
 function serveBlob(blobKey, imageId) {
@@ -116,12 +116,6 @@ function hideElement(id) {
   element.style.display = "none";
 }
 
-/* Loads camera icon on Account Settings page */
-function loadAcctSettingsIcons() {
-  var cameraIconBlob = blob.CAMERA_ICON;
-  serveBlob(cameraIconBlob, "camera-icon-id");
-}
-
 /* Clicks button to insert an image file */
 function selectFile(fileId) {
   console.log("fileId: " + fileId);
@@ -137,8 +131,9 @@ function viewAllPostComments() {
 var searchString = document.getElementById("search-bar");
 document.addEventListener('keyup', searchInput);
 
-/* Takes navbar search input, stores in session storage. */
+// /* Takes navbar search input, stores in session storage. */
 function searchInput(keyPress) {
+  console.log("searchInput() called");
   var searchString = document.getElementById("search-bar").value;
   console.log(searchString)
   if (keyPress.keyCode != ENTER_KEY) {
@@ -199,8 +194,103 @@ function clearLocalStorage(arrayKeys) {
   });
 }
 
-// Unit testing exports set up
+/* Function parses "Wed Jul 01 2020 12:00:00 GMT-0700 (Pacific Daylight Time)" to 
+   "July 1, 2020" */ 
+function parseDate(rawDate) {
+  console.log("rawDate: " + rawDate);
+  console.log(typeof rawDate);
+  var rawDateArray = rawDate.split(" ");
+  var month = formatMonth(rawDateArray[1]);
+  var day = formatDay(rawDateArray[2]);
+  var year = rawDateArray[3];
+  formattedDate = month + " " + day + ", " + year;
+  return formattedDate;
+}
 
+/* Takes in an abbreviated month and outputs the unabbreviated month */
+function formatMonth(month) {
+  var formattedMonth;
+  if (month == "Jan") {
+    formattedMonth = "January";
+  } else if (month == "Feb") {
+    formattedMonth = "February";
+  } else if (month == "Mar") {
+    formattedMonth = "March";
+  } else if (month == "Apr") {
+    formattedMonth = "April";
+  } else if (month == "May") {
+    formattedMonth = month;
+  } else if (month == "Jun") {
+    formattedMonth = "Jun";
+  } else if (month == "Jul") {
+    formattedMonth = "July";
+  } else if (month == "Aug") {
+    formattedMonth = "August";
+  } else if (month == "Sep") {
+    formattedMonth = "September";
+  } else if (month == "Oct") {
+    formattedMonth = "October";
+  } else if (month == "Nov") {
+    formattedMonth = "November";
+  } else if (month == "Dec") {
+    formattedMonth = "December";
+  } else {
+    console.log("Error: month" + month);
+    return false;
+  }
+  return formattedMonth;
+}
+
+/* Checks if Day string has a leading 0. If so, remove 0 and return remaining string
+   Ex: "01* should output "1" */
+function formatDay(rawDay) {
+  var formattedDay;
+  if (rawDay.charAt(0) == "0") {
+    var formattedDay = rawDay.substring(1);
+    console.log("formattedDay: " + formattedDay);
+    return formattedDay;
+  } else {
+    return rawDay;
+  }
+}
+
+/* Escapes special characters and returns formatted string*/
+function escapeSpecialCharacters(str) {
+  console.log("[BEFORE] str: " + str);
+  // Replace " with two ' b/c " cannot be escaped properly in output onto DOM
+  // Search for special characters \, ', (, ) globally in string
+  // and insert a forward slash \ to escape those characters
+  str = str.replace(/\"/gi,'\'\'').replace(/[\\\'()]/gi, '\\$&');
+  console.log("[AFTER ] str: " + str);
+  return str;
+}
+
+/* Given a target value, returns true if target is 
+   within startRange (exclusive) & endRange (exclusive) */
+function isWithinRange(target, startRange, endRange, lessThanAndEquals=false) {
+  if (typeof target === "number" && typeof startRange === "number" && 
+      typeof endRange === "number") {
+        // if lessThanAndEquals is true, first default operator checks if startRange <= target
+        if (lessThanAndEquals) {
+          console.log("check within range: " + startRange + " <= " + target + " < " + endRange);
+          if ((startRange <= target) && (target < endRange)) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+        console.log("check within range: " + startRange + " < " + target + " < " + endRange);
+        // Otherwise, first default operator checks if startRange < target
+        if ((startRange < target) && (target < endRange)) {
+          return true;
+        } else {
+          return false;
+        }
+  }
+  return false;
+}
+
+// Unit testing exports set up
 module.exports = { 
   convertToRawString: convertToRawString,
   serveBlob: serveBlob,
