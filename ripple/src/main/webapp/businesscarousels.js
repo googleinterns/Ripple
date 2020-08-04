@@ -48,7 +48,6 @@ function getAddressComponent(components, type) {
   return components.filter((component) => component.types.indexOf(type) === 0).map((item) => item.long_name).pop() || null;
 }
 
-
 /* Carousel function that allows cards to move to the left or right by one. Establishes functionality of the carousel. */
 function cardFunctionality() {
   $("#card-carousel1").on("slide.bs.carousel", function(e) {
@@ -76,24 +75,41 @@ function cardFunctionality() {
   });
 }
 
+// Defines the max walking time allowed in the nearby business carousel.
+var maxWalkingTime = 1200;
+
 /* Code to dynamically load carousels. Calls addDynamicCarousel function to populate the carousels. */
 function loadCarousels() {
-    addDynamicCarousel("black-owned-businesses", "Black-owned");
-    addDynamicCarousel("under-20-mins-away", "Close");
-    addDynamicCarousel("trending-near-you", "Trending");
-    addDynamicCarousel("up-and-coming", "New");
+    addDynamicCarousel("black-owned-businesses", "Black-owned", false);
+    addDynamicCarousel("under-20-mins-away", false, maxWalkingTime);
+    addDynamicCarousel("trending-near-you", "Trending", false);
+    addDynamicCarousel("up-and-coming", "New", false);
 }
 
-/* Dynamically loads content into Bootstrap carousel by reconstructing HTML elements and making a Firestore query. */
-function addDynamicCarousel(carouselId, tag) {
+/* Dynamically loads content into Bootstrap carousel by reconstructing HTML elements and making a Firestore query. 
+   Filters by tag or walking time in seconds.*/
+function addDynamicCarousel(carouselId, tag, time) {
     db.collection("businesses").get().then((querySnapshot) => {
         var makeElement = false;
         var firstCard = true;
         querySnapshot.forEach((doc) => {
-            // Check if the city in Firestore matches the city extracted from the user inputted address.
-            // Also checks if the business's tag list contains the tag that the carousel requires.
-            if (doc.data().address != null && doc.data().address[1] == localStorage.getItem('enteredCity') 
-                && doc.data().tags[convertToRawString(tag)] == tag) {
+            // Variable that checks if business should be used in the carousel.
+            var useBusiness = false;
+            // Different cases based on passed in values.
+            if (time == false) {
+                // Check if the city in Firestore matches the city extracted from the user inputted address.
+                // Also checks if the business's tag list contains the tag that the carousel requires.
+                if (doc.data().address != null && doc.data().address[1] == localStorage.getItem('enteredCity') 
+                    && doc.data().tags[convertToRawString(tag)] == tag) {
+                    useBusiness = true;
+                }
+            } else if (tag == false) {
+                if (doc.data().address != null && doc.data().address[1] == localStorage.getItem('enteredCity')) {
+                    useBusiness = true;
+                }
+            }
+
+            if (useBusiness) {
               makeElement = true;
               const card = document.createElement('div');
               card.classList = 'carousel-inner row w-100 mx-auto';
@@ -113,12 +129,11 @@ function addDynamicCarousel(carouselId, tag) {
               
               // Call distance matrix service
               var service = new google.maps.DistanceMatrixService();
-              service.getDistanceMatrix(
-                {
-                  origins: [origin],
-                  destinations: [destination],
-                  travelMode: google.maps.TravelMode.WALKING,
-                }, callback);
+              service.getDistanceMatrix({
+                origins: [origin],
+                destinations: [destination],
+                travelMode: google.maps.TravelMode.WALKING,
+              }, callback);
               
               // In callback function, dynamically construct the HTML for the cards in each carousel
               function callback(response, status) {
@@ -127,24 +142,27 @@ function addDynamicCarousel(carouselId, tag) {
                     return;
                 }
                 // Construct card content by appending HTML strings
+                var walkingTime = response.rows[0].elements[0].duration.text;
+                var walkingDist = response.rows[0].elements[0].distance.text;
                 var content = `
                   <div class="carousel-item col-md-4">
                     <div class="card">
-                        <img class="card-img-top img-fluid" id="card-dynamic-image" src="/serve?blob-key=${doc.data().thumbnailImage}">
-                        <div class="card-body">
-                        <p class="card-text">${doc.data().businessName[1]}</p>
-                        <p class="card-text"><small class="text-muted">${response.rows[0].elements[0].duration.text + " walking"}</small></p>
-                        </div>
+                      <img class="card-img-top img-fluid" id="card-dynamic-image" src="/serve?blob-key=${doc.data().thumbnailImage}" 
+                                  onclick="redirectToBusinessInfo('${doc.id}', '${walkingDist}', '${walkingTime}')"></img>
+                      <div class="card-body">
+                      <p class="card-text">${doc.data().businessName[1]}</p>
+                      <p class="card-text"><small class="text-muted">${walkingTime + " walking"}</small></p>
+                      </div>
                     </div>
                   </div>
                 `;
-
+                // console.log(content);
                 // Append newly created card element to the container
-                if (makeElement) {
+                if (makeElement && (time == false || response.rows[0].elements[0].duration.value <= time)) {
                   var carouselElement = document.getElementById(carouselId);
                   var carouselInner = carouselElement.getElementsByClassName('carousel-inner row w-100 mx-auto')[0];
                   carouselInner.innerHTML = carouselInner.innerHTML + content + "\n";
-                  
+
                   // Only want to append the string active once
                   if (firstCard == true) {
                       carouselInner.firstElementChild.className += " active";
@@ -164,6 +182,20 @@ function viewAll(tag) {
   localStorage.setItem("galleryPageName", "View all");
   localStorage.setItem("galleryPageSearchTag", tag);
   window.location.assign("businessgallery.html");
+}
+
+function redirectToBusinessInfo(businessId, walkingDist, walkingTime) {
+    console.log(businessId + " " + walkingTime + " " + walkingDist);
+    localStorage.removeItem('businessId');
+    localStorage.setItem('businessId', businessId);
+
+    localStorage.removeItem('walkingDist');
+    localStorage.setItem('walkingDist', walkingDist);
+
+    localStorage.removeItem('walkingTime');
+    localStorage.setItem('walkingTime', walkingTime);
+
+    window.location.assign("businessdetails.html");
 }
 
 module.exports = { 

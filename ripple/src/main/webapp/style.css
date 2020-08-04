@@ -332,7 +332,7 @@
   width: 45px;
 }
 
-/* Account Settings page*/
+/* Account Settings page */
 .upload-photo-button {
   background: none;
   border: 1px solid var(--neutral-color);
@@ -341,7 +341,7 @@
   cursor: pointer;
   font-size: 23px;
   height: 60px;
-  width: 255px;;
+  width: 255px;
 }
 
 .upload-photo-button:focus {
@@ -443,7 +443,7 @@
   margin-top: -57px;
 }
 
-.view-all {
+.text-only {
   border: none;
   background-color: inherit;
   padding: 14px 28px;
@@ -454,11 +454,11 @@
 }
 
 /* On mouse-over */
-.view-all:hover {
+.text-only:hover {
   color: var(--neutral-color);
 }
 
-.view-all:focus {
+.text-only:focus {
   border: none;
   outline: none;
 }
@@ -1192,4 +1192,151 @@
 
 .visibility-hidden {
   visibility: hidden;
+}
+
+/* Manage business info */
+
+.text-only-edit {
+  border: none;
+  background-color: inherit;
+  padding: 14px 28px;
+  font-size: var(--cluster-small-font-size);
+  cursor: pointer;
+  display: inline-block;
+  color: var(--neutral-light-color);
+  margin-top: 5%;
+}
+
+/* On mouse-over */
+
+.text-only-edit:hover {
+  color: var(--neutral-color);
+}
+
+.text-only-edit:focus .text-only-edit:active {
+  border: none;
+  outline: none;
+}
+
+#imageCarousel {
+  padding-top: 35px;
+  padding-left: -20px;
+}
+
+.manage-business-text {
+    width: 600px;
+    border: none;
+    border-bottom: 1px solid var(--neutral-color);
+    margin-bottom: 25px;
+    font-size: 18px;
+}
+
+.manage-business-text:focus, .manage-business-text:active {
+    outline: none;
+    border: none;
+    border-bottom: 1px solid var(--neutral-color);
+}
+
+#set-address {
+    width: 600px;
+    border: none;
+    border-bottom: 1px solid var(--neutral-color);
+    margin-bottom: 30px;
+    border-width: 1px;
+    outline: none;
+    padding-bottom: 35px;
+    font-size: 18px;
+}
+
+.secondary-fill-chip {
+  background: var(--neutral-light-color);
+  border: none;
+  border-radius: 30px;
+  color: var(--neutral-lightest-color);
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: var(--bold-font-weight);
+  height: 50px;
+  outline: none;
+  padding: 5px 40px 0px 40px;
+  margin-left: 10px;
+}
+
+.secondary-fill-chip:hover {
+  background: var(--primary-dark-color);
+  outline: none;
+}
+
+.secondary-fill-chip:focus, .secondary-fill-chip:active {
+  outline: none;
+}
+
+.container-fluid {
+    margin-bottom: 80px
+}
+
+.card .hours {
+    background-color: var(--neutral-lightest-color);
+    padding: 40px 10px;
+    margin-bottom: 35px;
+}
+
+.text-grey {
+    color: var(--neutral-color);
+}
+
+.fa {
+    font-size: 25px;
+    cursor: pointer
+}
+
+#from, #to, #days {
+    padding: 2px 6px;
+    border: none;
+    border-bottom: 1px solid var(--neutral-color);
+    border-radius: none;
+    box-sizing: border-box;
+    color: var(--neutral-color);
+    background-color: transparent;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-align: center !important
+}
+
+#from:focus, #to:focus, #days:focus {
+     -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid var(--primary-dark-color);
+    outline-width: 0
+}
+
+.options {
+    background-color: var(--neutral-lightest-color);
+    font-size: 18px;
+}
+
+
+.options:focus {
+    background-color: var(--primary-color) !important;
+}
+
+:-ms-input-placeholder {
+    color: var(--neutral-color);
+    font-size: 18px;
+}
+
+::-ms-input-placeholder {
+    color: var(--neutral-color);
+    font-size: 18px;
+}
+
+.mb-subtitle {
+  font-size: 25px;
+  padding-top: 35px;
+  color: var(--primary-dark-color);
+}
+
+#save-changes-button {
+    margin-bottom: 50px;
 }
