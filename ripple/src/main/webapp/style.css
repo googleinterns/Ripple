@@ -1285,7 +1285,7 @@
     color: var(--neutral-color);
 }
 
-.fa {
+#cancel-button, #add-button {
     font-size: 25px;
     cursor: pointer
 }

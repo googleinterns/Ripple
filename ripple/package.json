@@ -5,5 +5,8 @@
     "firebase": "^7.15.5",
     "firebase-admin": "^8.13.0",
     "geofirestore": "^4.2.1"
+  },
+  "devDependencies": {
+    "jest": "^26.1.0"
   }
 }
