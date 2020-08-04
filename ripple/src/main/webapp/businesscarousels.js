@@ -14,7 +14,7 @@ function convertAddressToCoord() {
       console.log(localStorage.getItem('enteredLong'));
       convertCoordToCity();
     } else {
-      alert('Geocode was not successful for the following reason: ' + status);
+      console.log('Geocode was not successful for the following reason: ' + status);
     }
   });
 }

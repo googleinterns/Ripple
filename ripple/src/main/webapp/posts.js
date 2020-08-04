@@ -20,6 +20,15 @@ function saveCaption() {
   console.log("local storage caption: " + localStorage.getItem("caption"));
 }
 
+/* If the user type is a business owner, display the hidden 'Share your story' button */
+function postButtonDisplay() {
+  // Check user type
+  var isBusinessOwner = localStorage.getItem("isBusinessOwner");
+  if (isBusinessOwner == "true") {
+    displayElement("post-button");
+  }
+}
+
 /* If blobKey found in URL, automatically open pop up and display image */
 function postsOnload() {
   var blobKey = readBlobKeyFromURl();
@@ -43,13 +52,15 @@ function postsOnload() {
   }
 }
 
+
+
 /* Add data to Firestore without doc id*/
 function newPost() {
   // Remove caption from local storage
   localStorage.removeItem("caption");
   console.log("Remove caption: " + localStorage.getItem("caption"));
   var uid = localStorage.getItem("uid");
-  console.log("uid in newPost(): " + uid)
+  console.log("uid in newPost(): " + uid);
   var blobKey = readBlobKeyFromURl();
   var caption = document.getElementById("modal-caption").value;
   var varArray = [uid, blobKey, caption];
@@ -71,7 +82,7 @@ function newPost() {
 /* Doc id is set by Firestore automatically. Also sets timestamp */
 function addPostToFirestore(collection, uid, blobKey, caption, city, state) {
   console.log(collection + " " + uid);
-  db.collection('posts').add({
+  db.collection("posts").add({
     uid: uid,
     postBlobKey: blobKey,
     caption: caption,
@@ -79,7 +90,7 @@ function addPostToFirestore(collection, uid, blobKey, caption, city, state) {
     state: state,
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
   }).then(() => {
-    window.location = 'postcommunity.html';
+    window.location = "posts.html";
     console.log("Document successfully written!");
   }).catch((error) => {
     console.error("Error writing document: ", error);
@@ -118,6 +129,7 @@ function addDynamicPosts() {
               var userBlobKey = doc.data().userBlobKey;
               console.log("userBlobKey: " + userBlobKey);
               postContainerElement.appendChild(createPostElement(userName, userBlobKey, businessName, postBlobKey, caption));
+              document.getElementById("loading-mask").style.display = "none";
             })
           }
           getOrSnapshotDocsByQuery("get", "users", thirdLambda, whereFieldArray, whereValueArray);
@@ -125,10 +137,16 @@ function addDynamicPosts() {
       }
       getOrSnapshotDocsByQuery("get", "businesses", secondLambda, whereFieldArray, whereValueArray);
     })
+    // Prevent layout shift: display the business details page once a few elements load on the page
   }
   whereFieldArray = ["city", "state"];
-  // TODO: get city from local storage instead of hard code
-  whereValueArray = ["New Haven", "CT"];
+  // TEMPORARY LOCAL STORAGE
+  localStorage.setItem("city", "New Haven");
+  localStorage.setItem("state", "CT");
+
+  var city = localStorage.getItem("city");
+  var state = localStorage.getItem("state");
+  whereValueArray = [city, state];
   getOrSnapshotDocsByQuery("get", "posts", lambda, whereFieldArray,
     whereValueArray, "timestamp", "desc", varArray=false);
 }
@@ -197,9 +215,7 @@ function createPostElement(userName, userBlobKey, businessName, postBlobKey, cap
 
 // Unit testing exports set up
 
-function subtract(a, b) {
-  return a - b;
-}
 module.exports = { 
-  subtract: subtract,
+  saveCaption: saveCaption,
+  createPostElement: createPostElement,
 }
