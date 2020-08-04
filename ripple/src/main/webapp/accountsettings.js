@@ -1,4 +1,4 @@
-/* If applicable, blob key from URL and updates local storage and Firestore.
+/* If applicable, read blob key from URL and updates local storage and Firestore.
    Reads account name, email, user type, and blobKey from localStorage. Adds to DOM. */
 function getAcctInfo() {
   // Get user id to query Firestore by doc id
