@@ -27,9 +27,12 @@
     <script src="posts.js"></script>
     <title>Ripple</title>
   </head>
-  <body style="background-color: var(--neutral-background-color);" onload="navbarDisplay(); postsOnload(); addDynamicPosts();">
+  <body style="background-color: var(--neutral-background-color);" onload="navbarDisplay(); addPostButtonDisplay(); postsOnload(); addDynamicPosts();">
+    <!-- Loading mask to prevent layout shift-->
+    <div id="loading-mask"></div>
+    <!-- ./Loading mask to prevent layout shift -->
     <!-- Banner -->
-    <div class="half-bg-primary-color">
+    <div class="half-bg-primary-color post-margin-bottom">
       <!--Navbar -->
       <div class="wrapper" id="wrapper">
         <div class="custom-container" id="container">
@@ -65,7 +68,6 @@
       <!-- /.Navbar -->
       <!-- Post community header -->
       <div class="container">
-        <!-- <h1 class="left-align-header">Meet the faces</br>behind the business.</h1> -->
         <div class="header-subwrapper">
           <h1 class="header-title-text">Meet the faces</h1>
           <h1 class="header-title-text">behind the business.</h1>
@@ -78,7 +80,7 @@
     <!-- Container -->
     <div class="container center">
       <!-- Button to open the modal -->
-      <button type="button" id="post-button" data-toggle="modal" data-target="#myModal">
+      <button type="button" id="post-button" data-toggle="modal" data-target="#myModal" style="display: none">
         Share your story
       </button>
       <!-- The Modal -->

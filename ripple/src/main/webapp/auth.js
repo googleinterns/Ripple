@@ -89,7 +89,13 @@ function handleSignInWithGoogle(user, uid) {
             var userBlobKey = doc.data().userBlobKey;
             var userEmail = doc.data().email;
             setLocalStorageFromSignIn(uid, userName, isBusinessOwner, userBlobKey, userEmail);
-            window.location = "index.html";
+            // Check if there requires a redirect link to anywhere other than default index.html
+            var redirectAfterSignIn = localStorage.getItem("redirectAfterSignIn");
+            if (redirectAfterSignIn != null) {
+              window.location = redirectAfterSignIn;
+            } else {
+              window.location = "index.html";
+            }
             console.log("Success: Google account linked");
           }
         } else {
@@ -153,7 +159,8 @@ function signOutUser(redirectPage="index.html") {
   console.log("userName before logout: " + userName);
   console.log("uid before logout: " + uid);
   clearLocalStorage(["uid", "userName", "isBusinessOwner", 
-      "businessName", "userBlobKey", "userEmail"]);
+      "businessName", "userBlobKey", "userEmail", "starRating",
+      "priceRating", "reviewText"]);
   firebase.auth().signOut().then(() => {
     if (redirectPage != false) {
       window.location= redirectPage;

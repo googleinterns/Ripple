@@ -32,7 +32,7 @@
     <script src="maps.js"></script>
     <title>Ripple</title>
   </head>
-  <body onload="navbarDisplay(); bdOnload();">
+  <body onload="navbarDisplay(); reviewButtonDisplay(); bdOnload();">
     <div id="loading-mask"></div>
     <!-- Banner -->
     <div class="three-quarters-bg-no-color">
@@ -119,7 +119,8 @@
       </div>
       <!-- ./Business owner last update timestamp -->
       <!-- Button to open the modal -->
-      <button type="button" id="review-button" class="primary-fill-chip chip-box-shadow bd-subheader-padding-top-sm" data-toggle="modal" data-target="#bdModal">
+      <button type="button" id="review-button" class="primary-fill-chip chip-box-shadow bd-subheader-padding-top-sm" 
+        data-toggle="modal" data-target="#bdModal">
         Add a review
       </button>
       <!-- ./Button to open the modal -->
@@ -167,7 +168,7 @@
                 </div>
                 <!-- ./User rates price -->
                 <div class="modal-caption">
-                  <textarea class="bd-review-textarea" id="bd-review-comment" placeholder="This was my first time at this restaurant and I absolutely loved their House Fried noodles. The wait to get into the store was long, but that makes sense because their quality of service and food is gaining popularity rapidly. I also felt safe because all the customers and workers were wearing masks."></textarea>
+                  <textarea class="bd-review-textarea" id="bd-review-comment" maxlength="5000" placeholder="This was my first time at this restaurant and I absolutely loved their House Fried noodles. The wait to get into the store was long, but that makes sense because their quality of service and food is gaining popularity rapidly. I also felt safe because all the customers and workers were wearing masks."></textarea>
                 </div>
                 <!-- ./Modal body -->
                 <!-- Modal submit button -->
@@ -301,7 +302,7 @@
               <p class="inline-block-child">
                 <span><img class="inline-block-child-no-padding review-avatar" src="/images/avatar_stock_man.jpg"></span>
                 <span id="review-user-name" class="boldest-text inline-block-child">Sarah Wu</span>  
-                <span id="review-time-stamp margin-left">August 3rd, 2020</span>
+                <span id="review-time-stamp margin-left">August 3, 2020</span>
               </p>
               <div class="inline-block-child">
                 <div class="inline-block-child star-color">
@@ -350,7 +351,7 @@
               <p class="inline-block-child">
                 <span><img class="inline-block-child-no-padding review-avatar" src="/images/avatar_stock_man.jpg"></span>
                 <span id="review-user-name" class="boldest-text inline-block-child">Sarah Wu</span>  
-                <span id="review-time-stamp margin-left">August 1rd, 2020</span>
+                <span id="review-time-stamp margin-left">August 1, 2020</span>
               </p>
               <div class="inline-block-child">
                 <div class="inline-block-child star-color">
@@ -383,7 +384,7 @@
           <!-- ./Revew text -->
           <!-- Like, Like #, Dislike, Dislike # -->
           <div class="margin-left-lg">
-            <i class="fas fa-thumbs-up margin-right cursor-pointer"></i>
+            <i class="fas fa-thumbs-up primary-dark-color margin-right cursor-pointer"></i>
             <p id="review-num-likes" class="inline-block-child">31</p>
             <i class="fas fa-thumbs-down margin-right cursor-pointer"></i>
             <p id="review-num-dislikes" class="inline-block-child">13</p>

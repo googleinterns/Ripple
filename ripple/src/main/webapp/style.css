@@ -600,10 +600,13 @@
   font-size: 25px;
   font-weight: var(--semi-bold-font-weight);
   height: 60px;
-  margin: 80px 0px 60px 0px;
+  margin: 0px 0px 60px 0px;
   width: 350px;
 }
 
+.post-margin-bottom {
+  margin-bottom: 80px;
+}
 
 #post-button:hover {
   background: var(--primary-dark-color);
