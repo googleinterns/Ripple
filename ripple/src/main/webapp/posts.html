@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -20,45 +21,43 @@
       var db = firebase.firestore();
     </script>
     <!-- ./Firebase configuration and initialization -->
+    <script src="trie.js"></script>
     <script src="script.js"></script>
     <script src="auth.js"></script>
     <script src="posts.js"></script>
     <title>Ripple</title>
   </head>
-  <body onload="postsOnload(); addDynamicPosts();">
+  <body style="background-color: var(--neutral-background-color);" onload="navbarDisplay(); postsOnload(); addDynamicPosts();">
     <!-- Banner -->
     <div class="half-bg-primary-color">
       <!--Navbar -->
       <div class="wrapper" id="wrapper">
         <div class="custom-container" id="container">
           <nav class="mb-1 navbar navbar-expand-lg">
-            <a class="navbar-brand hover-neutral-to-primary-color" href="#">Ripple</a>
+            <a class="navbar-brand hover-neutral-to-primary-color" href="index.html">Ripple</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
                 aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+              <!-- Search box -->
+              <div class="search">
+                <i class="material-icons">search</i>
+                <input class="search-bar primary-bg-color" id="search-bar" list="search-autocomplete" type="text" 
+                     placeholder="Search for anything..." autocomplete="off">
+                <datalist id="search-autocomplete"></datalist>
+              </div>
+              <!-- ./Search box -->
+              <!-- Today -->
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                  <a class="nav-link hover-neutral-to-primary-color" href="stories.html">Today</a>
+                  <a id="today" class="nav-link hover-neutral-to-primary-color" href="posts.html">Today</a>
                 </li>
               </ul>
-              <ul class="navbar-nav nav-flex-icons">
-                <li class="nav-item avatar dropdown">
-                  <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                    <img id="nav-bar-avatar" src="images/undrawAvatar.svg" class="rounded-circle z-depth-0">
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
-                      aria-labelledby="navbarDropdownMenuLink-55">
-                    <a class="dropdown-item" href="#">Your favorites</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Account Settings</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" onclick="signOutUser()">Log out</a>
-                  </div>
-                </li>
-              </ul>
+              <!-- ./Today -->
+              <!-- User type options -->
+              <div id="user-options"><div>
+              <!-- ./User type options -->
             </div>
           </nav>
         </div>
@@ -99,7 +98,7 @@
             <!-- Modal body -->
             <div class="modal-body">
               <div class="modal-subwrapper">
-                <div id="modal-upload-photo" class="modal-upload-photo" onclick="selectFile('post-file'); saveCaption()">
+                <div id="modal-upload-photo" class="modal-upload-photo" onclick="selectFile('post-file'); saveCaption();">
                   <div class="circle-icon">
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-images" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" d="M12.002 4h-10a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1zm-10-1a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-10z"/>
@@ -109,7 +108,7 @@
                   </div>
                   <p>Add photo</p>
                 </div>
-                <form id="post-form" onchange="fetchBlobstoreUploadUrl('post-form', 'post-file', 'postcommunity.html')" method="post" enctype="multipart/form-data">
+                <form id="post-form" onchange="fetchBlobstoreUploadUrl('post-form', 'post-file', 'posts.html')" method="post" enctype="multipart/form-data">
                   <input id="post-file" type="file" name="post-file" style="display: none;">
                 </form>
                 <img onclick="selectFile('post-file'); saveCaption()" id="modal-display-photo">
