@@ -18,46 +18,56 @@ function displayName() {
 function loadSearchResults() {
     var tag = localStorage.getItem('galleryPageSearchTag');
     if (tag == 'Close') {
-        loadSearchResultsTime(maxWalkingTime);
+        dynamicSearchLoad(false, maxWalkingTime);
     } else {
-        loadSearchResultsTags(tag);
+        dynamicSearchLoad(tag, false);
     }
 }
 
 /* Function that dynamically loads the businesses into the gallery, depending on the tag that was searched/selected. 
    Filters by the business tags.*/
-function loadSearchResultsTags(tag) {
+function dynamicSearchLoad(tag, time) {
     db.collection("businesses").get().then((querySnapshot) => {
         var makeElement = false;
         querySnapshot.forEach((doc) => {
-            //Check if the city in Firestore matches the city extracted from the user inputted address.
-            //Also checks if the business's tag list contains the tag that the carousel requires.
-            if (doc.data().address != null && doc.data().address[1] == localStorage.getItem('enteredCity') 
+            // Variable to determine whether business should be in carousel
+            var useBusiness = false;
+            if (time == false) {
+              //Check if the city in Firestore matches the city extracted from the user inputted address.
+              //Also checks if the business's tag list contains the tag that the carousel requires.
+              if (doc.data().address != null && doc.data().address[1] == localStorage.getItem('enteredCity') 
                 && doc.data().tags[convertToRawString(tag)] !== undefined) {
+                useBusiness = true;
+              }
+            } else if (tag == false) {
+                if (doc.data().address != null && doc.data().address[1] == localStorage.getItem('enteredCity')) {
+                    useBusiness = true;
+                }
+            }
+            
+            if (useBusiness) {
               makeElement = true;
               const card = document.createElement('div');
               card.classList = 'row';
-
                // Distance matrix calculations
               // Get user's latitude and longitude from localStorage
               var userLat = localStorage.getItem('enteredLat');
               var userLong = localStorage.getItem('enteredLong');
-
               // Get business latitude and longitude from GeoPoint object in firestore
               var busLat = doc.data().coordinates.latitude;
               var busLong = doc.data().coordinates.longitude;
-
               // Reconstruct as maps LatLng object
               var origin = new google.maps.LatLng(userLat, userLong);
               var destination = new google.maps.LatLng(busLat, busLong);
               
               // Call distance matrix service
               var service = new google.maps.DistanceMatrixService();
-              service.getDistanceMatrix({
-                origins: [origin],
-                destinations: [destination],
-                travelMode: google.maps.TravelMode.WALKING,
-              }, callback);
+              service.getDistanceMatrix(
+                {
+                  origins: [origin],
+                  destinations: [destination],
+                  travelMode: google.maps.TravelMode.WALKING,
+                }, callback);
               
               // In callback function, dynamically construct the HTML for the cards in each carousel
               function callback(response, status) {
@@ -68,7 +78,7 @@ function loadSearchResultsTags(tag) {
                 // Construct card content by appending HTML strings
                 var walkingTime = response.rows[0].elements[0].duration.text;
                 var walkingDist = response.rows[0].elements[0].distance.text;
-                
+
                 var content = `
                 <div class="col-6 col-md-4 col-lg-3 mb-4">
                     <div class="card h-100">
@@ -81,78 +91,8 @@ function loadSearchResultsTags(tag) {
                     </div>
                 </div>
                `;
-
                 // Append newly created card element to the container
-                if (makeElement) {
-                  var galleryElement = document.getElementById("row");
-                  galleryElement.innerHTML = galleryElement.innerHTML + content + "\n";
-                }
-              }
-            }
-        });
-   });
-}
-
-/* Function that dynamically loads the businesses into the gallery, depending on the tag that was searched/selected. 
-   Filters by the walking time in seconds.*/
-function loadSearchResultsTime(time) {
-    db.collection("businesses").get().then((querySnapshot) => {
-        var makeElement = false;
-        querySnapshot.forEach((doc) => {
-            //Check if the city in Firestore matches the city extracted from the user inputted address.
-            //Also checks if the business's tag list contains the tag that the carousel requires.
-            var tag = localStorage.getItem('galleryPageSearchTag');
-            if (doc.data().address != null && doc.data().address[1] == localStorage.getItem('enteredCity')) {
-              makeElement = true;
-              const card = document.createElement('div');
-              card.classList = 'row';
-
-               // Distance matrix calculations
-              // Get user's latitude and longitude from localStorage
-              var userLat = localStorage.getItem('enteredLat');
-              var userLong = localStorage.getItem('enteredLong');
-
-              // Get business latitude and longitude from GeoPoint object in firestore
-              var busLat = doc.data().coordinates.latitude;
-              var busLong = doc.data().coordinates.longitude;
-
-              // Reconstruct as maps LatLng object
-              var origin = new google.maps.LatLng(userLat, userLong);
-              var destination = new google.maps.LatLng(busLat, busLong);
-              
-              // Call distance matrix service
-              var service = new google.maps.DistanceMatrixService();
-              service.getDistanceMatrix({
-                origins: [origin],
-                destinations: [destination],
-                travelMode: google.maps.TravelMode.WALKING,
-              }, callback);
-              
-              // In callback function, dynamically construct the HTML for the cards in each carousel
-              function callback(response, status) {
-                if (status !== "OK") {
-                    alert("Error with distance matrix");
-                    return;
-                }
-                 // Construct card content by appending HTML strings
-                var walkingTime = response.rows[0].elements[0].duration.text;
-                var walkingDist = response.rows[0].elements[0].distance.text;
-
-                var content = `
-                <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <div class="card h-100">
-                    <img class="card-img-top img-fluid" id="card-dynamic-image" src="/serve?blob-key=${doc.data().thumbnailImage}"
-                                onclick="redirectToBusinessInfo('${doc.id}', '${walkingDist}', '${walkingTime}')"></img>
-                        <div class="card-body">
-                            <p class="card-text">${doc.data().businessName[1]}</p>
-                            <p class="card-text"><small class="text-muted">${response.rows[0].elements[0].duration.text + " walking"}</small></p>
-                        </div>
-                    </div>
-                </div>
-               `;
-
-                // Append newly created card element to the container only if the walking duration is less than the inputted time
-                if (makeElement && response.rows[0].elements[0].duration.value <= time) {
+                if (makeElement && (time == false || response.rows[0].elements[0].duration.value <= time)) {
                   var galleryElement = document.getElementById("row");
                   galleryElement.innerHTML = galleryElement.innerHTML + content + "\n";
                 }
