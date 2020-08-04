@@ -135,7 +135,7 @@ function viewAllPostComments() {
 /* Backend for search functionality */
 
 var searchString = document.getElementById("search-bar");
-document.addEventListener('keyup', searchInput);
+searchString.addEventListener('keyup', searchInput);
 
 /* Takes navbar search input, stores in session storage. */
 function searchInput(keyPress) {
@@ -189,6 +189,7 @@ function hideElement(id) {
 
 /* Removes disabled attribute from element given an id */
 function enableElement(id) {
+  alert("enabling element: " + id);
   document.getElementById(id).disabled = false;
 }
 
