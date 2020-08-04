@@ -117,7 +117,11 @@ function bdOnload() {
   // Access 'businessDetails' collection
   var lambda = (doc) => {
         if (doc.exists) {
-          // TODO: Read galleryBlobKeys
+          var i;
+          for (i = 0; i < doc.data().galleryBlobKeys.length; i++) {
+            console.log(doc.data().galleryBlobKeys[i]);
+            createCarouselElement(doc.data().galleryBlobKeys[i], "imageGallery");
+          }
 
           // Read business phone number and add to DOM 
           phoneNum = doc.data().phoneNum;

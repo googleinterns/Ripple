@@ -64,5 +64,8 @@ node_modules/
 # dotenv environment variables file
 .env
 
+# target files
+target/
+
 # hide config.js file
 config.js
