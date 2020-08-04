@@ -20,16 +20,6 @@ function saveCaption() {
   console.log("local storage caption: " + localStorage.getItem("caption"));
 }
 
-function addPostButtonDisplay() {
-  // Check user type
-  var isBusinessOwner = localStorage.getItem("isBusinessOwner");
-  console.log("isBusinessOwner()", isBusinessOwner);
-  if (isBusinessOwner == "true") {
-    console.log("is a business owner");
-    displayElement("post-button");
-  }
-}
-
 /* If blobKey found in URL, automatically open pop up and display image */
 function postsOnload() {
   var blobKey = readBlobKeyFromURl();
