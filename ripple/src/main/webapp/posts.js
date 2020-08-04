@@ -20,7 +20,8 @@ function saveCaption() {
   console.log("local storage caption: " + localStorage.getItem("caption"));
 }
 
-function addPostButtonDisplay() {
+/* If the user type is a business owner, display the hidden 'Share your story' button */
+function postButtonDisplay() {
   // Check user type
   var isBusinessOwner = localStorage.getItem("isBusinessOwner");
   console.log("isBusinessOwner()", isBusinessOwner);
