@@ -20,6 +20,15 @@ function saveCaption() {
   console.log("local storage caption: " + localStorage.getItem("caption"));
 }
 
+/* If the user type is a business owner, display the hidden 'Share your story' button */
+function postButtonDisplay() {
+  // Check user type
+  var isBusinessOwner = localStorage.getItem("isBusinessOwner");
+  if (isBusinessOwner == "true") {
+    displayElement("post-button");
+  }
+}
+
 /* If blobKey found in URL, automatically open pop up and display image */
 function postsOnload() {
   var blobKey = readBlobKeyFromURl();
