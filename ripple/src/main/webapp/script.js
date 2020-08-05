@@ -1,5 +1,13 @@
 /* Contains generalized functions to be used across multiple html and js files. */
 
+
+/* Define global variables */
+var ENTER_KEY = 13;
+var IS_BUSINESS_OWNER = "isBusinessOwner";
+
+/* Add passive event listener to decrease loading time */
+document.addEventListener('touchstart', handler, {passive: true});
+
 /* Detemine user type and grant corresponding levels of functionality in the nav bar */
 function navbarDisplay() {
   /* Determine user type and returns true for business owner, 
@@ -70,10 +78,6 @@ function serveBlob(blobKey, imageId) {
   image.src = "/serve?blob-key=" + blobKey;
 }
 
-/* Define global variable for key press */
-var ENTER_KEY = 13;
-
-
 /* Display an alert if user presses enter to comment on a post */
 function addComment(e) {
   comment = document.getElementById("add-comment").value;
@@ -125,6 +129,28 @@ function getDocByDocId(collection, docId, lambda, varArray=false) {
   });
 }
 
+/* Update a doc by docId. Pass in list of field names & values.
+   Note that these fields must already exist. The field names must 
+   be in quotes */
+function updateDocumentUsingDocId(collection, docId, updateMap) {
+  var docRef = db.collection(collection).doc(docId);
+  docRef.update(updateMap).then(() => {
+    console.log("Document succesfully updated", collection, docId);
+  }).catch(function(error) {
+    console.error("Error updating document: ", error);
+  });
+}
+
+/* Update a doc by docId. Pass in list of field names values */
+function setNewDocwithDocId(collection, docId, setMap) {
+  var docRef = db.collection(collection).doc(docId);
+  docRef.set(setMap).then(() => {
+    console.log("Document succesfully set", collection, docId);
+  }).catch(function(error) {
+    console.error("Error updating document: ", error);
+  });
+}
+
 /* Retrieve a doc by query once OR as a snapshot
    Method accepts either "get" or "snapshot" and filters according to parameters */
 function getOrSnapshotDocsByQuery(method, collection, lambda, whereFieldArray,
@@ -151,10 +177,7 @@ function getOrSnapshotDocsByQuery(method, collection, lambda, whereFieldArray,
     ref.get()
     .then(lambda);
   } else { // method == "snapshot"
-    ref.onSnapshot(lambda)
-    .catch((error) => {
-      console.log("Error getting document:", error);
-    }) 
+    ref.onSnapshot(lambda);
   }
 }
 
@@ -379,7 +402,6 @@ function createCarouselElement(blobKey, id) {
         </div>
         </div>
     `;
-    console.log(content);
     // Append newly created card element to the container
     var carouselElement = document.getElementById(id);
     var carouselInner = document.getElementById("firstRow");
