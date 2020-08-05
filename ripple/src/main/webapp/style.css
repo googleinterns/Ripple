@@ -469,6 +469,7 @@
   object-fit: cover;
   max-height: 250px;
   min-height: 225px;
+  cursor: pointer;
 }
 
 .card-text {
@@ -1204,6 +1205,30 @@
 
 .visibility-hidden {
   visibility: hidden;
+}
+
+.no-fill-chip {
+  background-color: transparent;
+  border: 1px solid var(--neutral-color);
+  border-radius: 30px;
+  color: var(--neutral-color);
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: var(--normal-font-weight);
+  height: 50px;
+  outline: none;
+  padding: 5px 40px 0px 40px;
+  margin-left: 10px;
+}
+
+.no-fill-chip:hover {
+  cursor: default;
+}
+
+.no-fill-chip:focus, .no-fill-chip:active {
+  outline: none;
+  cursor: default;
+  border-color: var(--neutral-light-color);
 }
 
 /* Manage business info */

@@ -71,8 +71,6 @@ function displaySavedRatings() {
   }
 }
 
-/* [SMRUTHI TODO] Serve blob images in a gallery */
-
 /* [SMRUTHI TODO] Add business tags above restaurant header */
 
 /* [SARAH / SMRUTHI TODO] Add a review: Anonymous user that attempts to post is redirect to login, then redirected back. 
@@ -368,17 +366,29 @@ function bdOnload() {
         }
       }
   getDocByDocId("businessDetails", businessId, lambda);
-
-  var lambda2 = (doc) => {
+  
+  /* Function to iterate over all the tags for a business and add them to the business details page */
+  var queryTags = (doc) => {
         if (doc.exists) {
+          var tagsMap = doc.data().tags;
+          var tagsList = Object.keys(tagsMap);
           var j;
-          for (j = 0; j < 4; j++) {
-            //console.log("tags: " + Object.keys(doc.data().tags).toString());
-            //createCarouselElement(doc.data().galleryBlobKeys[i], "imageGallery");
+          for (j = 0; j < tagsList.length; j++) {
+            var tag = tagsList[j];
+            //console.log(tag);
+            createTagElement(tagsMap[tag]);
           }
         }
   }
-  getDocByDocId("businesses", businessId, lambda2);
+  getDocByDocId("businesses", businessId, queryTags);
+}
+
+/* Function that dynamically creates tag elements */
+function createTagElement(tagId) {
+  var tagsDiv = document.getElementById('business-tags-header');
+  var content = 
+  ` <button type="button" class="no-fill-chip bd-subheader-padding-top inline-block-child">${tagId}</button> `;
+  tagsDiv.innerHTML = tagsDiv.innerHTML + content + "\n"; 
 }
 
 /* Address (Quick Info section): Display street addres */
