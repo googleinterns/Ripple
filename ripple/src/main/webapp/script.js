@@ -362,7 +362,7 @@ function createCarouselElement(blobKey, id) {
     var content = `
         <div class="carousel-item col-md-4">
         <div class="card">
-            <img class="card-img-top img-fluid" id="card-dynamic-image" src="/serve?blob-key=${blobKey}"></img>
+          <img class="card-img-top img-fluid" id="card-dynamic-image" src="/serve?blob-key=${blobKey}"></img>
         </div>
         </div>
     `;
