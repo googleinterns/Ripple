@@ -288,6 +288,7 @@ function bdOnload() {
   // Access 'businessDetails' collection
   var lambda = (doc) => {
         if (doc.exists) {
+          // Read and iterate over blobKeys, add the images to carousel.
           var i;
           for (i = 0; i < doc.data().galleryBlobKeys.length; i++) {
             console.log(doc.data().galleryBlobKeys[i]);
@@ -367,6 +368,17 @@ function bdOnload() {
         }
       }
   getDocByDocId("businessDetails", businessId, lambda);
+
+  var lambda2 = (doc) => {
+        if (doc.exists) {
+          var j;
+          for (j = 0; j < 4; j++) {
+            console.log("tags: " + Object.keys(doc.data().tags).toString());
+            //createCarouselElement(doc.data().galleryBlobKeys[i], "imageGallery");
+          }
+        }
+  }
+  getDocByDocId("businesses", businessId, lambda2);
 }
 
 /* Address (Quick Info section): Display street addres */
