@@ -1,3 +1,7 @@
+/* Global variables */
+var businessId = localStorage.getItem("businessId");
+var uid = localStorage.getItem("uid");
+
 /* Add a review: Change color of the elements according to user input onmouseover or onclick 
    If event is onclick, set user choice in local storage.
    If onclick event is for a star rating, enable the button */
@@ -75,6 +79,7 @@ function displaySavedRatings() {
    Community member can new review to firestore, then refresh the page to see changes.
    Have already stored starRating (1-5) and priceRating (null, 1, 2, or 3) in local storage. */
 function newReview() {
+  console.log("newReview()");
   // Check user type
   var isBusinessOwner = localStorage.getItem("isBusinessOwner");
   // Grab text value
@@ -84,10 +89,59 @@ function newReview() {
     localStorage.setItem("reviewText", reviewText);
     localStorage.setItem("redirectAfterSignIn", "businessdetails.html"); 
     window.location = "login.html";
-  } else {
-    location.reload();
+  } else { // Community member
+    // 1. Add uid into 'businessDetails' colection 'usersReviewed'
+    // 2. Initialize 'reviews' doc with the 'uid' as doc id. 
+    // Update star rating, price rating, timestamp, reviewText
+    // Set everything with likes / dislikes to 0
+    updateUsersReviewedList(uid);
+    createReviewDocument(uid, reviewText);
+    // location.reload();
     clearLocalStorage(["starRating", "priceRating", "reviewText"]);
   }
+}
+
+/* Access 'businessDetails' colection and get exisiting list of users who have reviewed this business */
+function updateUsersReviewedList() {
+  console.log("updateUsersReviewedList() called");
+  var addUserToReviewsList = (doc) => {
+    if (doc.exists) {
+      var usersReviewedList = doc.data().usersReviewed;
+      // If no user has reviewed this business yet
+      if (typeof usersReviewedList === "boolean") {
+        console.log("typeof usersReviewedList", typeof usersReviewedList);
+        updateDocumentUsingDocId("businessDetails", businessId, {"usersReviewed": uid});
+      // Check if user has not yet made a review
+      } else if (!usersReviewedList.includes(uid)) {
+        // Update list and push to Firestore
+        usersReviewedList.push(uid);
+        console.log("usersReviewedList", usersReviewedList);
+        updateDocumentUsingDocId("businessDetails", businessId, {"usersReviewed": usersReviewedList});
+      }
+    } else {
+      console.log("Document doesn't exist");
+    }
+  }
+  getDocByDocId("businessDetails", businessId, addUserToReviewsList);
+}
+
+
+/* Create a new document in collection 'reviews' */
+function createReviewDocument(uid, reviewText) {
+  // Read local storage values
+  var starRating = localStorage.getItem("starRating");
+  var priceRating = localStorage.getItem("priceRating");
+  setMap = {
+    starRating: starRating,
+    priceRating: priceRating,
+    reviewText: reviewText,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    numLikes: 0,
+    usersLiked: true,
+    numDislikes: 0,
+    usersDisliked: true,
+  };
+  setNewDocwithDocId("reviews", uid, setMap);
 }
 
 /* If the user is a business owner, hide 'Add a review' button. Otherwise, display button
@@ -104,6 +158,123 @@ function reviewButtonDisplay() {
     // returning directly from auth
     displaySavedRatings(); 
   }
+}
+
+
+// Listen for realtime updates in user reviews and display each review
+function loadUserReviews() {
+  console.log("loadUserReview()");
+  var listenToReviews = (querySnapshot) => {
+    // Get outer element
+    var userReviewsElement = document.getElementById("user-reviews");
+    querySnapshot.forEach((doc) => {
+      // Read review data
+      var starRating = doc.data().starRating;
+      var priceRating = doc.data().priceRating;
+      var reviewText = doc.data().reviewText;
+      var numLikes = doc.data().numLikes;
+      var numDislikes = doc.data().numDislikes;
+      // Convert timestamp to a formatted date
+      var timestamp = doc.data().timestamp;
+      var date = timestamp.toDate().toDateString();
+      var formattedDate = parseDate(date);
+      var reviewUserId = doc.id;
+      console.log("doc: ",doc.id, starRating, priceRating, 
+          reviewText, formattedDate, numLikes, numDislikes);
+      // Use reviewUserId to get the name and blobKey of the user who commented
+      var getReviewUserInfo = (doc) => {
+        if (doc.exists) {
+          var userName = doc.data().userName;
+          var userBlobKey = doc.data().userBlobKey;
+          // Create review element
+          userReviewsElement.appendChild(createReviewElement(doc.id, userName, userBlobKey, starRating, priceRating, 
+              reviewText, formattedDate, numLikes, numDislikes));
+        } else {
+          console.log("Document does not exist");
+        }          
+      }
+      getDocByDocId("users", reviewUserId, getReviewUserInfo);
+    })
+  }
+  getOrSnapshotDocsByQuery("snapshot", "reviews", listenToReviews, [], [], "timestamp", "desc");
+}
+
+/* Create a review element */
+function createReviewElement(docId, userName, userBlobKey, starRating, priceRating, 
+    reviewText, formattedDate, numLikes, numDislikes) {
+      // Returns content containing correctly filled stars
+      var starElements = starFillContent(starRating);
+      // Returns content containing number of visible and nonvisible $ signs
+      var priceElements = priceContent(priceRating);
+      var newDiv = document.createElement("div");
+      var content = `
+        <!-- Single user review -->
+        <div id=${docId} class="margin-top-lg">
+          <div class="inline-block-child width-100">
+            <!-- User information and rating. Delete button -->
+            <div class="width-100 opp-elements">
+              <p class="inline-block-child">
+                <span><img class="inline-block-child-no-padding review-avatar" src="/serve?blob-key=${userBlobKey}"></span>
+                <span id="review-user-name" class="boldest-text inline-block-child">${userName}</span>  
+                <span id="review-time-stamp margin-left">${formattedDate}</span>
+              </p>
+              <div class="inline-block-child">
+                <div class="inline-block-child star-color">${starElements}</div>
+                <div class="inline-block-child">
+                  <div class="inline-block-child"><div class="vl"></div></div>
+                  <p class="inline-block-child" id="review-price">${priceElements}</p>
+                  <i class="inline-block-child-no-padding cursor-pointer margin-left fas fa-trash-alt fa-lg"></i>
+                </div>
+              </div>
+            </div>
+            <!-- ./User information and rating. Delete button -->
+          </div>
+          <!-- Review text -->
+          <div>
+            <p class="review-text margin-left-lg">${reviewText}</p>
+          </div>
+          <!-- ./Revew text -->
+          <!-- Like, Like #, Dislike, Dislike # -->
+          <div class="margin-left-lg">
+            <i class="fas fa-thumbs-up margin-right cursor-pointer"></i>
+            <p id="review-num-likes" class="inline-block-child">${numLikes}</p>
+            <i class="fas fa-thumbs-down margin-right cursor-pointer"></i>
+            <p id="review-num-dislikes" class="inline-block-child">${numDislikes}</p>
+          </div>
+          <!-- ./Like, Like #, Dislike, Dislike # -->
+        </div>
+        <!-- ./Single user review -->
+      `;
+      newDiv.innerHTML = content;
+      return newDiv;
+}
+
+/* Returns content containing correctly filled stars */
+function starFillContent(starRating) {
+  var content = "";
+  var starIndex;
+  for (starIndex = 0; starIndex < starRating; starIndex++) {
+    content += `<span class="fa fa-star fa-lg"></span>`;
+  }
+  while (starIndex < 5) {
+    content += `<span class="fa fa-star-o fa-lg"></span>`;
+    starIndex += 1;
+  }
+  return content;
+}
+
+/* Returns content containing number of visible and nonvisible $ signs */
+function priceContent(priceRating) {
+  var content = "";
+  var priceIndex;
+  for (priceIndex = 0; priceIndex < priceRating; priceIndex++) {
+    content += `<span>$</span>`;
+  }
+  while (priceIndex < 3) {
+    content += `<span class="visibility-hidden">$</span>`;
+    priceIndex += 1;
+  }
+  return content;
 }
 
 /* Load all business details on the body onload */

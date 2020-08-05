@@ -32,7 +32,7 @@
     <script src="maps.js"></script>
     <title>Ripple</title>
   </head>
-  <body onload="navbarDisplay(); reviewButtonDisplay(); bdOnload();">
+  <body onload="navbarDisplay(); reviewButtonDisplay(); bdOnload(); loadUserReviews();">
     <div id="loading-mask"></div>
     <!-- Banner -->
     <div class="three-quarters-bg-no-color">
@@ -190,7 +190,7 @@
                 </div>
                 <!-- ./User rates price -->
                 <div class="modal-caption">
-                  <textarea class="bd-review-textarea" id="bd-review-comment" maxlength="5000" placeholder="This was my first time at this restaurant and I absolutely loved their House Fried noodles. The wait to get into the store was long, but that makes sense because their quality of service and food is gaining popularity rapidly. I also felt safe because all the customers and workers were wearing masks."></textarea>
+                  <textarea class="bd-review-textarea" id="bd-review-comment" maxlength="5000" placeholder="I absolutely loved this restaurant's House Fried noodles. The wait to get into the store was long, but that makes sense because their quality of service and food is gaining popularity rapidly. I also felt safe because all the customers and workers were wearing masks."></textarea>
                 </div>
                 <!-- ./Modal body -->
                 <!-- Modal submit button -->
@@ -315,106 +315,7 @@
       <div class="bd-padding-top"></div>
       <hr class="line-break">
       <div class="padding-top"></div>
-      <div id="user-reviews" class="container">
-        <!-- Single user review -->
-        <div id="single-user-review" class="margin-top-lg">
-          <div class="inline-block-child width-100">
-            <!-- User information and rating. Delete button -->
-            <div class="width-100 opp-elements">
-              <p class="inline-block-child">
-                <span><img class="inline-block-child-no-padding review-avatar" src="/images/avatar_stock_man.jpg"></span>
-                <span id="review-user-name" class="boldest-text inline-block-child">Sarah Wu</span>  
-                <span id="review-time-stamp margin-left">August 3, 2020</span>
-              </p>
-              <div class="inline-block-child">
-                <div class="inline-block-child star-color">
-                  <span id="review-star-1" class="fa fa-star fa-lg"></span>
-                  <span id="review-star-2" class="fa fa-star fa-lg"></span>
-                  <span id="review-star-3" class="fa fa-star fa-lg"></span>
-                  <span id="review-star-4" class="fa fa-star fa-lg"></span>
-                  <span id="review-star-5" class="fa fa-star fa-lg"></span>
-                </div>
-                <div class="inline-block-child">
-                  <div class="inline-block-child"><div class="vl"></div></div>
-                  <p class="inline-block-child" id="review-price">
-                    <span id="review-price-1">$</span><span id="review-price-2">$</span><span id="review-price-3">$</span>
-                  </p>
-                  <i class="inline-block-child-no-padding cursor-pointer margin-left fas fa-trash-alt fa-lg"></i>
-                </div>
-              </div>
-            </div>
-            <!-- ./User information and rating. Delete button -->
-          </div>
-          <!-- Review text -->
-          <div>
-            <p class="review-text margin-left-lg">
-              I love this restaurant so much! The following setences repeat.
-              I love this restaurant so much! The following setences repeat.
-              I love this restaurant so much! The following setences repeat.
-              I love this restaurant so much! The following setences repeat.
-            </p>
-          </div>
-          <!-- ./Revew text -->
-          <!-- Like, Like #, Dislike, Dislike # -->
-          <div class="margin-left-lg">
-            <i class="fas fa-thumbs-up margin-right cursor-pointer"></i>
-            <p id="review-num-likes" class="inline-block-child">23</p>
-            <i class="fas fa-thumbs-down margin-right cursor-pointer"></i>
-            <p id="review-num-dislikes" class="inline-block-child">1</p>
-          </div>
-          <!-- ./Like, Like #, Dislike, Dislike # -->
-        </div>
-        <!-- ./Single user review -->
-        <!-- Single user review -->
-        <div id="single-user-review" class="margin-top-lg">
-          <div class="inline-block-child width-100">
-            <!-- User information and rating. Delete button -->
-            <div class="width-100 opp-elements">
-              <p class="inline-block-child">
-                <span><img class="inline-block-child-no-padding review-avatar" src="/images/avatar_stock_man.jpg"></span>
-                <span id="review-user-name" class="boldest-text inline-block-child">Sarah Wu</span>  
-                <span id="review-time-stamp margin-left">August 1, 2020</span>
-              </p>
-              <div class="inline-block-child">
-                <div class="inline-block-child star-color">
-                  <span id="review-star-1" class="fa fa-star fa-lg"></span>
-                  <span id="review-star-2" class="fa fa-star fa-lg"></span>
-                  <span id="review-star-3" class="fa fa-star fa-lg"></span>
-                  <span id="review-star-4" class="fa fa-star fa-lg"></span>
-                  <span id="review-star-5" class="fa fa-star-o fa-lg"></span>
-                </div>
-                <div class="inline-block-child">
-                  <div class="inline-block-child"><div class="vl"></div></div>
-                  <p class="inline-block-child" id="review-price">
-                    <span id="review-price-1">$</span><span id="review-price-2">$</span><span id="review-price-3" class="visibility-hidden">$</span>
-                  </p>
-                  <i class="inline-block-child-no-padding cursor-pointer margin-left fas fa-trash-alt fa-lg"></i>
-                </div>
-              </div>
-            </div>
-            <!-- ./User information and rating. Delete button -->
-          </div>
-          <!-- Review text -->
-          <div>
-            <p class="review-text margin-left-lg">
-                This is a sample paragraph. The following text will repeat.
-                This is a sample paragraph. The following text will repeat.
-                This is a sample paragraph. The following text will repeat.
-                This is a sample paragraph. The following text will repeat.
-            </p>
-          </div>
-          <!-- ./Revew text -->
-          <!-- Like, Like #, Dislike, Dislike # -->
-          <div class="margin-left-lg">
-            <i class="fas fa-thumbs-up primary-dark-color margin-right cursor-pointer"></i>
-            <p id="review-num-likes" class="inline-block-child">31</p>
-            <i class="fas fa-thumbs-down margin-right cursor-pointer"></i>
-            <p id="review-num-dislikes" class="inline-block-child">13</p>
-          </div>
-          <!-- ./Like, Like #, Dislike, Dislike # -->
-        </div>
-        <!-- ./Single user review -->
-      </div>
+      <div id="user-reviews" class="container"></div>
       <!-- ./User reviews -->
     </div>
     <!-- ./Business details content -->
