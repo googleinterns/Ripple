@@ -41,15 +41,69 @@ function removeColorFromRating(ratingType, rating, maxRating, elementIdPrefix, a
   }
 }
 
+/* check if user previously made a review that has not yet been submitted. 
+   Output ratings and text, if applicable. If an anonymous user has just signed in, open
+   pop up automatically */
+function displaySavedRatings() {
+  // Check if newly redirected from auth.js. Open pop up by default
+  console.log("displaySavedRatings() called");
+  var redirectAfterSignIn = localStorage.getItem("redirectAfterSignIn");
+  console.log("redirectAfterSignIn", redirectAfterSignIn);
+  if (redirectAfterSignIn == "businessdetails.html") {
+    clickElement("review-button");
+    clearLocalStorage(["redirectAfterSignIn"])
+  }
+  var starRating = localStorage.getItem("starRating");
+  var priceRating = localStorage.getItem("priceRating");
+  var reviewText = localStorage.getItem("reviewText");
+  if (starRating != null) {
+    addColorToRating('starRating', starRating, 5, '#star-rating-', 'star-color', true)
+  }
+  if (priceRating != null) {
+    addColorToRating('priceRating', priceRating, 3, '#price-', 'primary-dark-color', true)
+  } 
+  if (reviewText != null) {
+    setElementValue(reviewText, "bd-review-comment");
+  }
+}
+
 /* [SMRUTHI TODO] Serve blob images in a gallery */
 
 /* [SMRUTHI TODO] Add business tags above restaurant header */
 
-/* [SMRUTHI TODO] Add a review: Function will add new review to firestore, then refresh the page to see changes.
-   Have already stored starRating (1-5) and priceRating (null, 1, 2, or 3) in local storage. Will need to add frontend as well */
+/* [SARAH / SMRUTHI TODO] Add a review: Anonymous user that attempts to post is redirect to login, then redirected back. 
+   Community member can new review to firestore, then refresh the page to see changes.
+   Have already stored starRating (1-5) and priceRating (null, 1, 2, or 3) in local storage. */
 function newReview() {
-  location.reload();
-  clearLocalStorage(["starRating", "priceRating"]);
+  // Check user type
+  var isBusinessOwner = localStorage.getItem("isBusinessOwner");
+  // Grab text value
+  var reviewText = getElementValue("bd-review-comment");
+  if (isBusinessOwner == null) { // Anonymous user must sign in first. Will be redirect to same business details page afterward
+    // Store review text and redirect in local storage
+    localStorage.setItem("reviewText", reviewText);
+    localStorage.setItem("redirectAfterSignIn", "businessdetails.html"); 
+    window.location = "login.html";
+  } else {
+    location.reload();
+    clearLocalStorage(["starRating", "priceRating", "reviewText"]);
+  }
+}
+
+/* If the user is a business owner, hide 'Add a review' button. Otherwise, display button
+   and check if there is any saved ratings info */
+function reviewButtonDisplay() {
+  // Check user type
+  var isBusinessOwner = localStorage.getItem("isBusinessOwner");
+  console.log("isBusinessOwner()", isBusinessOwner);
+  if (isBusinessOwner == "true") {
+    console.log("is a business owner");
+    hideElement("review-button");
+  } else {
+    // Set saved ratings for the pop up and click open if it is a user 
+    // returning directly from auth
+    displaySavedRatings(); 
+  }
 }
 
 /* Load all business details on the body onload */
@@ -466,23 +520,15 @@ function openOrClosed(today, openHoursToday) {
     var startColonIndex = startTime.indexOf(":");
     var startTimePeriod = startTime.slice(-2);
     var startOpenHour = convertHourToMilitaryTime(startTimePeriod, startTime.substr(0, startColonIndex));
-    console.log("firstTimePeriod: " + startTimePeriod);
-    console.log("firstOpenHour: " + startOpenHour);
     var endColonIndex = endTime.indexOf(":");
     var endTimePeriod = endTime.slice(-2);
     var endOpenHour = convertHourToMilitaryTime(endTimePeriod, endTime.substr(0, endColonIndex));
-    console.log("endTimePeriod: " + endTimePeriod);
-    console.log("endOpenHour: " + endOpenHour);
     currMinute = today.getMinutes();
-    console.log("currMinute: " + currMinute);
     var startOpenMinute = removePrecedingZero(startTime.substr(startColonIndex + 1, 2));
-    console.log("startOpenMinute: " + startOpenMinute);
     var endOpenMinute = removePrecedingZero(endTime.substr(startColonIndex + 1, 2));
-    console.log("endOpenMinute: " + endOpenMinute);
     // If currHour is equal to startOpenHour and endOpenHour, check if currMinute is 
     // between the minutes of the start open minutes (inclusive) & end open minutes (exclusive)
     if (currHour == startOpenHour && currHour == endOpenHour) {
-      console.log("currHour == startOpenHour && currHour == endOpenHour");
       if (isWithinRange(parseInt(currMinute), parseInt(startOpenMinute), parseInt(endOpenMinute), true)) {
         return open;
       } else {

@@ -20,7 +20,7 @@ function navbarDisplay() {
     `;
     $("#today").addClass("today-padding");
   } else if (userType == "false") { // Community member: avatar + 2 item drop down
-  console.log("entered userType false loop");
+    console.log("entered userType false loop");
     content = `
       <ul class="navbar-nav nav-flex-icons">
         <li class="nav-item avatar dropdown">
@@ -38,7 +38,7 @@ function navbarDisplay() {
       </ul>
     `;
   } else if (userType == "true") { // Business owner: avatar + 3 item drop down
-  console.log("entered userType true loop");
+    console.log("entered userType true loop");
     content = `
       <ul class="navbar-nav nav-flex-icons">
         <li class="nav-item avatar dropdown">
@@ -48,7 +48,7 @@ function navbarDisplay() {
           </a>
           <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
               aria-labelledby="navbarDropdownMenuLink-55">
-            <a class="dropdown-item" href="managebusinessinfo.html">Manage business</a>
+            <a class="dropdown-item" href="managebusiness.html">Manage business</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="accountsettings.html">Account settings</a>
             <div class="dropdown-divider"></div>
@@ -186,23 +186,40 @@ function selectFile(fileId) {
   document.getElementById(fileId).click();
 }
 
+/* Clicks button given id */
+function clickElement(id) {
+  document.getElementById(id).click();
+}
+
+/* Get the value of an element */
+function getElementValue(id) {
+  return document.getElementById(id).value;
+}
+
+/* Set the value of an element */
+function setElementValue(text, id) {
+  document.getElementById(id).value = text;
+}
+
 function viewAllPostComments() {
   alert("Fetch all comments for this post!");
 }
 
 /* Backend for search functionality */
 
-var searchString = document.getElementById("search-bar");
-searchString.addEventListener('keyup', searchInput);
-
-// /* Takes navbar search input, stores in session storage. */
-function searchInput(keyPress) {
+/* Takes navbar search input, stores in local storage. */
+function searchInput(event) {
   console.log("searchInput() called");
   var searchString = document.getElementById("search-bar").value;
-  console.log(searchString)
-  if (keyPress.keyCode != ENTER_KEY) {
+  console.log(searchString);
+  // If there was a key press but the input is empty, return
+  if (!searchString) { 
+    return false;
+  }
+  // If any key other than enter is pressed, autocomplete word
+  if (event.keyCode != ENTER_KEY) {
     autocompleteSearch(searchString);
-  } else {
+  } else { // If enter is pressed, save user's input and redirect page
     console.log(searchString);
     localStorage.setItem("galleryPageSearchTag", searchString);
     localStorage.setItem("galleryPageName", "'" + searchString + "'");
@@ -248,7 +265,6 @@ function hideElement(id) {
 
 /* Removes disabled attribute from element given an id */
 function enableElement(id) {
-  alert("enabling element: " + id);
   document.getElementById(id).disabled = false;
 }
 
@@ -263,7 +279,6 @@ function clearLocalStorage(arrayKeys) {
    "July 1, 2020" */ 
 function parseDate(rawDate) {
   console.log("rawDate: " + rawDate);
-  console.log(typeof rawDate);
   var rawDateArray = rawDate.split(" ");
   var month = formatMonth(rawDateArray[1]);
   var day = formatDay(rawDateArray[2]);
@@ -321,12 +336,10 @@ function formatDay(rawDay) {
 
 /* Escapes special characters and returns formatted string*/
 function escapeSpecialCharacters(str) {
-  console.log("[BEFORE] str: " + str);
   // Replace " with two ' b/c " cannot be escaped properly in output onto DOM
   // Search for special characters \, ', (, ) globally in string
   // and insert a forward slash \ to escape those characters
   str = str.replace(/\"/gi,'\'\'').replace(/[\\\'()]/gi, '\\$&');
-  console.log("[AFTER ] str: " + str);
   return str;
 }
 
