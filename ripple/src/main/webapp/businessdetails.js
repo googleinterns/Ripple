@@ -202,7 +202,7 @@ function bdOnload() {
         if (doc.exists) {
           var j;
           for (j = 0; j < 4; j++) {
-            console.log("tags: " + Object.keys(doc.data().tags).toString());
+            //console.log("tags: " + Object.keys(doc.data().tags).toString());
             //createCarouselElement(doc.data().galleryBlobKeys[i], "imageGallery");
           }
         }
