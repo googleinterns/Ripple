@@ -6,7 +6,7 @@ var ENTER_KEY = 13;
 var IS_BUSINESS_OWNER = "isBusinessOwner";
 
 /* Add passive event listener to decrease loading time */
-document.addEventListener('touchstart', handler, {passive: true});
+// document.addEventListener('touchstart', handler, {passive: true});
 
 /* Detemine user type and grant corresponding levels of functionality in the nav bar */
 function navbarDisplay() {
@@ -129,9 +129,7 @@ function getDocByDocId(collection, docId, lambda, varArray=false) {
   });
 }
 
-/* Update a doc by docId. Pass in list of field names & values.
-   Note that these fields must already exist. The field names must 
-   be in quotes */
+/* Update a doc by docId. Pass in a map containing all values you would like to update */
 function updateDocumentUsingDocId(collection, docId, updateMap) {
   var docRef = db.collection(collection).doc(docId);
   docRef.update(updateMap).then(() => {
@@ -141,7 +139,7 @@ function updateDocumentUsingDocId(collection, docId, updateMap) {
   });
 }
 
-/* Update a doc by docId. Pass in list of field names values */
+/* Update a doc by docId. Pass in a map containing all values you would like to set */
 function setNewDocwithDocId(collection, docId, setMap) {
   var docRef = db.collection(collection).doc(docId);
   docRef.set(setMap).then(() => {
@@ -179,6 +177,14 @@ function getOrSnapshotDocsByQuery(method, collection, lambda, whereFieldArray,
   } else { // method == "snapshot"
     ref.onSnapshot(lambda);
   }
+}
+
+function deleteDocByDocId(collection, docId) {
+  db.collection(collection).doc(docId).delete().then(() => {
+    console.log("Document successfully deleted");
+  }).catch((error) => {
+    console.error("Error removing document: ", error);
+  })
 }
 
 /* Given text and an id, function adds text to DOM */
@@ -273,6 +279,16 @@ function convertToRawString(str) {
     return strUpper.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\W/g, ''); 
   } else {
     return false;
+  }
+}
+
+/* Remove element from a list */
+function removeArrayElement(element, array) {
+  var elementIndex = array.indexOf(element);
+  if (array.length > 0) {
+    return array.splice(elementIndex, 1);
+  } else {
+    return [];
   }
 }
 

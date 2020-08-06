@@ -1,5 +1,9 @@
+// TEMPORARY LOCAL STORAGE
+localStorage.setItem("businessId", "uxq1XtM4zIHqxmdnjnf0");
+
 /* Global variables */
 var businessId = localStorage.getItem("businessId");
+var isBusinessOwner = localStorage.getItem("isBusinessOwner");
 var uid = localStorage.getItem("uid");
 
 /* Add a review: Change color of the elements according to user input onmouseover or onclick 
@@ -71,9 +75,7 @@ function displaySavedRatings() {
   }
 }
 
-/* [SMRUTHI TODO] Add business tags above restaurant header */
-
-/* [SARAH / SMRUTHI TODO] Add a review: Anonymous user that attempts to post is redirect to login, then redirected back. 
+/* Add a review: Anonymous user that attempts to post is redirect to login, then redirected back. 
    Community member can new review to firestore, then refresh the page to see changes.
    Have already stored starRating (1-5) and priceRating (null, 1, 2, or 3) in local storage. */
 function newReview() {
@@ -88,65 +90,165 @@ function newReview() {
     localStorage.setItem("redirectAfterSignIn", "businessdetails.html"); 
     window.location = "login.html";
   } else { // Community member
-    // 1. Add uid into 'businessDetails' colection 'usersReviewed'
-    // 2. Initialize 'reviews' doc with the 'uid' as doc id. 
-    // Update star rating, price rating, timestamp, reviewText
-    // Set everything with likes / dislikes to 0
-    updateUsersReviewedList(uid);
-    createReviewDocument(uid, reviewText);
+    // Add the community member uid into the a list of users who have reviewed this business
+    // Initialize new doc in 'review' collection and store review-specific information
+    // Read star rating and price rating
+    var starRating = parseInt(localStorage.getItem("starRating"));
+    var priceRating = parseInt(localStorage.getItem("priceRating"));
+    if (priceRating == null) { // user has not made a price rating, set priceRating as 0.
+      priceRating = 0;
+    }
+    updateUsersReviewedList(uid, starRating, priceRating, reviewText);
     // location.reload();
-    clearLocalStorage(["starRating", "priceRating", "reviewText"]);
   }
 }
 
-/* Access 'businessDetails' colection and get exisiting list of users who have reviewed this business */
-function updateUsersReviewedList() {
+/* Access 'businessDetails' collection and get exisiting list of users who have reviewed this business */
+function updateUsersReviewedList(uid, starRating, priceRating, reviewText) {
   console.log("updateUsersReviewedList() called");
   var addUserToReviewsList = (doc) => {
     if (doc.exists) {
       var usersReviewedList = doc.data().usersReviewed;
-      // If no user has reviewed this business yet
-      if (typeof usersReviewedList === "boolean") {
-        console.log("typeof usersReviewedList", typeof usersReviewedList);
-        updateDocumentUsingDocId("businessDetails", businessId, {"usersReviewed": uid});
-      // Check if user has not yet made a review
-      } else if (!usersReviewedList.includes(uid)) {
-        // Update list and push to Firestore
+      // Read summary ratings
+      var sumStarRatings = doc.data().sumStarRatings;
+      var numStarRatings = doc.data().numStarRatings;
+      var sumPriceRatings = doc.data().sumPriceRatings;
+      var numPriceRatings = doc.data().numPriceRatings;
+      // If user has not reviewed this business, add this user
+      console.log("updateUsersReviewedList() reviews summary: ", usersReviewedList, sumStarRatings, numStarRatings, sumPriceRatings, numPriceRatings);
+      if (!usersReviewedList.includes(uid)) {
+    //     // Update list and push to Firestore
         usersReviewedList.push(uid);
         console.log("usersReviewedList", usersReviewedList);
         updateDocumentUsingDocId("businessDetails", businessId, {"usersReviewed": usersReviewedList});
+        addOrReplaceSummaryRatings(starRating, priceRating, sumStarRatings, numStarRatings, sumPriceRatings, numPriceRatings);
+        createReviewDocument(uid, starRating, priceRating, reviewText);
+      } else { // If user has already reviewed a business, their review document is automatically overwritten via createReviewDocument
+        // Check current user's old price rating / sum rating. Subtract from total. Add new star and price ratings.
+        var getOldRatings = (doc) => {
+          if (doc.exists) {
+            console.log("old rating doc found. replacing summary ratings now");
+            // Subtract old price ratings
+            var oldStarRating = doc.data().starRating;
+            var oldPriceRating = doc.data().priceRating;
+            console.log("oldStarRating and starRating: ", oldStarRating, starRating);
+            console.log("oldPriceRating and priceRating: ", oldPriceRating, priceRating);
+            addOrReplaceSummaryRatings(starRating, priceRating, sumStarRatings, numStarRatings, sumPriceRatings, numPriceRatings, oldStarRating, oldPriceRating);
+            createReviewDocument(uid, starRating, priceRating, reviewText, true);
+          } else {
+            console.log("Error: no doc found");
+          }
+        }
+        getDocByDocId("reviews", uid, getOldRatings);
       }
     } else {
       console.log("Document doesn't exist");
     }
+    // createReviewDocument(uid, starRating, priceRating, reviewText);
   }
   getDocByDocId("businessDetails", businessId, addUserToReviewsList);
 }
 
+/* Update sumStarRatings, numStarRatings, sumPriceRatings, sumPriceRatings if user adds a new review for the first time or again */
+function addOrReplaceSummaryRatings(starRating, priceRating, sumStarRatings, numStarRatings, sumPriceRatings, numPriceRatings, oldStarRating=false, oldPriceRating=false) {
+  if (oldStarRating) {
+    sumStarRatings -= oldStarRating;
+    sumStarRatings += starRating;
+  } else {
+    sumStarRatings += starRating;
+    numStarRatings++;
+    console.log("No oldStarRating detected. SumStarRatings now:" + sumStarRatings + "numStarRatings now: " + numStarRatings);
+  }
+  if (oldPriceRating) { // User may not have made a price rating this time or last time
+    if (oldPriceRating == 0 && priceRating == 0) {  // Do nothing
+      console.log("No previous or new price rating");
+    } else if (oldPriceRating == 0) { // User may not have made a price rating last time but has this time
+      sumPriceRatings += priceRating;
+      numPriceRatings++;
+      console.log("User has never made price rating");
+    } else if (priceRating == 0) { // User may not have made a price rating this time but has last time
+      sumPriceRatings -= oldPriceRating;
+      numPriceRatings--;
+      console.log("User has made price rating before, but not this time");
+    } else { // Neither old price rating nor price rating are 0
+      sumPriceRatings -= oldPriceRating;
+      sumPriceRatings += priceRating;
+      console.log("User has made price rating before and now: price Rating, oldPriceRating, sumPriceRating, numPriceRating: ", priceRating, oldPriceRating, sumPriceRatings, numPriceRatings);
+    }
+  } else { // User has never made a price rating
+    if (priceRating == 0) {
+      console.log("New reviewer, but no price rating specified");
+    } else { // User makes price rating for the first time
+      sumPriceRatings += priceRating;
+      numPriceRatings++;
+      console.log("User makes price rating for the first time: ", sumPriceRatings, numPriceRatings);
+    }
+  }
+  var updateMap = {
+    "sumStarRatings": sumStarRatings,
+    "numStarRatings": numStarRatings,
+    "sumPriceRatings": sumPriceRatings,
+    "numPriceRatings": numPriceRatings,
+  }
+  updateDocumentUsingDocId("businessDetails", businessId, updateMap);
+}
+
+/* Update sumStarRatings, numStarRatings, sumPriceRatings, sumPriceRatings if user deletes review */
+function subtractSummaryRatings(oldStarRating, oldPriceRating, sumStarRatings, numStarRatings, sumPriceRatings, numPriceRatings) {
+  console.log("subtractSummaryRatings: ", oldStarRating, oldPriceRating, sumStarRatings, numStarRatings, sumPriceRatings, numPriceRatings);
+  sumStarRatings -= oldStarRating;
+  numStarRatings--;
+  if (oldPriceRating == 0) { // Do nothing
+    console.log("oldPriceRating was 0");
+  } else {
+    sumPriceRatings -= oldPriceRating;
+    numPriceRatings--;
+  }
+  var updateMap = {
+    "sumStarRatings": sumStarRatings,
+    "numStarRatings": numStarRatings,
+    "sumPriceRatings": sumPriceRatings,
+    "numPriceRatings": numPriceRatings,
+  }
+  updateDocumentUsingDocId("businessDetails", businessId, updateMap);
+}
 
 /* Create a new document in collection 'reviews' */
-function createReviewDocument(uid, reviewText) {
-  // Read local storage values
-  var starRating = localStorage.getItem("starRating");
-  var priceRating = localStorage.getItem("priceRating");
-  setMap = {
-    starRating: starRating,
-    priceRating: priceRating,
-    reviewText: reviewText,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    numLikes: 0,
-    usersLiked: true,
-    numDislikes: 0,
-    usersDisliked: true,
-  };
-  setNewDocwithDocId("reviews", uid, setMap);
+function createReviewDocument(uid, starRating, priceRating, reviewText, update=false) {
+  var map;
+  if (!update) {
+    setMap = {
+      starRating: starRating,
+      priceRating: priceRating,
+      reviewText: reviewText,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      numLikes: 0,
+      usersLiked: [],
+      numDislikes: 0,
+      usersDisliked: [],
+    };
+    setNewDocwithDocId("reviews", uid, setMap);
+  } else {
+    updateMap = {
+      "starRating": starRating,
+      "priceRating": priceRating,
+      "reviewText": reviewText,
+      "timestamp": firebase.firestore.FieldValue.serverTimestamp(),
+      "numLikes": 0,
+      "usersLiked": [],
+      "numDislikes": 0,
+      "usersDisliked": [],
+    };
+    updateDocumentUsingDocId("reviews", uid, updateMap);
+  }
+  // Clear local after accessing these values
+  clearLocalStorage(["starRating", "priceRating", "reviewText"]);
 }
 
 /* If the user is a business owner, hide 'Add a review' button. Otherwise, display button
    and check if there is any saved ratings info */
 function reviewButtonDisplay() {
   // Check user type
-  var isBusinessOwner = localStorage.getItem("isBusinessOwner");
   console.log("isBusinessOwner()", isBusinessOwner);
   if (isBusinessOwner == "true") {
     console.log("is a business owner");
@@ -158,17 +260,16 @@ function reviewButtonDisplay() {
   }
 }
 
-
 // Listen for realtime updates in user reviews and display each review
 function loadUserReviews() {
   console.log("loadUserReview()");
-  var listenToReviews = (querySnapshot) => {
+  var getReviews = (querySnapshot) => {
     // Get outer element
     var userReviewsElement = document.getElementById("user-reviews");
     querySnapshot.forEach((doc) => {
       // Read review data
       var starRating = doc.data().starRating;
-      var priceRating = doc.data().priceRating;
+      var priceRating = doc.data().priceRating; 
       var reviewText = doc.data().reviewText;
       var numLikes = doc.data().numLikes;
       var numDislikes = doc.data().numDislikes;
@@ -177,7 +278,7 @@ function loadUserReviews() {
       var date = timestamp.toDate().toDateString();
       var formattedDate = parseDate(date);
       var reviewUserId = doc.id;
-      console.log("doc: ",doc.id, starRating, priceRating, 
+      console.log("doc: ",doc.id, reviewUserId, starRating, priceRating, 
           reviewText, formattedDate, numLikes, numDislikes);
       // Use reviewUserId to get the name and blobKey of the user who commented
       var getReviewUserInfo = (doc) => {
@@ -194,12 +295,13 @@ function loadUserReviews() {
       getDocByDocId("users", reviewUserId, getReviewUserInfo);
     })
   }
-  getOrSnapshotDocsByQuery("snapshot", "reviews", listenToReviews, [], [], "timestamp", "desc");
+  getOrSnapshotDocsByQuery("get", "reviews", getReviews, [], [], "timestamp", "desc");
 }
 
 /* Create a review element */
 function createReviewElement(docId, userName, userBlobKey, starRating, priceRating, 
     reviewText, formattedDate, numLikes, numDislikes) {
+      console.log("createReviewElement() called");
       // Returns content containing correctly filled stars
       var starElements = starFillContent(starRating);
       // Returns content containing number of visible and nonvisible $ signs
@@ -221,7 +323,7 @@ function createReviewElement(docId, userName, userBlobKey, starRating, priceRati
                 <div class="inline-block-child">
                   <div class="inline-block-child"><div class="vl"></div></div>
                   <p class="inline-block-child" id="review-price">${priceElements}</p>
-                  <i class="inline-block-child-no-padding cursor-pointer margin-left fas fa-trash-alt fa-lg"></i>
+                  <i onclick="deleteReview('${docId}')" class="inline-block-child-no-padding cursor-pointer margin-left fas fa-trash-alt fa-lg"></i>
                 </div>
               </div>
             </div>
@@ -234,10 +336,10 @@ function createReviewElement(docId, userName, userBlobKey, starRating, priceRati
           <!-- ./Revew text -->
           <!-- Like, Like #, Dislike, Dislike # -->
           <div class="margin-left-lg">
-            <i class="fas fa-thumbs-up margin-right cursor-pointer"></i>
-            <p id="review-num-likes" class="inline-block-child">${numLikes}</p>
-            <i class="fas fa-thumbs-down margin-right cursor-pointer"></i>
-            <p id="review-num-dislikes" class="inline-block-child">${numDislikes}</p>
+            <i id="like-${docId}" onclick="handleLikeOrDislike('${docId}', true)" class="fas fa-thumbs-up margin-right cursor-pointer"></i>
+            <p id="num-likes-${docId}" class="inline-block-child">${numLikes}</p>
+            <i id="dislike-${docId}" onclick="handleLikeOrDislike('${docId}', false)" class="fas fa-thumbs-down margin-right cursor-pointer"></i>
+            <p id="num-dislikes-${docId}" class="inline-block-child">${numDislikes}</p>
           </div>
           <!-- ./Like, Like #, Dislike, Dislike # -->
         </div>
@@ -275,14 +377,164 @@ function priceContent(priceRating) {
   return content;
 }
 
+/* Reset stars */
+function resetSummaryStars() {
+  var i;
+  for (var i = 1; i <= 5; i++) {
+    elementId = "#star-" + i; 
+    $(elementId).removeClass("fa-star");
+    $(elementId).addClass("fa-star-o");
+    $(elementId).removeClass("star-color");
+  }
+}
+
+/* When a user deletes their review, hide dat a */
+function deleteReview(userReviewedId) {
+  console.log("deleteReview() called ", userReviewedId);
+  // Hide review div on front end
+  hideElement(userReviewedId);
+  addTextToDom("No reviews yet", "review-summary");
+  addTextToDom("N/A", "bd-price");
+//   $("#bd-price").innerHTML = "N/A";
+  resetSummaryStars();
+  // Query 'businessDetails' using businessId and get usersReviewed. Remove uid. Update collection
+  var removeUserFromUsersReviewed = (doc) => {
+    if (doc.exists) {
+      // Remove user from usersReviewed list
+      usersReviewedList = doc.data().usersReviewed;
+      if (usersReviewedList.length > 0) {
+        removeArrayElement(uid, usersReviewedList);
+        updateDocumentUsingDocId("businessDetails", businessId, {"usersReviewed": usersReviewedList});
+        // Read summary ratings
+        var sumStarRatings = doc.data().sumStarRatings;
+        var numStarRatings = doc.data().numStarRatings;
+        var sumPriceRatings = doc.data().sumPriceRatings;
+        var numPriceRatings = doc.data().numPriceRatings;
+        // Access reviews collection and get old star rating / price rating
+        var getOldStarAndPriceRating = () => {
+          var oldStarRating = doc.data().oldStarRating;
+          var oldPriceRating = doc.data().priceRating;
+          // Update summary ratings
+          subtractSummaryRatings(oldStarRating, oldPriceRating, sumStarRatings, numStarRatings, sumPriceRatings, numPriceRatings);
+        }
+        getDocByDocId("reviews", userReviewedId, getOldStarAndPriceRating);
+      }
+    } else {
+      console.log("Document doesn't exist");
+    }
+  }
+  getDocByDocId("businessDetails", userReviewedId, removeUserFromUsersReviewed);
+  // Delete doc from 'reviews' using uid (or userReviewedId)
+  deleteDocByDocId("reviews", userReviewedId);
+}
+
+
+/* User likes a review. Add checks for if user has already liked review or has disliked previously. */
+function handleLikeOrDislike(uid, isLike) {
+  console.log("handleLikeOrDislike() is called");
+  var handleLikeReq = (doc) => {
+    if (doc.exists) {
+      var usersLiked = doc.data().usersLiked;
+      var usersDisliked = doc.data().usersDisliked;
+      var numLikes = doc.data().numLikes;
+      var numDislikes = doc.data().numDislikes;
+      if (isLike) { // handle like
+        // If user has already liked review, remove like from the review
+        if (usersLiked.includes(uid)) {
+          removeLike(uid, numLikes, usersLiked);
+        } else if (usersDisliked.includes(uid)) { // If user has previously disliked review, remove dislike and add like
+          removeDislike(uid, numDislikes, usersDisliked);
+          like(uid, numLikes, usersLiked);
+        } else { // User has never liked or disliked review before, add like
+          like(uid, numLikes, usersLiked);
+        }
+      } else { // handle dislike
+        console.log("dislike reached");
+        // If user has already disliked review, remove dislike from the review
+        if (usersDisliked.includes(uid)) {
+          removeDislike(uid, numDislikes, usersDisliked);
+        } else if (usersLiked.includes(uid)) { // If user has previously liked review, remove like and add dislike
+          removeLike(uid, numLikes, usersLiked);
+          dislike(uid, numDislikes, usersDisliked);
+        } else { // User has never liked or disliked review before, add like
+          dislike(uid, numDislikes, usersDisliked);
+        }
+      }
+    } else {
+      console.log("Error: document doesn't exist");
+    }
+  }
+  getDocByDocId("reviews", uid, handleLikeReq);
+}
+
+/* Add a like to the review */
+function like(uid, numLikes, usersLiked) {
+  console.log("like() called");
+  // Users newly likes this review.
+  // Add highlight to thumbs up
+  $("#like-" + uid).addClass("primary-dark-color");
+  // Increment number of likes. Add to DOM
+  var incrementNumLikes = numLikes + 1;
+  addTextToDom(incrementNumLikes.toString(), "num-likes-" + uid);
+  // Update numLikes in Firestore. Add uid from usersLiked if not already included
+  if (!usersLiked.includes(uid)) {
+    usersLiked.push(uid);
+    updateDocumentUsingDocId("reviews", uid, {"numLikes": incrementNumLikes, "usersLiked": usersLiked});
+  } else {
+    updateDocumentUsingDocId("reviews", uid, {"numLikes": incrementNumLikes});
+  }
+}
+
+/* Remove a like from the review */
+function removeLike(uid, numLikes, usersLiked) {
+  console.log("removeLike() called");
+  // Users removes  likes this review.
+  // Add highlight to thumbs up
+  $("#like-" + uid).removeClass("primary-dark-color");
+  // Increment number of likes. Add to DOM
+  var decrementNumLikes = numLikes - 1;
+  addTextToDom(decrementNumLikes.toString(), "num-likes-" + uid);
+  // Update numLikes in Firestore. Remove uid from usersLiked 
+  removeArrayElement(uid, usersLiked);
+  updateDocumentUsingDocId("reviews", uid, {"numLikes": decrementNumLikes, "usersLiked": usersLiked});
+}
+
+/* Add a dislike to the review */
+function dislike(uid, numDislikes, usersDisliked) {
+  console.log("usersDisliked: ", usersDisliked);
+  console.log("dislike() called");
+  // Add highlight to thumbs down
+  $("#dislike-" + uid).addClass("primary-dark-color");
+  console.log("Class list", document.getElementById("dislike-" + uid).classList.item(0));
+  // Increment number of likes. Add to DOM
+  var incrementNumDislikes = numDislikes + 1;
+  addTextToDom(incrementNumDislikes.toString(), "num-dislikes-" + uid);
+  // Update numLikes in Firestore. Add uid from usersLiked 
+  if (!usersDisliked.includes(uid)) {
+    console.log("usersDisliked does not include this uid: adding new user");
+    usersDisliked.push(uid);
+    updateDocumentUsingDocId("reviews", uid, {"numDislikes": incrementNumDislikes, "usersDisliked": usersDisliked});
+  } else {
+    console.log("usersDisliked already include this uid:  new user");
+    updateDocumentUsingDocId("reviews", uid, {"numDislikes": incrementNumDislikes});
+  }
+}
+
+/* Remove a dislike from the review */
+function removeDislike(uid, numDislikes, usersDisliked) {
+    console.log("removeDislike() called");
+  // Add highlight to thumbs down
+  $("#dislike-" + uid).removeClass("primary-dark-color");
+  // Increment number of likes. Add to DOM
+  var decrementNumDislikes = numDislikes - 1;
+  addTextToDom(decrementNumDislikes.toString(), "num-dislikes-" + uid);
+  // Update numLikes in Firestore. Add uid from usersLiked 
+  removeArrayElement(uid, usersDisliked);
+  updateDocumentUsingDocId("reviews", uid, {"numDislikes": decrementNumDislikes, "usersDisliked": usersDisliked});
+}
+
 /* Load all business details on the body onload */
 function bdOnload() {
-  // TEMPORARY LOCAL STORAGE
-  localStorage.setItem("businessId", "uxq1XtM4zIHqxmdnjnf0");
-  
-  // Read local storage values
-  businessId = localStorage.getItem("businessId");
-
   // Access 'businessDetails' collection
   var lambda = (doc) => {
         if (doc.exists) {
