@@ -117,7 +117,7 @@ function updateUsersReviewedList(uid, starRating, priceRating, reviewText) {
       // If user has not reviewed this business, add this user
       console.log("updateUsersReviewedList() reviews summary: ", usersReviewedList, sumStarRatings, numStarRatings, sumPriceRatings, numPriceRatings);
       if (!usersReviewedList.includes(uid)) {
-    //     // Update list and push to Firestore
+        // Update list and push to Firestore
         usersReviewedList.push(uid);
         console.log("usersReviewedList", usersReviewedList);
         updateDocumentUsingDocId("businessDetails", businessId, {"usersReviewed": usersReviewedList});
@@ -388,7 +388,8 @@ function resetSummaryStars() {
   }
 }
 
-/* When a user deletes their review, hide dat a */
+/* When a user deletes their review, remove uid from usersReviewed array in 'business' collection, 
+   update summary ratings, and delete their document in the 'reviews' collection */
 function deleteReview(userReviewedId) {
   console.log("deleteReview() called ", userReviewedId);
   // Hide review div on front end
