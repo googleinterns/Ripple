@@ -12,6 +12,29 @@ Why Ripple?
     - Traditional business-finding sites like Yelp are impersonal and too broad
     - There is no centralized platform for discovering and interacting with local businesses, sharing business stories, and posting health safety updates
 
+Languages
+    - JavaScript, HTML, CSS, Java
+
+Frontend Libraries
+    - Bootstrap 4.0, Google Material Design, Fontawesome
+
+Frameworks
+    - Jest (JavaScript testing framework)
+
+API's
+    - Maps JavaScript API
+    - Distance Matrix API
+    - Geocoding API
+    - Directions API
+    - Places API
+    - Firebase Authentication API
+    - Firebase Firestore API
+    - Blobstore API
+
+Platform
+    - Google AppEngine
+
+
 
 
 
