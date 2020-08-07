@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/v4-shims.css">
     <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -73,7 +75,7 @@
         <!-- Card Carousels -->
        <h3 class="col-8 acct-info-subtitle acct-padding-top">Image gallery</h3>
        <h3 class="col-8 acct-info-subtitle"><small class="text-muted">Upload photos that highlight your business.</small></h3>
-       <form id="business-form" onchange="fetchBlobstoreUploadUrl('business-form', 'business-file', 'managebusiness.html')" method="post" enctype="multipart/form-data">
+       <form id="business-form" onchange="fetchBlobstoreUploadUrl('business-form', 'business-file', 'managebusiness.html');" method="post" enctype="multipart/form-data">
             <input id="business-file" type="file" name="business-file" style="display: none;">
         </form>
        <div id="imageCarousel" class="carousel slide" data-interval="false">
@@ -81,7 +83,7 @@
                 <div class="carousel-item col-md-4 active">
                     <div class="card">
                     <!-- TODO: Sarah will add the svg image -->
-                      <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/addimage.png" onclick=selectFile('business-file')></img>
+                      <img class="card-img-top img-fluid" id="card-dynamic-image" src="images/addimage.png" onclick="saveManageBusinessFields(); selectFile('business-file');"></img>
                     </div>
                 </div>
                 <div class="carousel-item col-md-4">
@@ -112,7 +114,7 @@
         <div class="col-8">
             <h3 class="acct-info-subtitle acct-padding-top">Business details</h3>
             <textarea class="manage-business-text" id="businessName" placeholder="Enter business name..." maxlength="50"></textarea>
-            <textarea class="manage-business-text" id="phone" placeholder="Enter business phone..." maxlength="20"></textarea>
+            <textarea class="manage-business-text" id="businessPhone" placeholder="Enter business phone..." maxlength="20"></textarea>
             <input class="set-address" id="set-address" type="text" placeholder="Enter business address..." maxlength="200">
         </div>
         <h3 class="col-8 acct-info-subtitle acct-padding-top">Business tags</h3>
@@ -136,6 +138,8 @@
             <button type="button" id="Cafe" class="secondary-fill-chip bd-subheader-padding-top inline-block-child" onclick="clickTag('Cafe')"> Cafe </button>
             <button type="button" id="Fast food" class="secondary-fill-chip bd-subheader-padding-top inline-block-child" onclick="clickTag('Fast food')"> Fast food </button>
             <button type="button" id="Bar" class="secondary-fill-chip bd-subheader-padding-top inline-block-child" onclick="clickTag('Bar')"> Bar </button>
+            <button type="button" id="Dine-in" class="secondary-fill-chip bd-subheader-padding-top inline-block-child" onclick="clickTag('Dine-in')"> Dine-in </button>
+            <button type="button" id="Take-out" class="secondary-fill-chip bd-subheader-padding-top inline-block-child" onclick="clickTag('Take-out')"> Take-out </button>
 	    </div>
         <h3 class="col-8 mb-subtitle"><small class="text-muted">Food specifications</small></h3>
         <div class="d-flex flex-row flex-wrap justify-content-left">
@@ -146,7 +150,18 @@
             <button type="button" id="Lunch" class="secondary-fill-chip bd-subheader-padding-top inline-block-child" onclick="clickTag('Lunch')"> Lunch </button>
             <button type="button" id="Dinner" class="secondary-fill-chip bd-subheader-padding-top inline-block-child" onclick="clickTag('Dinner')"> Dinner </button>
             <button type="button" id="Dessert" class="secondary-fill-chip bd-subheader-padding-top inline-block-child" onclick="clickTag('Dessert')"> Dessert </button>
+            <button type="button" id="Seafood" class="secondary-fill-chip bd-subheader-padding-top inline-block-child" onclick="clickTag('Seafood')"> Seafood </button>
+            <button type="button" id="Farm-fresh" class="secondary-fill-chip bd-subheader-padding-top inline-block-child" onclick="clickTag('Farm-fresh')"> Farm-fresh </button>
 	    </div>
+
+        <h3 class="col-8 acct-info-subtitle acct-padding-top">Announcements</h3>
+        <h3 class="col-8 acct-info-subtitle"><small class="text-muted">Add any important updates about your business here.</small></h3>
+        <textarea class="manage-business-text" id="manage-announcement" maxlength="200"></textarea>
+
+        <h3 class="col-8 acct-info-subtitle acct-padding-top">Business story</h3>
+        <h3 class="col-8 acct-info-subtitle"><small class="text-muted">Share your story with your community.</small></h3>
+        <textarea class="manage-business-text" id="manage-story" maxlength="500"></textarea>
+
         <h3 class="col-8 acct-info-subtitle acct-padding-top">Business hours</h3>
         <h3 class="col-8 acct-info-subtitle"><small class="text-muted">Set open hours for your business by adding days and times.</small></h3>
         <div class="container-fluid px-1 px-sm-4 py-5 mx-auto">
@@ -183,7 +198,7 @@
             </div>
         </div>
       </div>
-      <button type="button" id="save-changes-button" class="primary-fill-chip chip-box-shadow acct-padding-top" onclick="writeBusinessEditFields()">
+      <button type="button" id="save-changes-button" class="primary-fill-chip chip-box-shadow acct-padding-top" onclick="saveManageBusinessFields()">
         Save changes
         </button>
     </div>    

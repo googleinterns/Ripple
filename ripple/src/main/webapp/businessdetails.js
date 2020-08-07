@@ -71,8 +71,6 @@ function displaySavedRatings() {
   }
 }
 
-/* [SMRUTHI TODO] Add business tags above restaurant header */
-
 /* [SARAH / SMRUTHI TODO] Add a review: Anonymous user that attempts to post is redirect to login, then redirected back. 
    Community member can new review to firestore, then refresh the page to see changes.
    Have already stored starRating (1-5) and priceRating (null, 1, 2, or 3) in local storage. */
