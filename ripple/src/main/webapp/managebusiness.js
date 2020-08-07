@@ -59,7 +59,7 @@ $(document).ready(function(){
             '<label class="text-grey mr-4">To</label>' +
             '<input class="ml-1" id="to" type="time" name="to">' +
             '</div>' +
-        '<div class="mt-1 cancel fa fa-times text-danger">' +
+        '<div class="mt-1 cancel fa fa-times text-danger" id="cancel-button">' +
             '</div>' +
         '</div>');
   });
@@ -86,6 +86,54 @@ function clickTag(tagId) {
 /* Function that adds a user-uploaded image to the carousel. */
 function addToCarousel() {
   //TODO: Add to firestore.
-  var blobKey = readBlobKeyFromURl();
-  createCarouselElement(blobKey, "imageCarousel");
+  if (localStorage.getItem('galleryCall')) {
+    localStorage.setItem('galleryCall', false);
+    var blobKey = readBlobKeyFromURl();
+    localStorage.setItem('galleryBlobKey', blobKey);
+    createCarouselElement(localStorage.getItem('galleryBlobKey'), "imageCarousel");
+  } else {
+    createCarouselElement(localStorage.getItem('galleryBlobKey'), "imageCarousel");
+  }
+  
 }
+
+/* Function that saves text fields in local storage. */
+function saveManageBusinessFields() {
+  // Save business details in local Storage
+  var businessName = document.getElementById('businessName').value;
+  if (businessName != null) {
+    localStorage.setItem('businessName', businessName);
+  }
+
+  var businessPhone = document.getElementById('businessPhone').value;
+  if (businessPhone != null) {
+    localStorage.setItem('businessPhone', businessPhone);
+  }
+
+  var businessAddress = document.getElementById('set-address').value;
+  if (businessAddress != null) {
+    localStorage.setItem('businessAddress', businessAddress);
+  }
+}
+
+/** Function that retrieves all the fields from localStorage on page load. */
+function loadManageBusinessFields() {
+  // Pull business details from local storage
+  var businessName = localStorage.getItem('businessName');
+  console.log(localStorage.getItem('businessName'));
+  if (businessName != null && businessName != 'undefined') {
+    document.getElementById('businessName').value = businessName;
+  }
+
+  var businessPhone = localStorage.getItem('businessPhone');
+  if (businessPhone != null && businessPhone != 'undefined') {
+    document.getElementById('businessPhone').value = localStorage.getItem('businessPhone');
+  }
+
+  var businessAddress = localStorage.getItem('businessAddress');
+  if (businessAddress != null && businessAddress != 'undefined') {
+    document.getElementById('set-address').value = localStorage.getItem('businessAddress');
+  }
+}
+
+// TODO: Integrate managebusiness with Firestore so that the business will be queried by user id of owner and fields will be populated onload
