@@ -6,7 +6,7 @@ Ripple is a web app that serves as a platform for:
 
 
 Why Ripple?
-    - Small businesses have taken a large financial hit due to COVID-19 
+    - Small businesses have experienced significant financial strain due to COVID-19.
     - Many small businesses lack a strong online presence and struggle to maintain connections with customers
     - Customers are unsure whether it is safe to order from a restaurant
     - Traditional business-finding sites like Yelp are impersonal and too broad
@@ -21,7 +21,7 @@ Frontend Libraries
 Frameworks
     - Jest (JavaScript testing framework)
 
-API's
+APIs
     - Maps JavaScript API
     - Distance Matrix API
     - Geocoding API
