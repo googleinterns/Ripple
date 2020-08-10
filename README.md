@@ -5,9 +5,9 @@
 * [Motivation](#motivation)
 * [Techonologies](#technologies)
 * [Demos](#demos)
-  * Discover small businesses in your area
-  * Search for local businesses
-  * See business details, including health safety information
+  * [Discover small businesses in your area](#discover-small-businesses-in-your-area)
+  * [Search for local businesses](#search-for-local-businesses)
+  * [See business details, including health safety information](#see-business-details-including-health-safety-information)
   * Make an account
   * Manage your account
   * Manage your local business
