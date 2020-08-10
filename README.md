@@ -120,9 +120,13 @@ This page is only available to business owners.
 Key features:
 * Upload a photo and a caption to share on a public feed
 * See all posts in your city
-* Get the most recent posts first
-
+* Get the most recent posts first. 
 This page is available to all users, but only business owners may share a post.
+
+![Github_View_all_posts](https://user-images.githubusercontent.com/39513112/89842147-a49b3a80-db29-11ea-9c20-12fab313c71a.gif)
+
+Business owner clicks 'Share your story' button
+![Github_Add_a_post](https://user-images.githubusercontent.com/39513112/89841456-c8f61780-db27-11ea-9365-e41eb2935f6b.gif)
 
 ## License
 Ripple is licensed under the Apache 2.0 License.
