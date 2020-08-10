@@ -83,7 +83,7 @@ Key features:
 ### Make an account
 #### Sign up flow
 Key features:
-* Choose an account type (community member or business owner
+* Choose an account type (community member or business owner)
 * Authenticate using Google sign-in
 * Verify your email
 * Be prevented from invalid authentication methods
@@ -93,6 +93,7 @@ New user signs up
 Existing user attempts sign up
 
 Unverified user attempts log in
+![GitHub_Unverified_User_Demo](https://user-images.githubusercontent.com/39513112/89839777-6c90f900-db23-11ea-9641-de69d9d05877.gif)
 
 Summary of user types
 1. Anonymous user
@@ -116,7 +117,12 @@ Key features:
 This page is only available to business owners.  
 
 ### Post a story on a public feed
-Key features
+Key features:
+* Upload a photo and a caption to share on a public feed
+* See all posts in your city
+* Get the most recent posts first
+
+This page is available to all users, but only business owners may share a post.
 
 ## License
 Ripple is licensed under the Apache 2.0 License.
