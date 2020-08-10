@@ -8,10 +8,10 @@
   * [Discover small businesses in your area](#discover-small-businesses-in-your-area)
   * [Search for local businesses](#search-for-local-businesses)
   * [See business details, including health safety information](#see-business-details-including-health-safety-information)
-  * Make an account
-  * Manage your account
-  * Manage your local business
-  * Post a story on a public feed
+  * [Make an account](#make-an-account)
+  * [Manage your account](#manage-your-account)
+  * [Manage your business](#manage-your-business)
+  * [Post a story on a public feed](#post-a-story-on-a-public-feed)
 * [License](#license)
 * [Contributors](#contributors)
 * [Disclaimer](#disclaimer)
