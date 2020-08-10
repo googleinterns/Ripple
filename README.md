@@ -105,6 +105,9 @@ Key features:
 * See your profile details
 
 This page is only available to community members and business owners.  
+
+![Redesigned Acct Settings](https://user-images.githubusercontent.com/39513112/89838064-25086e00-db1f-11ea-8120-586399277c56.gif)
+
 ### Manage your business
 Key features:
 * Add images to a gallery of photos to be displayed on your business' details page
