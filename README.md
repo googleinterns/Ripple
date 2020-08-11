@@ -109,8 +109,11 @@ Invalid authentication Case 3: Existing user attempts to sign up
 
 Summary of user types
 1. Anonymous user
+![Anonymous user nav bar](https://user-images.githubusercontent.com/39513112/89881445-61b58300-db7a-11ea-91a2-53ef3887014f.png)
 2. Community member
+![Community member nav bar](https://user-images.githubusercontent.com/39513112/89881436-5febbf80-db7a-11ea-9a53-0411ceb718db.png)
 3. Business owner
+![Business owner nav bar](https://user-images.githubusercontent.com/39513112/89881441-60845600-db7a-11ea-8a28-cccea606e473.png)
 
 ### Manage your account
 Key features:
