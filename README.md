@@ -83,8 +83,8 @@ Key features:
 Business Details page  
 ![Github_Business_Details](https://user-images.githubusercontent.com/39513112/89875220-d9cb7b00-db71-11ea-8012-b762bf300f01.gif)
 
-Add a review
-
+Add a review: Anonymous user will need to sign in before posting
+![Github_Business_Details_Add_a_Review](https://user-images.githubusercontent.com/39513112/89877874-9541de80-db75-11ea-8cc5-17b8b2825dde.gif)
 
 ### Make an account
 #### Sign up flow
