@@ -91,6 +91,7 @@ Key features:
 New user signs up
 
 Existing user attempts sign up
+![Github_Existing_User_Attempts_Sign_Up](https://user-images.githubusercontent.com/39513112/89842670-3788a480-db2b-11ea-838d-63ccfdf5bb92.gif)
 
 Unverified user attempts log in
 ![GitHub_Unverified_User_Demo](https://user-images.githubusercontent.com/39513112/89839777-6c90f900-db23-11ea-9641-de69d9d05877.gif)
