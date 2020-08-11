@@ -73,6 +73,8 @@ Key features:
 * Search string accepts incorrect captialization as well special and accented characters
 * Redirects to a search results page
 
+The search query returns businesses in the database that match the user input for business name or tags, filtered by the user's city.
+
 ### See business details, including health safety information
 Key features:
 * View team member highlights
