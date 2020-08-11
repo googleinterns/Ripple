@@ -21,7 +21,7 @@ Ripple is a web app that serves as a platform for:
 * Community members to easily discover local businesses, discover real-time updates on safety measures being taken in response to COVID-19, and learn about the faces behind each business
 * Local businesses to share personal stories and relevant information about their work in the community while growing their customer base virtually.
 
-To get started, users can view all of the features without logging in. This including searching for and viewing local businesses as well as viewing posts from business owners. A user can sign up as a community member to add reviews to a business or as a business owner to add their business in our database, share posts on a public feed, and add business updates in our Manage Business page at anytime. 
+To get started, users can view all features without logging in. This includes searching for small business and accessing their details as well as viewing posts shared by business owners in the area. A user can sign up as a community member to add reviews to a business or as a business owner to add their business in our database, share posts on a public feed, and add business updates in our Manage Business page at anytime. 
 
 ## Motivation
 * Small businesses have experienced significant financial strain due to COVID-19.
