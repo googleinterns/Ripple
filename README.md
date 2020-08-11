@@ -91,7 +91,7 @@ Key features:
 * Choose an account type (community member or business owner)
 * Authenticate using Google sign-in
 * Verify your email
-* Be prevented from invalid authentication methods
+* Includes checks against invalid authentication methods
 
 New user sign up flow  
 ![Github_New_User_Signs_Up](https://user-images.githubusercontent.com/39513112/89880362-0040e480-db79-11ea-8c9c-00068cc52c42.gif)
