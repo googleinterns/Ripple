@@ -113,7 +113,7 @@ This page is only available to community members and business owners.
 ### Manage your business
 Key features:
 * Add images to a gallery of photos to be displayed on your business' details page
-* Select tags such as "Thai" that best describe your restaurant to increase restaurant search visibiity
+* Select tags such as "Thai" that best describe your restaurant to increase search visibiity
 
 This page is only available to business owners.  
 
