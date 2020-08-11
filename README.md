@@ -87,14 +87,13 @@ Add a review: Anonymous user will need to sign in before posting
 ![Github_Business_Details_Add_a_Review](https://user-images.githubusercontent.com/39513112/89877874-9541de80-db75-11ea-8cc5-17b8b2825dde.gif)
 
 ### Make an account
-#### Sign up flow
 Key features:
 * Choose an account type (community member or business owner)
 * Authenticate using Google sign-in
 * Verify your email
 * Be prevented from invalid authentication methods
 
-New user signs up   
+New user sign up flow  
 ![Github_New_User_Signs_Up](https://user-images.githubusercontent.com/39513112/89880362-0040e480-db79-11ea-8c9c-00068cc52c42.gif)
 
 Invalid authentication Case 1: New user attempts to log in  
