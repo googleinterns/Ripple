@@ -94,13 +94,18 @@ Key features:
 * Verify your email
 * Be prevented from invalid authentication methods
 
-New user signs up
+New user signs up   
+![Github_New_User_Signs_Up](https://user-images.githubusercontent.com/39513112/89880362-0040e480-db79-11ea-8c9c-00068cc52c42.gif)
 
-Existing user attempts sign up
+Invalid authentication Case 1: New user attempts to log in  
+![Github_New_User_Attempts_Sign_In](https://user-images.githubusercontent.com/39513112/89880376-046d0200-db79-11ea-89cc-4d07c6aaf127.gif)
+
+Invalid authentication Case 2: Unverified user attempts to log in  
+![GitHub_Unverified_User_Demo](https://user-images.githubusercontent.com/39513112/89839777-6c90f900-db23-11ea-9641-de69d9d05877.gif)
+
+Invalid authentication Case 3: Existing user attempts to sign up  
 ![Github_Existing_User_Attempts_Sign_Up](https://user-images.githubusercontent.com/39513112/89842670-3788a480-db2b-11ea-838d-63ccfdf5bb92.gif)
 
-Unverified user attempts log in
-![GitHub_Unverified_User_Demo](https://user-images.githubusercontent.com/39513112/89839777-6c90f900-db23-11ea-9641-de69d9d05877.gif)
 
 Summary of user types
 1. Anonymous user
