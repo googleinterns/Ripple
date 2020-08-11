@@ -78,7 +78,7 @@ Key features:
 * View team member highlights
 * Get real-time health safety information, such as whether a mask is required or outdoor dining is offered
 * Receive walking directions, duration, and distance from your location to the business
-* Add a star and price rating to the business (community members only)
+* Add a star and price rating to the business (community members only)  
 
 Business Details page
 ![Github_Business_Details](https://user-images.githubusercontent.com/39513112/89875220-d9cb7b00-db71-11ea-8012-b762bf300f01.gif)
