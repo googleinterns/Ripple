@@ -3,7 +3,7 @@
 ## Overview
 * [Description](#description)
 * [Motivation](#motivation)
-* [Techonologies](#technologies)
+* [Technologies](#technologies)
 * [Demos](#demos)
   * [Discover small businesses in your area](#discover-small-businesses-in-your-area)
   * [Search for local businesses](#search-for-local-businesses)
@@ -67,6 +67,9 @@ Key features
 * View suggested businesses in your area
 * Get the walking time & distance from your location to business
 #### View all page
+Key features
+* View all businesses in the selected cluster from the Main page
+
 ### Search for local businesses
 Key features:
 * Autocompletes by business tags such as "Chinese" or "Black-owned"
