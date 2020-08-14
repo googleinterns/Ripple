@@ -80,7 +80,7 @@ Key features:
 
 The search query returns businesses in the database that match the user input for business name or tags, filtered by the user's city.
 
-![4beouk](https://user-images.githubusercontent.com/20546276/90207530-5a20f480-dd9b-11ea-8c8d-e6c6045798e8.gif)
+![search-results](https://user-images.githubusercontent.com/20546276/90211532-cd2f6880-dda5-11ea-80c7-0d5c01e6355e.gif)
 
 ### See business details, including health safety information
 Key features:
@@ -139,7 +139,7 @@ Key features:
 
 This page is only available to business owners.  
 
-![ezgif com-video-to-gif](https://user-images.githubusercontent.com/20546276/90208186-0f07e100-dd9d-11ea-8540-7d0c616cce3b.gif)
+![manage-business](https://user-images.githubusercontent.com/20546276/90211647-28f9f180-dda6-11ea-8e57-fc2933e59503.gif)
 
 ### Post a story on a public feed
 Key features:
