@@ -70,6 +70,8 @@ Key features
 Key features
 * View all businesses in the selected cluster from the Main page
 
+![4beop6](https://user-images.githubusercontent.com/20546276/90208156-f992b700-dd9c-11ea-86a8-2380f8daebbc.gif)
+
 ### Search for local businesses
 Key features:
 * Autocompletes by business tags such as "Chinese" or "Black-owned"
@@ -77,6 +79,8 @@ Key features:
 * Redirects to a search results page
 
 The search query returns businesses in the database that match the user input for business name or tags, filtered by the user's city.
+
+![4beouk](https://user-images.githubusercontent.com/20546276/90207530-5a20f480-dd9b-11ea-8c8d-e6c6045798e8.gif)
 
 ### See business details, including health safety information
 Key features:
@@ -134,6 +138,8 @@ Key features:
 * Select tags such as "Thai" that best describe your restaurant to increase search visibiity
 
 This page is only available to business owners.  
+
+![ezgif com-video-to-gif](https://user-images.githubusercontent.com/20546276/90208186-0f07e100-dd9d-11ea-8540-7d0c616cce3b.gif)
 
 ### Post a story on a public feed
 Key features:
