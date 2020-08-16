@@ -68,11 +68,12 @@ Key features
 * Get the walking time & distance from your location to business
 #### View all page
 Key features
-* View all businesses in the selected cluster from the Main page
+* View all businesses in the selected cluster from the Main page. 
 
-![landing-main-viewall-q6FhDJjA-iv](https://user-images.githubusercontent.com/20546276/90329381-30153100-df59-11ea-926e-587aa4b7ea74.gif)
-
-![landing-main-viewall-MFFY9nbO-GR](https://user-images.githubusercontent.com/20546276/90329700-ed088d00-df5b-11ea-88e2-1c4ccf9bee52.gif)
+Enter your address to see suggested businesses
+![Github_Search_Address](https://user-images.githubusercontent.com/39513112/90344647-7194f300-dfd0-11ea-8978-1c621ac78373.gif)  
+Click on "View All" to see all businesses in a carousel
+![Github_View_All](https://user-images.githubusercontent.com/39513112/90344629-4b6f5300-dfd0-11ea-983a-f9e4082bd769.gif)
 
 ### Search for local businesses
 Key features:
