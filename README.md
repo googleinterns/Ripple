@@ -70,7 +70,9 @@ Key features
 Key features
 * View all businesses in the selected cluster from the Main page
 
-![4beop6](https://user-images.githubusercontent.com/20546276/90208156-f992b700-dd9c-11ea-86a8-2380f8daebbc.gif)
+![landing-main-viewall-q6FhDJjA-iv](https://user-images.githubusercontent.com/20546276/90329381-30153100-df59-11ea-926e-587aa4b7ea74.gif)
+
+![landing-main-viewall-MFFY9nbO-GR](https://user-images.githubusercontent.com/20546276/90329700-ed088d00-df5b-11ea-88e2-1c4ccf9bee52.gif)
 
 ### Search for local businesses
 Key features:
