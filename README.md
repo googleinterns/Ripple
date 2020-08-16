@@ -82,9 +82,8 @@ Key features:
 * Search string accepts incorrect captialization as well special and accented characters
 * Redirects to a search results page
 
-The search query returns businesses in the database that match the user input for business name or tags, filtered by the user's city.
-
-![search-results](https://user-images.githubusercontent.com/20546276/90211532-cd2f6880-dda5-11ea-80c7-0d5c01e6355e.gif)
+The search query returns businesses in the database that match the user input for business name or tags, filtered by the user's city.  
+![Github_Search_Results](https://user-images.githubusercontent.com/39513112/90345403-13b6da00-dfd5-11ea-8aa8-0661297f2567.gif)
 
 ### See business details, including health safety information
 Key features:
