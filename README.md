@@ -57,6 +57,7 @@ To get started, users can view all features without logging in. This includes se
 * **Deployment**: Google App Engine (GAE)
 
 ## Demos
+See full video demos [here](https://drive.google.com/drive/folders/1-Qilnh3RiPGI6eb3BcdW-Q2v53roc72O?usp=sharing).
 ### Discover small businesses in your area
 #### Landing page
 Key features:
@@ -116,7 +117,6 @@ Invalid authentication case 2: Unverified user attempts to log in
 
 Invalid authentication case 3: Existing user attempts to sign up  
 ![Github_Existing_User_Attempts_Sign_Up](https://user-images.githubusercontent.com/39513112/89842670-3788a480-db2b-11ea-838d-63ccfdf5bb92.gif)
-
 
 Summary of user types
 1. Anonymous user
