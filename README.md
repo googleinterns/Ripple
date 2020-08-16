@@ -141,7 +141,10 @@ Key features:
 
 This page is only available to business owners.  
 
-![manage-business](https://user-images.githubusercontent.com/20546276/90211647-28f9f180-dda6-11ea-8e57-fc2933e59503.gif)
+Part 1: Upload photos for business image gallery and add business details
+![Github_Manage_Business_Part_1](https://user-images.githubusercontent.com/39513112/90346672-08b57700-dfe0-11ea-9663-8dde0ef0c819.gif)  
+Part 2: Select tags and add business hours
+![Github_Manage_Business_Part_2](https://user-images.githubusercontent.com/39513112/90346774-c2144c80-dfe0-11ea-903e-45916ce0cc7d.gif)
 
 ### Post a story on a public feed
 Key features:
