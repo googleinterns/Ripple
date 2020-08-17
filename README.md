@@ -79,7 +79,7 @@ Click on "View All" to see all businesses in a carousel
 ### Search for local businesses
 Key features:
 * Autocompletes by business tags such as "Chinese" or "Black-owned"
-* Search string accepts incorrect captialization as well special and accented characters
+* Search string accepts incorrect captialization as well as special and accented characters
 * Redirects to a search results page
 
 The search query returns businesses in the database that match the user input for business name or tags, filtered by the user's city.  
