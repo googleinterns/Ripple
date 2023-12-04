@@ -3,7 +3,7 @@
     "@material/chips": "^7.0.0",
     "bootstrap": "^4.5.0",
     "firebase": "^7.15.5",
-    "firebase-admin": "^8.13.0",
+    "firebase-admin": "^11.11.1",
     "geofirestore": "^4.2.1"
   },
   "devDependencies": {
